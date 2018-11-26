@@ -14,19 +14,19 @@ export const FooterComponent =  ({logo})=>{
 		icon:"home"
 	},
 	{
-		title:"Cá nhân",
+		title:"Xe máy",
 		subTitle:"",
-		icon:"user"
+		icon:"motorcycle"
 	},
 	{
-		title:"Nhóm",
+		title:"Ô tô",
 		subTitle:"",
-		icon:"group"
+		icon:"car"
 	},
 	{
-		title:"Chuyên gia",
+		title:"Chuyên nghiệp",
 		subTitle:"",
-		icon:"star"
+		icon:"street-view"
 	},{
 		title:"Trung tâm",
 		subTitle:"",

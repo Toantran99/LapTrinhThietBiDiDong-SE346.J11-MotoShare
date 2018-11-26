@@ -18,6 +18,8 @@ const mapStateToProps = (state) => ({
     resultTypes:state.home.resultTypes || {},
     predictions:state.home.predictions ||  [],
     selectedAddress:state.home.selectedAddress || {},
+    selectedBox:state.home.selectedBox,
+    distanceDirection:state.home.distanceDirection,
     fare:state.home.fare,
     booking:state.home.booking || {},
     nearByDrivers:state.home.nearByDrivers || []

@@ -4,10 +4,12 @@ const styles = {
 	container:{
 		flex:1,
 		justifyContent:"center",
-		alignItems:"center"
+		alignItems:"center",
+
 	},
 	map:{
-		...StyleSheet.absoluteFillObject
+		...StyleSheet.absoluteFillObject,
+
 	}
 }
 

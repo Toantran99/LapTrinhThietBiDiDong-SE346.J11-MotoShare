@@ -1,6 +1,6 @@
 import update from "react-addons-update";
 import constants from "./actionConstants";
-import {Dimensions} from "react-native";
+import {Dimensions, NativeModules} from "react-native";
 import RNGooglePlaces from "react-native-google-places"; 
 
 import request from "../../../util/request";
@@ -16,10 +16,13 @@ const {
 	GET_INPUT, 
 	TOGGLE_SEARCH_RESULT,
 	GET_ADDRESS_PREDICTIONS,
+	GET_SELECTED_BOX,
 	GET_SELECTED_ADDRESS,
 	GET_DISTANCE_MATRIX,
+	GET_DISTANCE_DIRECTION,
 	GET_FARE,
 	BOOK_CAR,
+	CANCEL_BOOK_CAR,
 	GET_NEARBY_DRIVERS
 } = constants;
 
@@ -29,7 +32,13 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA
 
-
+//--------------------
+//Get Localhost IP
+//--------------------
+const scriptURL = NativeModules.SourceCode.scriptURL;
+const myAddress = scriptURL.split('://')[1].split('/')[0];
+const myLocalHost = /*"192.168.0.102";*/myAddress.split(':')[0];
+const myPort = myAddress.split(':')[1];
 
 //--------------------
 //Actions
@@ -60,6 +69,7 @@ export function getCurrentLocation(){
 
 //GET USER INPUT
 export function getInputData(payload){
+	
 	return{
 		type:GET_INPUT,
 		payload
@@ -93,7 +103,19 @@ export function getAddressPredictions(){
 	};
 }
 
+//get selected box
+export function getSelectedBox(payload){
+	//if(store().home.inputData.pickUp||store().home.inputData.dropOff)
+    return(dispatch, store)=>{
+        dispatch({type:GET_SELECTED_BOX,
+		payload
+		})
+    }
+}
+
 //get selected address
+var decode = (t,e)=>{for(var n,o,u=0,l=0,r=0,d= [],h=0,i=0,a=null,c=Math.pow(10,e||5);u<t.length;){a=null,h=0,i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);n=1&i?~(i>>1):i>>1,h=i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);o=1&i?~(i>>1):i>>1,l+=n,r+=o,d.push([l/c,r/c])}return d=d.map(function(t){return{latitude:t[0],longitude:t[1]}})};
+// transforms something like this geocFltrhVvDsEtA}ApSsVrDaEvAcBSYOS_@... to an array of coordinates
 export function getSelectedAddress(payload){
 	const dummyNumbers ={
 		baseFare:0.4,
@@ -118,13 +140,29 @@ export function getSelectedAddress(payload){
 					destinations:store().home.selectedAddress.selectedDropOff.latitude + "," + store().home.selectedAddress.selectedDropOff.longitude,
 					mode:"driving",
 					key:"AIzaSyBanG6PT1VCc9mc8bBoWFQnnS5JIeKkqf0"
+
 				})
 				.finish((error, res)=>{
 					dispatch({
 						type:GET_DISTANCE_MATRIX,
 						payload:res.body
 					});
+				});
+
+				request.get("https://maps.googleapis.com/maps/api/directions/json")
+				.query({
+					origin:store().home.selectedAddress.selectedPickUp.latitude + "," + store().home.selectedAddress.selectedPickUp.longitude,
+					destination:store().home.selectedAddress.selectedDropOff.latitude + "," + store().home.selectedAddress.selectedDropOff.longitude,
+					mode:"driving",
+					key:"AIzaSyBanG6PT1VCc9mc8bBoWFQnnS5JIeKkqf0"
 				})
+				.finish((error,res)=>{
+					dispatch({
+						type:GET_DISTANCE_DIRECTION,
+						payload:res.body.routes[0].overview_polyline.points
+						//payload:decode(res.body.routes[0].overview_polyline.points)
+					})
+				});
 			}
 			setTimeout(function(){
 				if(store().home.selectedAddress.selectedPickUp && store().home.selectedAddress.selectedDropOff){
@@ -141,8 +179,6 @@ export function getSelectedAddress(payload){
 						payload:fare
 					})
 				}
-
-
 			},2000)
 
 		})
@@ -151,11 +187,10 @@ export function getSelectedAddress(payload){
 }
 
 //BOOK CAR
-
 export function bookCar(){
 	return (dispatch, store)=>{
-		// const nearByDrivers = store().home.nearByDrivers;
-		// const nearByDriver = nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
+		const nearByDrivers = store().home.nearByDrivers;
+		const nearByDriver = nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
 		const payload = {
 			data:{
 				userName:"bdtren",
@@ -163,26 +198,26 @@ export function bookCar(){
 					address:store().home.selectedAddress.selectedPickUp.address,
 					name:store().home.selectedAddress.selectedPickUp.name,
 					latitude:store().home.selectedAddress.selectedPickUp.latitude,
-					longitude:store().home.selectedAddress.selectedPickUp.latitude
+					longitude:store().home.selectedAddress.selectedPickUp.longitude
 				},
 				dropOff:{
 					address:store().home.selectedAddress.selectedDropOff.address,
 					name:store().home.selectedAddress.selectedDropOff.name,
 					latitude:store().home.selectedAddress.selectedDropOff.latitude,
-					longitude:store().home.selectedAddress.selectedDropOff.latitude
+					longitude:store().home.selectedAddress.selectedDropOff.longitude
 				},
 				fare:store().home.fare,
 				status:"pending"
+			},
+			nearByDriver:{
+				socketId:nearByDriver.socketId,
+				driverId:nearByDriver.driverId,
+				latitude:nearByDriver.coordinate.coordinates[1],
+				longitude:nearByDriver.coordinate.coordinates[0]
 			}
-			// nearByDriver:{
-			// 	socketId:nearByDriver.socketId,
-			// 	driverId:nearByDriver.driverId,
-			// 	latitude:nearByDriver.coordinate.coordinates[1],
-			// 	longitude:nearByDriver.coordinate.coordinates[0]
-			// }
 		};
 
-		request.post("http://192.168.0.102:3000/api/bookings")
+		request.post("http://"+myLocalHost+":3000/api/bookings")
 		.send(payload)
 		.finish((error, res)=>{
 			dispatch({
@@ -194,11 +229,55 @@ export function bookCar(){
 	};
 }
 
+//Cancel book car
+export function cancelBookCar(){
+	
+	return (dispatch, store)=>{
+		const nearByDrivers = store().home.nearByDrivers;
+		const nearByDriver = nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
+		const payload = {
+			data:{
+				userName:"bdtren",
+				pickUp:{
+					address:store().home.selectedAddress.selectedPickUp.address,
+					name:store().home.selectedAddress.selectedPickUp.name,
+					latitude:store().home.selectedAddress.selectedPickUp.latitude,
+					longitude:store().home.selectedAddress.selectedPickUp.longitude
+				},
+				dropOff:{
+					address:store().home.selectedAddress.selectedDropOff.address,
+					name:store().home.selectedAddress.selectedDropOff.name,
+					latitude:store().home.selectedAddress.selectedDropOff.latitude,
+					longitude:store().home.selectedAddress.selectedDropOff.longitude
+				},
+				fare:store().home.fare,
+				status:"booking"
+			},
+			nearByDriver:{
+				socketId:nearByDriver.socketId,
+				driverId:nearByDriver.driverId,
+				latitude:nearByDriver.coordinate.coordinates[1],
+				longitude:nearByDriver.coordinate.coordinates[0]
+			}
+		};
+
+		request.post("http://"+myLocalHost+":3000/api/bookings")
+		.send(payload)
+		.finish((error, res)=>{
+			dispatch({
+				type:CANCEL_BOOK_CAR,
+				payload:res.body
+			});
+		});
+
+	};
+}
+
 //get nearby drivers
 
 export function getNearByDrivers(){
 	return(dispatch, store)=>{
-		request.get("http://192.168.0.102:3000/api/driverLocation")
+		request.get("http://"+myLocalHost+":3000/api/driverLocation")
 		.query({
 			latitude:store().home.region.latitude,
 			longitude:store().home.region.longitude	
@@ -256,6 +335,7 @@ function handleGetInputData(state, action){
 	});
 }
 
+
 function handleToggleSearchResult(state, action){
 	if(action.payload === "pickUp"){
 		return update(state, {
@@ -266,6 +346,9 @@ function handleToggleSearchResult(state, action){
 				dropOff:{
 					$set:false
 				}
+			},
+			selectedBox:{
+				$set:"pickUp"
 			},
 			predictions:{
 				$set:{}
@@ -283,6 +366,9 @@ function handleToggleSearchResult(state, action){
 					$set:true
 				}
 			},
+			selectedBox:{
+				$set:"dropOff"
+			},
 			predictions:{
 				$set:{}
 			},
@@ -298,6 +384,23 @@ function handleGetAddressPredictions(state, action){
 	})
 }
 
+// function handleGetSelectedBox(state, action){
+// 	if(action.payload === "pickUp"){
+// 		return update(state, {
+// 			selectedBox:{
+// 				$set:"pickUp"
+// 			}
+// 		});
+// 	}
+// 	if(action.payload === "dropOff"){
+// 		return update(state, {
+// 			selectedBox:{
+// 				$set:"dropOff"
+// 			}
+// 		});
+// 	}
+// }
+
 function handleGetSelectedAddress(state, action){
 	let selectedTitle = state.resultTypes.pickUp ? "selectedPickUp" : "selectedDropOff"
 	return update(state, {
@@ -305,6 +408,9 @@ function handleGetSelectedAddress(state, action){
 			[selectedTitle]:{
 				$set:action.payload
 			}		
+		},
+		selectedBox:{
+			$set:"resultBox"
 		},
 		resultTypes:{
 			pickUp:{
@@ -317,9 +423,18 @@ function handleGetSelectedAddress(state, action){
 	})
 }
 
-function handleGetDitanceMatrix(state, action){
+function handleGetDistanceMatrix(state, action){
 	return update(state, {
 		distanceMatrix:{
+			$set:action.payload
+		}
+	})
+}
+
+
+function handleGetDistanceDirection(state, action){
+	return update(state, {
+		distanceDirection:{
 			$set:action.payload
 		}
 	})
@@ -334,8 +449,15 @@ function handleGetFare(state, action){
 }
 
 //handle book car
-
 function handleBookCar(state, action){
+	return update(state, {
+		booking:{
+			$set:action.payload
+		}
+	})
+}
+//handle cancel book car
+function handleCancelBookCar(state, action){
 	return update(state, {
 		booking:{
 			$set:action.payload
@@ -360,10 +482,13 @@ const ACTION_HANDLERS = {
 	GET_INPUT:handleGetInputData,
 	TOGGLE_SEARCH_RESULT:handleToggleSearchResult,
 	GET_ADDRESS_PREDICTIONS:handleGetAddressPredictions,
+	//GET_SELECTED_BOX: handleGetSelectedBox,
 	GET_SELECTED_ADDRESS:handleGetSelectedAddress,
-	GET_DISTANCE_MATRIX:handleGetDitanceMatrix,
+	GET_DISTANCE_MATRIX:handleGetDistanceMatrix,
+	GET_DISTANCE_DIRECTION:handleGetDistanceDirection,
 	GET_FARE:handleGetFare,
 	BOOK_CAR:handleBookCar,
+	CANCEL_BOOK_CAR:handleCancelBookCar,
 	GET_NEARBY_DRIVERS:handleGetNearbyDrivers
 }
 const initialState = {

@@ -39,6 +39,6 @@ io.listen(app.listen(port, function(){
 	console.log("Server running on port", port);
 }));
 
-// app.io = io.on("connection", function(socket){
-// 	console.log("Socket connected: " + socket.id);
-// });
+app.io = io.on("connection", function(socket){
+	console.log("Socket connected: " + socket.id);
+});

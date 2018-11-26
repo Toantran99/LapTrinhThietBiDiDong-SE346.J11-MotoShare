@@ -17,6 +17,7 @@ import HeaderComponent from "../../../components/HeaderComponent";
 import FooterComponent from "../../../components/FooterComponent";
 import Fare from "./Fare";
 import Fab from "./Fab";
+import FindDriver from "./FindDriver";
 
 var screenWidth = Dimensions.get("window").width; //full width
 var ScreenHeight = Dimensions.get("window").height; //full height
@@ -45,30 +46,40 @@ export class Home extends React.Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0422
       }
+    const { status } = this.props.booking;
     return (
       <Container>
-        <HeaderComponent logo={myLogo}/>
-        {/* {!!this.props.region.latitude &&  */}
-        {this.props.region.latitude &&
-        <MapContainer 
-          region={this.props.region} 
-          getInputData={this.props.getInputData} 
-          toggleSearchResultModal={this.props.toggleSearchResultModal}
-          getAddressPredictions={this.props.getAddressPredictions}
-          resultTypes={this.props.resultTypes}
-          predictions={this.props.predictions}
-          getSelectedAddress = {this.props.getSelectedAddress}
-          selectedAddress = {this.props.selectedAddress}
-          carMarker={carMarker}
-					nearByDrivers={this.props.nearByDrivers}
-        />
-        } 
-        <Fab onPressAction={()=>this.props.bookCar()}/>
-        {
-          this.props.fare&&
-          <Fare fare={this.props.fare}/>
-        }
-        <FooterComponent/>
+      { (status!== "pending") &&
+        <View style={{flex:1}}>
+          <HeaderComponent logo={myLogo}/>
+            {/* {!!this.props.region.latitude &&  */}
+            {this.props.region.latitude &&
+            <MapContainer 
+              region={this.props.region} 
+              getInputData={this.props.getInputData} 
+              toggleSearchResultModal={this.props.toggleSearchResultModal}
+              getAddressPredictions={this.props.getAddressPredictions}
+              selectedBox={this.props.selectedBox}
+              resultTypes={this.props.resultTypes}
+              predictions={this.props.predictions}
+              getSelectedAddress = {this.props.getSelectedAddress}
+              selectedAddress = {this.props.selectedAddress}
+              distanceDirection = {this.props.distanceDirection}
+              carMarker={carMarker}
+              nearByDrivers={this.props.nearByDrivers}
+            />
+            } 
+            <Fab onPressAction={()=>this.props.bookCar()}/>
+            {
+              this.props.fare&&
+              <Fare fare={this.props.fare}/>
+            }
+            <FooterComponent/>
+        </View>
+        ||
+        <FindDriver selectedAddress={this.props.selectedAddress} onPressCancelAction={()=>this.props.cancelBookCar()}/>
+      }
+
       </Container>
     );
   }

@@ -16,4 +16,4 @@ export const Fare = ({fare})=>{
 	);
 }
 
-export default  Fare;
+export default Fare;
