@@ -66,18 +66,18 @@ export const MapContainer = ({
 					/>	
 				}
 
-				{/* { groupLocation &&
+				{ distanceDirection &&
 					<MapView.Polyline
-						coordinate={[
+						coordinates={[
 							{latitude:selectedPickUp.latitude, longitude:selectedPickUp.longitude},
-							...groupLocation,
+							...distanceDirection,
 							{latitude:selectedDropOff.latitude, longitude:selectedDropOff.longitude}
 						
 						]}
 						strokeColor="pink"
 						strokeWidth={3}
 					/>	
-				} */}
+				}
 
 		  	{
 				nearByDrivers && nearByDrivers.map((marker, index)=>

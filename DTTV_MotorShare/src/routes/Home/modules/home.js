@@ -114,7 +114,11 @@ export function getSelectedBox(payload){
 }
 
 //get selected address
-var decode = (t,e)=>{for(var n,o,u=0,l=0,r=0,d= [],h=0,i=0,a=null,c=Math.pow(10,e||5);u<t.length;){a=null,h=0,i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);n=1&i?~(i>>1):i>>1,h=i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);o=1&i?~(i>>1):i>>1,l+=n,r+=o,d.push([l/c,r/c])}return d=d.map(function(t){return{latitude:t[0],longitude:t[1]}})};
+var decode = (t,e)=>{
+	for(var n,o,u=0,l=0,r=0,d= [],h=0,i=0,a=null,c=Math.pow(10,e||5);u<t.length;)
+		{a=null,h=0,i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);n=1&i?~(i>>1):i>>1,h=i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);o=1&i?~(i>>1):i>>1,l+=n,r+=o,d.push([l/c,r/c])}
+		return d=d.map(function(t)
+		{return{latitude:t[0],longitude:t[1]}})};
 // transforms something like this geocFltrhVvDsEtA}ApSsVrDaEvAcBSYOS_@... to an array of coordinates
 export function getSelectedAddress(payload){
 	const dummyNumbers ={
@@ -157,11 +161,13 @@ export function getSelectedAddress(payload){
 					key:"AIzaSyBanG6PT1VCc9mc8bBoWFQnnS5JIeKkqf0"
 				})
 				.finish((error,res)=>{
-					dispatch({
-						type:GET_DISTANCE_DIRECTION,
-						payload:res.body.routes[0].overview_polyline.points
-						//payload:decode(res.body.routes[0].overview_polyline.points)
-					})
+					if(res.body.routes.length){
+						dispatch({
+							type:GET_DISTANCE_DIRECTION,
+							//payload:res.body.routes[0].overview_polyline.points
+							payload:decode(res.body.routes[0].overview_polyline.points)
+						})
+					}
 				});
 			}
 			setTimeout(function(){
