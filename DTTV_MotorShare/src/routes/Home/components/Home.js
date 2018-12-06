@@ -53,9 +53,8 @@ export class Home extends React.Component {
         <View style={{flex:1}}>
           <HeaderComponent logo={myLogo}/>
             {/* {!!this.props.region.latitude &&  */}
-            {this.props.region.latitude &&
             <MapContainer 
-              region={this.props.region} 
+              region={this.props.region.latitude?this.props.region:null} 
               getInputData={this.props.getInputData} 
               toggleSearchResultModal={this.props.toggleSearchResultModal}
               getAddressPredictions={this.props.getAddressPredictions}
@@ -68,7 +67,6 @@ export class Home extends React.Component {
               carMarker={carMarker}
               nearByDrivers={this.props.nearByDrivers}
             />
-            } 
             <Fab onPressAction={()=>this.props.bookCar()}/>
             {
               this.props.fare&&

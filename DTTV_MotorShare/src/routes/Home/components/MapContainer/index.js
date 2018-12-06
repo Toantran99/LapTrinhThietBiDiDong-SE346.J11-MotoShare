@@ -1,4 +1,5 @@
 import React from "react";
+import {Dimensions, NativeModules} from "react-native";
 import { View } from "native-base";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
@@ -23,24 +24,36 @@ export const MapContainer = ({
 
 	const { selectedPickUp, selectedDropOff } = selectedAddress || {};
 
-	// var decode = (t,e)=>{
-	// 	if(!t||!e) return d=null;
-	// 	for(var n,o,u=0,l=0,r=0,d= [],h=0,i=0,a=null,c=Math.pow(10,e||5);u<t.length;)
-	// 		{a=null,h=0,i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);n=1&i?~(i>>1):i>>1,h=i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);o=1&i?~(i>>1):i>>1,l+=n,r+=o,d.push([l/c,r/c])}
-	// 	return d=d.map(function(t){return{latitude:t[0],longitude:t[1]}})
-	// };
-	// // transforms something like this geocFltrhVvDsEtA}ApSsVrDaEvAcBSYOS_@... to an array of coordinates
-
-	console.log(distanceDirection);
+	//console.log(distanceDirection);
 	// var groupLocation = decode(distanceDirection)|| null;
+	const { width, height } = Dimensions.get("window");
+
+	const defaultRegion = {
+        latitude: 10.882107,
+        longitude: 106.782118,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0422
+      }
+
+	const ASPECT_RATIO = width / height;
+	const LATITUDE_DELTA = 0.0922;
+	const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
+	var reg =selectedDropOff||selectedPickUp||region||defaultRegion;
+	
+	reg = {
+		latitude:reg.latitude,
+		longitude:reg.longitude,
+		latitudeDelta:LATITUDE_DELTA,
+		longitudeDelta:LONGITUDE_DELTA
+	}
 	return(
 		<View style={styles.container}>
 			<MapView
 				provider={MapView.PROVIDER_GOOGLE}
 				style={styles.map}
-				region={region}
+				region={reg}
 			>
-			<MapView.Marker
+			{region && <MapView.Marker
             coordinate={region}
             pinColor="red"
             title={"My location"}
@@ -48,6 +61,7 @@ export const MapContainer = ({
             // image={require('./src/Linux-Avatar.png')}
             // style={{width:300, height:100}}
           		/>
+			}
 
             	{ selectedPickUp &&
 					<MapView.Marker
@@ -61,8 +75,6 @@ export const MapContainer = ({
 						coordinate={{latitude:selectedDropOff.latitude, longitude:selectedDropOff.longitude}}
 						pinColor="blue"
 						title={"Stop"}
-
-
 					/>	
 				}
 
@@ -80,7 +92,7 @@ export const MapContainer = ({
 				}
 
 		  	{
-				nearByDrivers && nearByDrivers.map((marker, index)=>
+				nearByDrivers && nearByDrivers.map &&nearByDrivers.map((marker, index)=>
 					<MapView.Marker
 						key={index}
 						coordinate={{latitude:marker.coordinate.coordinates[1], longitude:marker.coordinate.coordinates[0] }}

@@ -8,6 +8,7 @@ import {
     getAddressPredictions,
     getSelectedAddress,
     bookCar,
+    cancelBookCar,
     getNearByDrivers
 } from "../modules/home";
 
@@ -33,6 +34,7 @@ const mapActionCreators = {
     getAddressPredictions,
     getSelectedAddress,
     bookCar,
+    cancelBookCar,
     getNearByDrivers
 };
 export default connect(mapStateToProps, mapActionCreators)(Home);

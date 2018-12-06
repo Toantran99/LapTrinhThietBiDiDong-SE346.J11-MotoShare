@@ -115,6 +115,7 @@ export function getSelectedBox(payload){
 
 //get selected address
 var decode = (t,e)=>{
+	if(!t) return;
 	for(var n,o,u=0,l=0,r=0,d= [],h=0,i=0,a=null,c=Math.pow(10,e||5);u<t.length;)
 		{a=null,h=0,i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);n=1&i?~(i>>1):i>>1,h=i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);o=1&i?~(i>>1):i>>1,l+=n,r+=o,d.push([l/c,r/c])}
 		return d=d.map(function(t)
@@ -195,8 +196,11 @@ export function getSelectedAddress(payload){
 //BOOK CAR
 export function bookCar(){
 	return (dispatch, store)=>{
-		const nearByDrivers = store().home.nearByDrivers;
-		const nearByDriver = nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
+		const Drivers = store().home.nearByDrivers;
+		if(!Drivers) return;
+		var choose = Math.floor(Math.random() * Drivers.length);
+		console.log(choose);
+		const nearByDriver = Drivers[choose];
 		const payload = {
 			data:{
 				userName:"bdtren",
@@ -222,7 +226,7 @@ export function bookCar(){
 				longitude:nearByDriver.coordinate.coordinates[0]
 			}
 		};
-
+		console.log("sending");
 		request.post("http://"+myLocalHost+":3000/api/bookings")
 		.send(payload)
 		.finish((error, res)=>{
@@ -239,8 +243,10 @@ export function bookCar(){
 export function cancelBookCar(){
 	
 	return (dispatch, store)=>{
-		const nearByDrivers = store().home.nearByDrivers;
-		const nearByDriver = nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
+		// const nearByDrivers = store().home.nearByDrivers;
+		// var choose = Math.floor(Math.random() * nearByDrivers.length);
+		// console.log(choose);
+		// const nearByDriver = nearByDrivers[choose];
 		const payload = {
 			data:{
 				userName:"bdtren",
@@ -257,24 +263,25 @@ export function cancelBookCar(){
 					longitude:store().home.selectedAddress.selectedDropOff.longitude
 				},
 				fare:store().home.fare,
-				status:"booking"
-			},
-			nearByDriver:{
-				socketId:nearByDriver.socketId,
-				driverId:nearByDriver.driverId,
-				latitude:nearByDriver.coordinate.coordinates[1],
-				longitude:nearByDriver.coordinate.coordinates[0]
+				status:"cancelled"
 			}
+			// ,
+			// nearByDriver:{
+			// 	socketId:nearByDriver.socketId,
+			// 	driverId:nearByDriver.driverId,
+			// 	latitude:nearByDriver.coordinate.coordinates[1],
+			// 	longitude:nearByDriver.coordinate.coordinates[0]
+			// }
 		};
 
-		request.post("http://"+myLocalHost+":3000/api/bookings")
-		.send(payload)
-		.finish((error, res)=>{
+		// request.post("http://"+myLocalHost+":3000/api/bookings")
+		// .send(payload)
+		// .finish((error, res)=>{
 			dispatch({
 				type:CANCEL_BOOK_CAR,
-				payload:res.body
+				payload:payload
 			});
-		});
+		// });
 
 	};
 }
