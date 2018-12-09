@@ -6,11 +6,13 @@ import {
   Text,
   Image,
   Dimensions,
-  TouchableHighlight, Button
+  TouchableHighlight,
+  Button
 } from "react-native";
 // import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
-import {Container} from "native-base";
+import { Container } from "native-base";
+import { Actions } from "react-native-router-flux";
 import MapContainer from "./MapContainer";
 
 import HeaderComponent from "../../../components/HeaderComponent";
@@ -30,54 +32,59 @@ export class Home extends React.Component {
     var rx = this;
     this.props.setName();
     this.props.getCurrentLocation();
-    setTimeout(function(){
-			rx.props.getNearByDrivers();
-
-		}, 1000);
-
+    setTimeout(function() {
+      rx.props.getNearByDrivers();
+    }, 1000);
   }
-  componentWillMount(){
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.booking.status === "confirmed") {
+      Actions.trackDriver({ type: "reset" });
+      console.log("driver confirm!!!!!");
+    }
+    //this.props.getCurrentLocation();
   }
+
+  componentWillMount() {}
 
   render() {
     const region = {
-        latitude: 10.882107,
-        longitude: 106.782118,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0422
-      }
+      latitude: 10.882107,
+      longitude: 106.782118,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0422
+    };
     const { status } = this.props.booking;
     return (
       <Container>
-      { (status!== "pending") &&
-        <View style={{flex:1}}>
-          <HeaderComponent logo={myLogo}/>
+        {(status !== "pending" && (
+          <View style={{ flex: 1 }}>
+            <HeaderComponent logo={myLogo} />
             {/* {!!this.props.region.latitude &&  */}
-            <MapContainer 
-              region={this.props.region.latitude?this.props.region:null} 
-              getInputData={this.props.getInputData} 
+            <MapContainer
+              region={this.props.region.latitude ? this.props.region : null}
+              getInputData={this.props.getInputData}
               toggleSearchResultModal={this.props.toggleSearchResultModal}
               getAddressPredictions={this.props.getAddressPredictions}
               selectedBox={this.props.selectedBox}
               resultTypes={this.props.resultTypes}
               predictions={this.props.predictions}
-              getSelectedAddress = {this.props.getSelectedAddress}
-              selectedAddress = {this.props.selectedAddress}
-              distanceDirection = {this.props.distanceDirection}
+              getSelectedAddress={this.props.getSelectedAddress}
+              selectedAddress={this.props.selectedAddress}
+              distanceDirection={this.props.distanceDirection}
               carMarker={carMarker}
               nearByDrivers={this.props.nearByDrivers}
             />
-            <Fab onPressAction={()=>this.props.bookCar()}/>
-            {
-              this.props.fare&&
-              <Fare fare={this.props.fare}/>
-            }
-            <FooterComponent/>
-        </View>
-        ||
-        <FindDriver selectedAddress={this.props.selectedAddress} onPressCancelAction={()=>this.props.cancelBookCar()}/>
-      }
-
+            <Fab onPressAction={() => this.props.bookCar()} />
+            {this.props.fare && <Fare fare={this.props.fare} />}
+            {/* <FooterComponent /> */}
+          </View>
+        )) || (
+          <FindDriver
+            selectedAddress={this.props.selectedAddress}
+            onPressCancelAction={() => this.props.cancelBookCar()}
+          />
+        )}
       </Container>
     );
   }

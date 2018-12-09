@@ -1,11 +1,11 @@
 import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
 	icon:{
-		color:"#fff",
-		fontSize:20
+		color:"#000",
+		fontSize:32
 	},
 	headerText:{
-		color:"#fff",
+		color:"#000",
 		fontSize:14
 	},
 	logo:{

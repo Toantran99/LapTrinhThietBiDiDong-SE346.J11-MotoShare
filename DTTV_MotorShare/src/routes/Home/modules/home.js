@@ -197,8 +197,11 @@ export function getSelectedAddress(payload){
 export function bookCar(){
 	return (dispatch, store)=>{
 		const Drivers = store().home.nearByDrivers;
-		if(!Drivers) return;
-		var choose = Math.floor(Math.random() * Drivers.length);
+		const selectedAddress= store().home.selectedAddress;
+		if(!Drivers ||!selectedAddress.selectedPickUp||!selectedAddress.selectedDropOff) return;
+
+		// var choose = Math.floor(Math.random() * Drivers.length);
+		var choose = 1;
 		console.log(choose);
 		const nearByDriver = Drivers[choose];
 		const payload = {
@@ -234,6 +237,8 @@ export function bookCar(){
 				type:BOOK_CAR,
 				payload:res.body
 			});
+			console.log(error);
+
 		});
 
 	};
@@ -247,43 +252,24 @@ export function cancelBookCar(){
 		// var choose = Math.floor(Math.random() * nearByDrivers.length);
 		// console.log(choose);
 		// const nearByDriver = nearByDrivers[choose];
-		const payload = {
-			data:{
-				userName:"bdtren",
-				pickUp:{
-					address:store().home.selectedAddress.selectedPickUp.address,
-					name:store().home.selectedAddress.selectedPickUp.name,
-					latitude:store().home.selectedAddress.selectedPickUp.latitude,
-					longitude:store().home.selectedAddress.selectedPickUp.longitude
-				},
-				dropOff:{
-					address:store().home.selectedAddress.selectedDropOff.address,
-					name:store().home.selectedAddress.selectedDropOff.name,
-					latitude:store().home.selectedAddress.selectedDropOff.latitude,
-					longitude:store().home.selectedAddress.selectedDropOff.longitude
-				},
-				fare:store().home.fare,
-				status:"cancelled"
-			}
-			// ,
-			// nearByDriver:{
-			// 	socketId:nearByDriver.socketId,
-			// 	driverId:nearByDriver.driverId,
-			// 	latitude:nearByDriver.coordinate.coordinates[1],
-			// 	longitude:nearByDriver.coordinate.coordinates[0]
-			// }
+		var payload = store().home.booking;
+		payload.status="cancelled";
+
+		var dataToSend = {
+			"id": payload._id,
+			"status": payload.status,
 		};
 
-		// request.post("http://"+myLocalHost+":3000/api/bookings")
-		// .send(payload)
-		// .finish((error, res)=>{
+		request.put("http://"+myLocalHost+":3000/api/bookings/"+payload._id)
+		.send(dataToSend)
+		.finish((error, res)=>{
 			dispatch({
 				type:CANCEL_BOOK_CAR,
-				payload:payload
+				payload:res.body
 			});
-		// });
-
-	};
+			console.log(error);
+		 });
+	}
 }
 
 //get nearby drivers
@@ -476,6 +462,7 @@ function handleCancelBookCar(state, action){
 			$set:action.payload
 		}
 	})
+
 }
 
 //handle get nearby drivers
@@ -487,7 +474,14 @@ function handleGetNearbyDrivers(state, action){
 	});
 }
 
-
+//handle confirm from driver
+function handleConfirmBooking(state, action){
+	return update(state,{
+		booking:{
+			$set:action.payload
+		}
+	})
+}
 
 const ACTION_HANDLERS = {
     SET_NAME:handleSetName,
@@ -502,7 +496,8 @@ const ACTION_HANDLERS = {
 	GET_FARE:handleGetFare,
 	BOOK_CAR:handleBookCar,
 	CANCEL_BOOK_CAR:handleCancelBookCar,
-	GET_NEARBY_DRIVERS:handleGetNearbyDrivers
+	GET_NEARBY_DRIVERS:handleGetNearbyDrivers,
+	BOOKING_CONFIRMED:handleConfirmBooking
 }
 const initialState = {
 	region:{},

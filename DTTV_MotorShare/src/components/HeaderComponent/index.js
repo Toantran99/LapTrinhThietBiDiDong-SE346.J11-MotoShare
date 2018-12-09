@@ -6,22 +6,28 @@ import styles from "./HeaderComponentStyles";
 
 export const HeaderComponent =  ({logo})=>{
 	return (
-		<Header style={{backgroundColor:"#FF5E3A"}} iosBarStyle="light-content" androidStatusBarColor="#FF5E3A">
+		<Header style={{backgroundColor:"#fff"}} iosBarStyle="dark-content" androidStatusBarColor="#fff">
 			<Left style={{flex:1}}>
 				<Button transparent>
-					<Icon name="bars" style={styles.icon} />
+					{logo &&
+						<Image resizeMode="contain" style={styles.logo} source={logo}/>
+						||
+						<Text style={styles.headerText}>Đi nhờ xe</Text>
+					}
+					<Text>  BDtren</Text>
 				</Button>
 			</Left>
-			<Body style={{flex:0,alignSelf: 'center'}}>{logo &&
-					<Image resizeMode="contain" style={styles.logo} source={logo}/>
-					||
-					<Text style={styles.headerText}>Tìm kiếm gia sư</Text>
-				}
+			<Body style={{flex:0,alignSelf: 'center'}}>
+				{/* <Icon name="bars" style={styles.icon}/> */}
 			</Body>
 
 			<Right style={{flex:1}}>
 				<Button transparent>
-					<Icon name="gift" style={styles.icon} />
+					<Icon name="comments" style={styles.icon} />
+				</Button>
+
+				<Button transparent>
+					<Icon name="bell" style={styles.icon} />
 				</Button>
 			</Right>
 		</Header>
