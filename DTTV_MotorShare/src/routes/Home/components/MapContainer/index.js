@@ -53,12 +53,12 @@ export const MapContainer = ({
 				provider={MapView.PROVIDER_GOOGLE}
 				style={styles.map}
 				region={reg}
-				// showsUserLocation={true}
-				// followsUserLocation={true}
+				showsUserLocation={true}
+				followsUserLocation={true}
 				zoomEnabled={true}
 				onPress={()=>{setSelectedBox('map')}}
 			>
-			{/* {region && <MapView.Marker
+			{region && <MapView.Marker
             coordinate={region}
             pinColor="red"
             title={"My location"}
@@ -66,7 +66,7 @@ export const MapContainer = ({
             // image={require('./src/Linux-Avatar.png')}
             // style={{width:300, height:100}}
           		/>
-			} */}
+			}
 
             	{ selectedPickUp &&
 					<MapView.Marker
