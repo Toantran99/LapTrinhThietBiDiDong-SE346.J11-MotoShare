@@ -10,11 +10,11 @@ var width = Dimensions.get("window").width; //full width
 var height = Dimensions.get("window").height; //full height
 
 
-export const SearchBox = ({getInputData, toggleSearchResultModal, selectedBox, getAddressPredictions, selectedAddress})=> {
+export const SearchBox = ({getInputData, toggleSearchResultModal, selectedBox, setSelectedBox, getAddressPredictions, selectedAddress})=> {
 	var { selectedPickUp, selectedDropOff } = {};
-	var selectedVal = selectedBox;
 
 	function handleInput(key, val){
+		selectedBox!==key&&setSelectedBox(key);
 		getInputData({
 			key,
 			value:val
@@ -22,10 +22,12 @@ export const SearchBox = ({getInputData, toggleSearchResultModal, selectedBox, g
 		getAddressPredictions();
 	}
 	function handleFocus(val){
-		selectedVal = val;
+		//selectedVal = val;
+		setSelectedBox(val);
 		toggleSearchResultModal(val);
 	}
 
+	var selectedVal = selectedBox;
 	//console.log(selectedVal);
 	if(selectedVal=="pickUp"||selectedVal=="dropOff") {
 		mtop=0;
@@ -39,7 +41,6 @@ export const SearchBox = ({getInputData, toggleSearchResultModal, selectedBox, g
 		selectedPickUp = selectedAddress.selectedPickUp;
 		selectedDropOff = selectedAddress.selectedDropOff;
 		mtop=height-200;
-
 	}
 
 
@@ -50,7 +51,7 @@ export const SearchBox = ({getInputData, toggleSearchResultModal, selectedBox, g
 					<InputGroup>
 						<Icon name="dot-circle" size={15} color="#143cc1"/>
 						<Input 
-							onFocus={()=>{handleFocus("pickUp");selectedPickUp = null;}}
+							onFocus={()=>{handleFocus("pickUp")}}
 							style={styles.inputSearch}
 							placeholder="Điểm xuất phát..."
 							onChangeText={handleInput.bind(this, "pickUp")}

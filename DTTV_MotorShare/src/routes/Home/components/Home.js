@@ -38,11 +38,16 @@ export class Home extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.booking.status);
     if (this.props.booking.status === "confirmed") {
       Actions.trackDriver({ type: "reset" });
-      console.log("driver confirm!!!!!");
+      
     }
-    //this.props.getCurrentLocation();
+    this.props.getCurrentLocation();
+    var rx = this;
+    setTimeout(function() {
+      rx.props.getNearByDrivers();
+    }, 1000);
   }
 
   componentWillMount() {}
@@ -54,6 +59,7 @@ export class Home extends React.Component {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0422
     };
+
     const { status } = this.props.booking;
     return (
       <Container>
@@ -70,13 +76,15 @@ export class Home extends React.Component {
               resultTypes={this.props.resultTypes}
               predictions={this.props.predictions}
               getSelectedAddress={this.props.getSelectedAddress}
+              setSelectedBox={this.props.setSelectedBox}
               selectedAddress={this.props.selectedAddress}
               distanceDirection={this.props.distanceDirection}
               carMarker={carMarker}
               nearByDrivers={this.props.nearByDrivers}
             />
             <Fab onPressAction={() => this.props.bookCar()} />
-            {this.props.fare && <Fare fare={this.props.fare} />}
+            {this.props.fare && 
+            <Fare fare={this.props.fare} />}
             {/* <FooterComponent /> */}
           </View>
         )) || (

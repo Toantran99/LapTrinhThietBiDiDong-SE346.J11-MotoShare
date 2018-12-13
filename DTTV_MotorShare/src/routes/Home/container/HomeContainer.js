@@ -7,6 +7,7 @@ import {
     toggleSearchResultModal,
     getAddressPredictions,
     getSelectedAddress,
+    setSelectedBox,
     bookCar,
     cancelBookCar,
     getNearByDrivers
@@ -33,6 +34,7 @@ const mapActionCreators = {
     toggleSearchResultModal,
     getAddressPredictions,
     getSelectedAddress,
+    setSelectedBox,
     bookCar,
     cancelBookCar,
     getNearByDrivers

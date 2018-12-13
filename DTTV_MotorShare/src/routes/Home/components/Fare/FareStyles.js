@@ -3,6 +3,7 @@ const { width } = Dimensions.get("window");
 
 const styles = {
     fareContainer: {
+        position:'absolute',
         width:width,
         height:40,
         padding:10,

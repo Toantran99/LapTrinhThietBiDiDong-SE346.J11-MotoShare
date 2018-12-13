@@ -16,7 +16,7 @@ const {
 	GET_INPUT, 
 	TOGGLE_SEARCH_RESULT,
 	GET_ADDRESS_PREDICTIONS,
-	GET_SELECTED_BOX,
+	SET_SELECTED_BOX,
 	GET_SELECTED_ADDRESS,
 	GET_DISTANCE_MATRIX,
 	GET_DISTANCE_DIRECTION,
@@ -37,7 +37,8 @@ const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA
 //--------------------
 const scriptURL = NativeModules.SourceCode.scriptURL;
 const myAddress = scriptURL.split('://')[1].split('/')[0];
-const myLocalHost = /*"192.168.0.102";*/myAddress.split(':')[0];
+// const myLocalHost = "192.168.0.106";
+const myLocalHost = myAddress.split(':')[0];
 const myPort = myAddress.split(':')[1];
 
 //--------------------
@@ -52,13 +53,16 @@ export function setName(){
 
 
 export function getCurrentLocation(){
-	return(dispatch)=>{
+	return(dispatch, store)=>{
 		navigator.geolocation.getCurrentPosition(
 			(position)=>{
-				dispatch({
-					type:GET_CURRENT_LOCATION,
-					payload:position
-				});
+				if(store().home.region.latitude && (position.coords.latitude!=store().home.region.latitude
+					|| position.coords.longitude!=store().home.region.longitude)) 
+					dispatch({
+						type:GET_CURRENT_LOCATION,
+						payload:position
+					});
+				
 			},
             (error)=> {console.log(error.message);
             },
@@ -104,13 +108,12 @@ export function getAddressPredictions(){
 }
 
 //get selected box
-export function getSelectedBox(payload){
+export function setSelectedBox(payload){
 	//if(store().home.inputData.pickUp||store().home.inputData.dropOff)
-    return(dispatch, store)=>{
-        dispatch({type:GET_SELECTED_BOX,
+	return{
+		type:SET_SELECTED_BOX,
 		payload
-		})
-    }
+	}
 }
 
 //get selected address
@@ -276,13 +279,14 @@ export function cancelBookCar(){
 
 export function getNearByDrivers(){
 	return(dispatch, store)=>{
+		if(!store().home.region||!store().home.region.latitude) return;
 		request.get("http://"+myLocalHost+":3000/api/driverLocation")
 		.query({
 			latitude:store().home.region.latitude,
 			longitude:store().home.region.longitude	
 		})
 		.finish((error, res)=>{
-			if(res){
+			if(res && JSON.stringify(res.body)!=JSON.stringify(store().home.nearByDrivers)){
 				dispatch({
 					type:GET_NEARBY_DRIVERS,
 					payload:res.body
@@ -305,6 +309,8 @@ function handleSetName(state, action){
 }
 
 function handleGetCurrentLocation(state, action){
+	//if(!action.payload) return;
+
 	return update(state, {
 		region:{
 			latitude:{
@@ -346,9 +352,9 @@ function handleToggleSearchResult(state, action){
 					$set:false
 				}
 			},
-			selectedBox:{
-				$set:"pickUp"
-			},
+			// selectedBox:{
+			// 	$set:"pickUp"
+			// },
 			predictions:{
 				$set:{}
 			},
@@ -365,9 +371,9 @@ function handleToggleSearchResult(state, action){
 					$set:true
 				}
 			},
-			selectedBox:{
-				$set:"dropOff"
-			},
+			// selectedBox:{
+			// 	$set:"dropOff"
+			// },
 			predictions:{
 				$set:{}
 			},
@@ -383,22 +389,13 @@ function handleGetAddressPredictions(state, action){
 	})
 }
 
-// function handleGetSelectedBox(state, action){
-// 	if(action.payload === "pickUp"){
-// 		return update(state, {
-// 			selectedBox:{
-// 				$set:"pickUp"
-// 			}
-// 		});
-// 	}
-// 	if(action.payload === "dropOff"){
-// 		return update(state, {
-// 			selectedBox:{
-// 				$set:"dropOff"
-// 			}
-// 		});
-// 	}
-// }
+function handleSetSelectedBox(state, action){
+	return update(state, {
+		selectedBox:{
+			$set:action.payload
+		}
+	})
+}
 
 function handleGetSelectedAddress(state, action){
 	let selectedTitle = state.resultTypes.pickUp ? "selectedPickUp" : "selectedDropOff"
@@ -489,7 +486,7 @@ const ACTION_HANDLERS = {
 	GET_INPUT:handleGetInputData,
 	TOGGLE_SEARCH_RESULT:handleToggleSearchResult,
 	GET_ADDRESS_PREDICTIONS:handleGetAddressPredictions,
-	//GET_SELECTED_BOX: handleGetSelectedBox,
+	SET_SELECTED_BOX: handleSetSelectedBox,
 	GET_SELECTED_ADDRESS:handleGetSelectedAddress,
 	GET_DISTANCE_MATRIX:handleGetDistanceMatrix,
 	GET_DISTANCE_DIRECTION:handleGetDistanceDirection,

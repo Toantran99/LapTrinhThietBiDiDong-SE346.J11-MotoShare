@@ -16,6 +16,7 @@ export const MapContainer = ({
 		resultTypes,
 		predictions,
 		getSelectedAddress,
+		setSelectedBox,
 		selectedAddress,
 		distanceDirection,
 		carMarker,
@@ -52,8 +53,12 @@ export const MapContainer = ({
 				provider={MapView.PROVIDER_GOOGLE}
 				style={styles.map}
 				region={reg}
+				// showsUserLocation={true}
+				// followsUserLocation={true}
+				zoomEnabled={true}
+				onPress={()=>{setSelectedBox('map')}}
 			>
-			{region && <MapView.Marker
+			{/* {region && <MapView.Marker
             coordinate={region}
             pinColor="red"
             title={"My location"}
@@ -61,7 +66,7 @@ export const MapContainer = ({
             // image={require('./src/Linux-Avatar.png')}
             // style={{width:300, height:100}}
           		/>
-			}
+			} */}
 
             	{ selectedPickUp &&
 					<MapView.Marker
@@ -97,6 +102,7 @@ export const MapContainer = ({
 						key={index}
 						coordinate={{latitude:marker.coordinate.coordinates[1], longitude:marker.coordinate.coordinates[0] }}
 						image={carMarker}
+						title={marker._id}
 					/>	
 				)
 			}
@@ -105,10 +111,11 @@ export const MapContainer = ({
 				getInputData={getInputData} 
 				toggleSearchResultModal={toggleSearchResultModal}
 				selectedBox={selectedBox}
+				setSelectedBox={setSelectedBox}
 				getAddressPredictions={getAddressPredictions}
 				selectedAddress={selectedAddress}
 			/>
-			{ (resultTypes.pickUp || resultTypes.dropOff) &&
+			{ (resultTypes.pickUp || resultTypes.dropOff) && selectedBox!=="map" &&
 			<SearchResults predictions={predictions} getSelectedAddress={getSelectedAddress}/>
 			}
 		</View>
