@@ -42,6 +42,12 @@ const myLocalHost = myAddress.split(':')[0];
 const myPort = myAddress.split(':')[1];
 
 //--------------------
+//Variables
+//--------------------
+var isPositionChanged = false;
+
+
+//--------------------
 //Actions
 //--------------------
 export function setName(){
@@ -56,17 +62,19 @@ export function getCurrentLocation(){
 	return(dispatch, store)=>{
 		navigator.geolocation.getCurrentPosition(
 			(position)=>{
-				if(store().home.region.latitude && (position.coords.latitude!=store().home.region.latitude
-					|| position.coords.longitude!=store().home.region.longitude)) 
+				if(!store().home.region.latitude || (position.coords.latitude!=store().home.region.latitude
+					|| position.coords.longitude!=store().home.region.longitude)) {
 					dispatch({
 						type:GET_CURRENT_LOCATION,
 						payload:position
 					});
+					isPositionChanged = true;
+				}
 				
 			},
             (error)=> {console.log(error.message);
             },
-			{enableHighAccuracy: true, timeout: 20000, maximumAge:1000}
+			{enableHighAccuracy: true, timeout: 20000}
 		);
 	}
 }
@@ -279,19 +287,20 @@ export function cancelBookCar(){
 
 export function getNearByDrivers(){
 	return(dispatch, store)=>{
-		if(!store().home.region||!store().home.region.latitude) return;
+		if(!isPositionChanged) return;
+		// if(!store().home.region||!store().home.region.latitude) return;
 		request.get("http://"+myLocalHost+":3000/api/driverLocation")
 		.query({
 			latitude:store().home.region.latitude,
 			longitude:store().home.region.longitude	
 		})
 		.finish((error, res)=>{
-			if(res && JSON.stringify(res.body)!=JSON.stringify(store().home.nearByDrivers)){
+			// if(res && JSON.stringify(res.body)!=JSON.stringify(store().home.nearByDrivers))
 				dispatch({
 					type:GET_NEARBY_DRIVERS,
 					payload:res.body
 				});
-			}
+			isPositionChanged = false;
 
 		});
 	};
