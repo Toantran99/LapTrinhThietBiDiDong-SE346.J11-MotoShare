@@ -1,12 +1,25 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet,TextInput, TouchableOpacity, ImageBackground, StatusBar} from 'react-native'
+import { Actions } from "react-native-router-flux"
 import styles from './LoginStyles'
 
 
 class ButtonCustom extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            btnOnPress:null
+        }
+    }
+    componentDidMount(){
+        this.setState({
+            btnOnPress:this.props.onPress
+        })
+    }
+
     render(){
         return(
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.state.btnOnPress}>
                 <View style={styles.customBTNStyle}>
                     <Text  style={{fontSize: 16, color: '#ffffff'}}>Đăng nhập</Text>
                 </View>
@@ -42,7 +55,7 @@ export default class Login extends Component{
 
                 </View>
                 <View style={styles.btnS}>
-                    <ButtonCustom/>
+                    <ButtonCustom onPress ={()=>{Actions.home({ type: "reset" });}}/>
                 </View>
                 <View style={styles.lineSection}>
                     <View

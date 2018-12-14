@@ -36,7 +36,6 @@ export class Home extends React.Component {
     BackHandler.addEventListener('hardwareBackPress', function(){console.log("press");
         return true;
     });
-    Actions.trackDriver({ type: "reset" });
     var rx = this;
     this.props.setName();
     setTimeout(function() {
