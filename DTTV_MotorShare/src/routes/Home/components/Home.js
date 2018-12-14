@@ -33,10 +33,14 @@ export class Home extends React.Component {
     super(props)
   }
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', function(){console.log("press");
+    var rx = this;
+
+    BackHandler.addEventListener('hardwareBackPress', function(){console.log("Home: press");
+        (!rx.props.selectedBox||rx.props.selectedBox!='map')&& 
+        rx.props.setSelectedBox('map')|Actions.login({ type: "reset" });;
+
         return true;
     });
-    var rx = this;
     this.props.setName();
     setTimeout(function() {
       rx.props.getNearByDrivers();
@@ -57,7 +61,7 @@ export class Home extends React.Component {
   }
 
   componentWillUnMount() {
-    BackHandler.removeEventListener('hardwareBackPress', function(){console.log("press");
+    BackHandler.removeEventListener('hardwareBackPress', function(){console.log("Home:delete press");
         return true;
     });
   }
