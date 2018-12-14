@@ -3,6 +3,7 @@ var path = require("path");
 var bodyParser = require("body-parser");
 
 var index = require("./routes/index");
+var users = require("./routes/users")
 var bookings = require("./routes/bookings");
 var driverLocation = require("./routes/driverLocation");
 var driverLocationSocket = require("./routes/driverLocation");
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 //Routes
 
 app.use("/", index);
+app.use("/api", users);
 app.use("/api", bookings);
 app.use("/api", driverLocation);
 app.use("/api", driverLocationSocket);

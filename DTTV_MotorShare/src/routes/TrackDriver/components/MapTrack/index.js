@@ -21,6 +21,13 @@ export const MapTrack = ({
 				style={styles.map}
 				region={region}
 			>
+			{ region &&
+				<MapView.Marker
+						coordinate={{latitude:region.latitude, longitude:region.longitude}}
+						pinColor="red"
+
+					/>
+			}
 
 				{ selectedPickUp &&
 					<MapView.Marker
@@ -39,8 +46,8 @@ export const MapTrack = ({
 				{ showCarMaker &&
 					<MapView.Marker
 						coordinate={{latitude:driverLocation.coordinate.coordinates[1], longitude:driverLocation.coordinate.coordinates[0]}}
-						image={carMarker}
-
+						// image={carMarker}
+						pinColor="yellow"
 					/>	
 				}
 

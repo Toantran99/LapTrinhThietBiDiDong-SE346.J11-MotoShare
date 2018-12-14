@@ -32,7 +32,7 @@ class TrackDriver extends React.Component{
 				<View style={{flex:1}}>
 					<HeaderComponent />
 					{
-						this.props.region &&
+						this.props.region.latitude&&
 						<MapTrack
 							region={this.props.region}
 							selectedAddress={this.props.selectedAddress}

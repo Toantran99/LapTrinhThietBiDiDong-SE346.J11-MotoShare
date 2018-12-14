@@ -296,11 +296,13 @@ export function getNearByDrivers(){
 		})
 		.finish((error, res)=>{
 			// if(res && JSON.stringify(res.body)!=JSON.stringify(store().home.nearByDrivers))
+			res&&
 				dispatch({
 					type:GET_NEARBY_DRIVERS,
 					payload:res.body
 				});
 			isPositionChanged = false;
+			error&& console.log(error);
 
 		});
 	};

@@ -1,6 +1,6 @@
 import update from "react-addons-update";
 import constants from "./actionConstants";
-import { Dimensions } from "react-native"
+import { Dimensions, NativeModules } from "react-native"
 import RNGooglePlaces from "react-native-google-places";
 
 import request from "../../../util/request";
@@ -24,6 +24,14 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA
 
+//--------------------
+//Get Localhost IP
+//--------------------
+const scriptURL = NativeModules.SourceCode.scriptURL;
+const myAddress = scriptURL.split('://')[1].split('/')[0];
+// const myLocalHost = "192.168.0.106";
+const myLocalHost = myAddress.split(':')[0];
+const myPort = myAddress.split(':')[1];
 
 
 //--------------------
@@ -48,8 +56,9 @@ export function getCurrentLocation(){
 
 export function getDriverInfo(){
 	return (dispatch, store)=>{
-		let id = store().home.booking.driverId;
-		request.get("http://localhost:3000/api/driver/" + id)
+		//let id = store().home.booking.driverId;
+		let id = "5bdb5fe1fb6fc074abb4bf91";
+		request.get("http://"+myLocalHost+":3000/api/driver/" + id)
 		.finish((erroe, res)=>{
 			dispatch({
 				type:GET_DRIVER_INFORMATION,
@@ -63,13 +72,15 @@ export function getDriverInfo(){
 //Get initial driver location
 export function getDriverLocation(){
 	return (dispatch, store)=>{
-		let id = store().home.booking.driverId;
-		request.get("http://localhost:3000/api/driverLocation/" + id)
-		.finish((erroe, res)=>{
+		//let id = store().home.booking.driverId;
+		let id = "5bdb5fe1fb6fc074abb4bf91";
+		request.get("http://"+myLocalHost+":3000/api/driverLocation/" + id)
+		.finish((error, res)=>{
 			dispatch({
 				type:GET_DRIVER_LOCATION,
 				payload:res.body
 			});
+			if(error) console.log(error);
 		});
 	}
 }
@@ -85,13 +96,15 @@ export function getDistanceFromDriver(){
 				destinations:store().trackDriver.driverLocation.coordinate.coordinates[1] + 
 				"," + store().trackDriver.driverLocation.coordinate.coordinates[0],
 				mode:"driving",
-				key:"AIzaSyDUYbTR-3PDWPhgxjENs4yf35g2eHc641s"
+				// key:"AIzaSyDUYbTR-3PDWPhgxjENs4yf35g2eHc641s"
+				key:"AIzaSyBanG6PT1VCc9mc8bBoWFQnnS5JIeKkqf0"
 			})
 			.finish((error, res)=>{
 				dispatch({
 					type:GET_DISTANCE_FROM_DRIVER,
 					payload:res.body
 				})
+				if(error) console.log(error);
 			});
 
 		}					

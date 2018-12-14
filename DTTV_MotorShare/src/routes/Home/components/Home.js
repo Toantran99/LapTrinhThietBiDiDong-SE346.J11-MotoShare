@@ -7,7 +7,8 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
-  Button
+  Button,
+  BackHandler
 } from "react-native";
 // import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
@@ -28,10 +29,16 @@ const myLogo = require("../../../assets/img.jpg");
 const carMarker = require("../../../assets/Linux-Avatar.png");
 
 export class Home extends React.Component {
+  constructor(props){
+    super(props)
+  }
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', function(){console.log("press");
+        return true;
+    });
+    Actions.trackDriver({ type: "reset" });
     var rx = this;
     this.props.setName();
-    this.props.getCurrentLocation();
     setTimeout(function() {
       rx.props.getNearByDrivers();
     }, 1000);
@@ -39,9 +46,9 @@ export class Home extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log(this.props.booking.status);
+
     if (this.props.booking.status === "confirmed") {
       Actions.trackDriver({ type: "reset" });
-      
     }
     this.props.getCurrentLocation();
     var rx = this;
@@ -50,7 +57,11 @@ export class Home extends React.Component {
     }, 1000);
   }
 
-  componentWillMount() {}
+  componentWillUnMount() {
+    BackHandler.removeEventListener('hardwareBackPress', function(){console.log("press");
+        return true;
+    });
+  }
 
   render() {
     const region = {
