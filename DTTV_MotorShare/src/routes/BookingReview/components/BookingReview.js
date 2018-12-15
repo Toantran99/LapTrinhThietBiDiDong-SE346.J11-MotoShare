@@ -36,7 +36,11 @@ export class BookingReview extends React.Component {
         return true;
     });
     this.props.setName();
-    this.props.getAccountInfo();
+    rx.props.getAccountInfo();
+
+    // setTimeout(function() {
+    //   rx.props.getAccountInfo();
+    // }, 1000);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -50,12 +54,13 @@ export class BookingReview extends React.Component {
   }
 
   render() {
+    console.log(this.props.name);
     return (
       <Container>
         <View style={{ flex: 1 }}>
                 <HeaderComponent logo={myLogo} />
                 <AccountStatus accountInfo={this.props.accountInfo}/>
-                <Text>{this.props.name}</Text>
+                <Text>{this.props.name.toString()}</Text>
         </View>
       </Container>
     );

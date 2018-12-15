@@ -3,20 +3,17 @@ import BookingReview from "../components/BookingReview";
 import {
     setName,
     getAccountInfo,
-    setSelectedBox,
-    getNearByDrivers
+    setSelectedBox
 } from "../modules/bookingReview";
 
 const bookingReviewStateToProps = (state) => ({
-    name: state.home.name,
-    accountInfo:state.home.accountInfo,
-    nearByDrivers:state.home.nearByDrivers || []
+    name: state.bookingReview.name||{},
+    accountInfo:state.bookingReview.accountInfo||{}
 });
 
 const bookingReviewActionCreators = {
     setName,
     getAccountInfo,
-    setSelectedBox,
-    getNearByDrivers
+    setSelectedBox
 };
 export default connect(bookingReviewStateToProps, bookingReviewActionCreators)(BookingReview);

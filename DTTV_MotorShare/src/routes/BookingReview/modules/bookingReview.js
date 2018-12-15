@@ -10,8 +10,7 @@ import request from "../../../util/request";
 const { 
 	SET_NAME,
 	GET_ACCOUNT_INFO,
-    SET_SELECTED_BOX,
-	GET_NEARBY_DRIVERS
+    SET_SELECTED_BOX
 } = constants;
 
 const { width, height } = Dimensions.get("window");
@@ -68,30 +67,6 @@ export function setSelectedBox(payload){
 	}
 }
 
-//get nearby drivers
-export function getNearByDrivers(){
-	return(dispatch, store)=>{
-		if(!isPositionChanged) return;
-		// if(!store().home.region||!store().home.region.latitude) return;
-		request.get("http://"+myLocalHost+":3000/api/driverLocation")
-		.query({
-			latitude:store().home.region.latitude,
-			longitude:store().home.region.longitude	
-		})
-		.finish((error, res)=>{
-			// if(res && JSON.stringify(res.body)!=JSON.stringify(store().home.nearByDrivers))
-			res&&
-				dispatch({
-					type:GET_NEARBY_DRIVERS,
-					payload:res.body
-				});
-			isPositionChanged = false;
-			error&& console.log(error);
-
-		});
-	};
-}
-
 //--------------------
 //Action Handlers
 //--------------------
@@ -104,7 +79,6 @@ function handleSetName(state, action){
 }
 
 function handleGetAccountInfo(state, action){
-	console.log(state);
 	return update(state,{
         accountInfo:{
 			$set: action.payload
@@ -120,20 +94,10 @@ function handleSetSelectedBox(state, action){
 	})
 }
 
-//handle get nearby drivers
-function handleGetNearbyDrivers(state, action){
-	return update(state, {
-		nearByDrivers:{
-			$set:action.payload
-		}
-	});
-}
-
 const ACTION_HANDLERS = {
 	SET_NAME:handleSetName,
 	GET_ACCOUNT_INFO: handleGetAccountInfo,
-	SET_SELECTED_BOX: handleSetSelectedBox,
-	GET_NEARBY_DRIVERS:handleGetNearbyDrivers
+	SET_SELECTED_BOX: handleSetSelectedBox
 }
 const initialState = {
 	name:{},
