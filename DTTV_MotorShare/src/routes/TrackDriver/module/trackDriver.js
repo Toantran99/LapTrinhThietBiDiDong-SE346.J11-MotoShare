@@ -59,7 +59,7 @@ export function getDriverInfo(){
 		//let id = store().home.booking.driverId;
 		let id = "5bdb5fe1fb6fc074abb4bf91";
 		request.get("http://"+myLocalHost+":3000/api/driver/" + id)
-		.finish((erroe, res)=>{
+		.finish((error, res)=>{
 			dispatch({
 				type:GET_DRIVER_INFORMATION,
 				payload:res.body

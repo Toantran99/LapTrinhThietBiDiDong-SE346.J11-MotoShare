@@ -36,9 +36,15 @@ export class Home extends React.Component {
     var rx = this;
 
     BackHandler.addEventListener('hardwareBackPress', function(){console.log("Home: press");
-        (!rx.props.selectedBox||rx.props.selectedBox!='map')&& 
-        rx.props.setSelectedBox('map')|Actions.login({ type: "reset" });;
-
+        if(!rx.props.selectedBox||rx.props.selectedBox!='map'){
+          rx.props.setSelectedBox('map');
+        }
+        else if(rx.props.selectedBox=='map'){
+          // BackHandler.removeEventListener('hardwareBackPress', function(){console.log("Home:delete press");
+          //   return true;
+          // });
+          Actions.login({ type: "reset" });
+        }
         return true;
     });
     this.props.setName();

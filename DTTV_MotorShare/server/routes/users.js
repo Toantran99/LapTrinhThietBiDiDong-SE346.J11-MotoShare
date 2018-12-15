@@ -4,6 +4,7 @@ var mongojs = require("mongojs");
 
 var db = mongojs("mongodb://bdtren:123Ren@ds163181.mlab.com:63181/se346_tutor", ["users"]);
 
+//get all user
 router.get("/users", function(req, res, next){
 	db.users.find(function(err, users){
 		if(err){
@@ -13,6 +14,19 @@ router.get("/users", function(req, res, next){
 		res.json(users);
 	})
 }); 
+
+//Get Single user 
+router.get("/users/:id", function(req, res, next){
+	var io = req.app.io;
+    db.users.findOne({_id: mongojs.ObjectId(req.params.id)},function(err, userInfo){
+        if (err){
+            res.send(err);
+        }
+        res.send(userInfo);
+        io.emit("userInfo", userInfo);
+    });
+});
+
 
 router.post("/users", function(req, res, next){
 	var user = req.body.data;

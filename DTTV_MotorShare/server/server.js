@@ -7,6 +7,7 @@ var users = require("./routes/users")
 var bookings = require("./routes/bookings");
 var driverLocation = require("./routes/driverLocation");
 var driverLocationSocket = require("./routes/driverLocation");
+var drivers = require("./routes/drivers");
 // var drivers = require("./routes/drivers");
 
 var app = express();
@@ -37,6 +38,7 @@ app.use("/api", users);
 app.use("/api", bookings);
 app.use("/api", driverLocation);
 app.use("/api", driverLocationSocket);
+app.use("/api", drivers);
 
 // app.use("/api", drivers);
 

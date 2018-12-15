@@ -13,7 +13,7 @@ class ButtonCustom extends Component{
     }
     componentDidMount(){
         this.setState({
-            btnOnPress:this.props.onPress
+            btnOnPress:this.props.onPress,
         })
     }
 
@@ -27,13 +27,13 @@ class ButtonCustom extends Component{
         )
     }
 }
-
+var x;
 
 export default class Login extends Component{
     render(){
         return(
             <ImageBackground style={{flex:1}} source={require('../../assets/image/traveling.jpeg')}>
-                <StatusBar  barStyle={'light-content'} />
+                {/* <StatusBar  hidden /> */}
                 <View style={styles.textSection}>
                     <View style={[{height: 26  }, styles.sectionText]}>
                         <Text style={[{fontSize:19}, styles.textS]}>Hãy gia nhập</Text>
@@ -55,7 +55,7 @@ export default class Login extends Component{
 
                 </View>
                 <View style={styles.btnS}>
-                    <ButtonCustom onPress ={()=>{Actions.home({ type: "reset" });}}/>
+                    <ButtonCustom onPress ={()=>{Actions.home({ type: "reset" });} }/>
                 </View>
                 <View style={styles.lineSection}>
                     <View
