@@ -3,17 +3,20 @@ import BookingReview from "../components/BookingReview";
 import {
     setName,
     getAccountInfo,
+    getBookingHistory,
     setSelectedBox
 } from "../modules/bookingReview";
 
 const bookingReviewStateToProps = (state) => ({
     name: state.bookingReview.name||{},
-    accountInfo:state.bookingReview.accountInfo||{}
+    accountInfo:state.bookingReview.accountInfo||{},
+    bookingHistory: state.bookingReview.bookingHistory||{}
 });
 
 const bookingReviewActionCreators = {
     setName,
     getAccountInfo,
+    getBookingHistory,
     setSelectedBox
 };
 export default connect(bookingReviewStateToProps, bookingReviewActionCreators)(BookingReview);

@@ -6,7 +6,7 @@ import {
   Text,
   Image,
   Dimensions,
-  TouchableHighlight,
+  TouchableOpacity,
   Button,
   BackHandler
 } from "react-native";
@@ -15,7 +15,6 @@ import { Container } from "native-base";
 import { Actions } from "react-native-router-flux";
 
 import AccountStatus from "./AccountStatus";
-// import Profile from "./Profile/Profile";
 import { createMaterialTopTabNavigator, createAppContainer } from "react-navigation";
 
 import BookingScreen from './Profile/BookingScreen'
@@ -42,14 +41,14 @@ export class BookingReview extends React.Component {
     });
     this.props.setName();
     rx.props.getAccountInfo();
-
-    // setTimeout(function() {
+    setTimeout(function() {
     //   rx.props.getAccountInfo();
-    // }, 1000);
+        rx.props.getBookingHistory();
+    }, 1000);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    var rx = this;
+    // var rx = this;
   }
 
   componentWillUnMount() {
@@ -58,38 +57,42 @@ export class BookingReview extends React.Component {
     });
   }
 
-  render(){
-    return(
-        <View style={{flex:1}}>
-            <View style={styles.headerStyle} >
-                <HeaderStyle2/>
+    render(){
+        const AppNavigator = createMaterialTopTabNavigator({
+            Booking: {screen: ()=><BookingScreen getBookingHistory={this.props.getBookingHistory} 
+            bookingHistory={this.props.bookingHistory} />, navigationOptions:{tabBarLabel:'Đặt chuyến'} },
+            Dependent: {screen: ()=><DependentScreen getBookingHistory={this.props.getBookingHistory} 
+            bookingHistory={this.props.bookingHistory} />, navigationOptions:{tabBarLabel:'Đi nhờ'}}
+            },{
+            tabBarOptions: {
+                style: {
+                    backgroundColor: '#ffffff',
+                },
+                labelStyle:{
+                    color: '#000000'
+                },
+            }
+            });
+            
+            const AppEx = createAppContainer(AppNavigator);
+        return(
+            <View style={{flex:1}}>
+                <View style={styles.headerStyle} >
+                    <HeaderStyle2 action={()=><TouchableOpacity onPress ={()=>{Actions.home({ type: "reset" })}}></TouchableOpacity>}/>
+                </View>
+                <View style={styles.userInfoSection}>
+                    <UserInfo accountInfo={this.props.accountInfo}/>
+                </View>
+                <View style={styles.listTripSection}>
+                    <AppEx/>
+                </View>
             </View>
-            <View style={styles.userInfoSection}>
-                <UserInfo accountInfo={this.props.accountInfo}/>
-            </View>
-            <View style={styles.listTripSection}>
-                <AppEx />
-            </View>
-        </View>
-    )
+        )
+    }
 }
-}
+// Booking: {screen: props=><BookingScreen {...props} getBookingHistory={props.getBookingHistory} data={props.bookingHistory}/>, navigationOptions:{tabBarLabel:'Đặt chuyến'} },
 
-const AppNavigator = createMaterialTopTabNavigator({
-Booking: {screen: BookingScreen, navigationOptions:{tabBarLabel:'Đặt chuyến'} },
-Dependent: {screen: DependentScreen, navigationOptions:{tabBarLabel:'Đi nhờ'}}
-},{
-tabBarOptions: {
-    style: {
-        backgroundColor: '#ffffff',
-    },
-    labelStyle:{
-        color: '#000000'
-    },
-}
-});
 
-const AppEx = createAppContainer(AppNavigator);
 
 
 const styles = StyleSheet.create({

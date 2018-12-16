@@ -10,6 +10,7 @@ import request from "../../../util/request";
 const { 
 	SET_NAME,
 	GET_ACCOUNT_INFO,
+	GET_BOOKING_HISTORY,
     SET_SELECTED_BOX
 } = constants;
 
@@ -28,7 +29,7 @@ const myPort = myAddress.split(':')[1];
 //--------------------
 //Variables
 //--------------------
-var isPositionChanged = false;
+var historySearch = "";
 
 
 //--------------------
@@ -43,7 +44,6 @@ export function setName(){
 
 //get Account info
 export function getAccountInfo(){
-
 	var id =/*"u0000001";*/ "5c1300effb6fc04dd6ec86e1";
 	return(dispatch, store)=>{
 		request.get("http://"+myLocalHost+":3000/api/users/"+id)
@@ -51,6 +51,39 @@ export function getAccountInfo(){
 			res&&
 				dispatch({
 					type:GET_ACCOUNT_INFO,
+					payload: res.body
+				});
+			error&& console.log(error);
+		});	
+	};
+}
+
+//get Booking history
+export function getBookingHistory(title){
+
+	var id =/*"u0000001";*/ "5c1300effb6fc04dd6ec86e1";
+	if(title){
+		return(dispatch, store)=>{
+			request.get("http://"+myLocalHost+":3000/api/bookingHistory")
+			.query({
+				status:title
+			})
+			.finish((error, res)=>{
+				res&&
+					dispatch({
+						type:GET_BOOKING_HISTORY,
+						payload: res.body
+					});
+				error&& console.log(error);
+			});	
+		};
+	}
+	return(dispatch, store)=>{
+		request.get("http://"+myLocalHost+":3000/api/bookings")
+		.finish((error, res)=>{
+			res&&
+				dispatch({
+					type:GET_BOOKING_HISTORY,
 					payload: res.body
 				});
 			error&& console.log(error);
@@ -86,6 +119,15 @@ function handleGetAccountInfo(state, action){
 	})
 }
 
+function handleGetBookingHistory(state, action){
+	// var title = 
+	return update(state,{
+        bookingHistory:{
+			$set: action.payload
+        }
+	})
+}
+
 function handleSetSelectedBox(state, action){
 	return update(state, {
 		selectedBox:{
@@ -97,6 +139,7 @@ function handleSetSelectedBox(state, action){
 const ACTION_HANDLERS = {
 	SET_NAME:handleSetName,
 	GET_ACCOUNT_INFO: handleGetAccountInfo,
+	GET_BOOKING_HISTORY:handleGetBookingHistory,
 	SET_SELECTED_BOX: handleSetSelectedBox
 }
 const initialState = {

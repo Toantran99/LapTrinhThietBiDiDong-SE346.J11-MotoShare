@@ -14,6 +14,22 @@ router.get("/bookings", function(req, res, next){
 	})
 }); 
 
+//get booking query
+router.get("/bookingHistory", function(req, res, next){
+	// db.bookings.ensureIndex({"coordinate":"2dsphere"});
+	db.bookings.find({
+			status:req.query.status
+		}, function(err, history){
+			if(err){
+				res.send(err);
+
+			}else{
+				res.send(history);
+			}
+	});
+
+});
+
 router.post("/bookings", function(req, res, next){
 	var booking = req.body.data;
 	var nearByDriver = req.body.nearByDriver;
