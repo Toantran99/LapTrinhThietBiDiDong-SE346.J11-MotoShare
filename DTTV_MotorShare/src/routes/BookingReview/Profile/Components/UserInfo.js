@@ -8,7 +8,7 @@ export default class UserInfo extends Component{
         let numStar = 4; //số sao
         for(let i=0; i<numStar; i++){
             star.push(
-                <Image key={i} source={require('../../../assets/image/star.png')} style={{width: 10, height: 10, marginLeft: 4+"%", marginTop: 1.5+"%"}}/>
+                <Image key={i} source={require('../../../../assets/image/star.png')} style={{width: 10, height: 10, marginLeft: 4+"%", marginTop: 1.5+"%"}}/>
             )
         }
         //Kết thúc Vòng lặp render Số sao
@@ -16,7 +16,7 @@ export default class UserInfo extends Component{
         return(
             <View style={{width: 100+"%", height: 100+"%", flexDirection: 'row', backgroundColor: '#fff'}}>
                 <View style={styles.avatarSection}>
-                    <Image source={require('../../../assets/image/user-default.png')} style={styles.avatarStyle} />
+                    <Image source={require('../../../../assets/image/user-default.png')} style={styles.avatarStyle} />
                 </View>
                 <View style={styles.infoTextSection}>
                     <Text style={styles.InfoTextStyle}>Tên người dùng</Text>
@@ -31,12 +31,12 @@ export default class UserInfo extends Component{
                 <View style={styles.iconRightSection}>
                     <View style={styles.iconRight}>
                         <TouchableOpacity>
-                            <Image source={require('../../../assets/image/controls.png')} style={styles.iconBack}/>
+                            <Image source={require('../../../../assets/image/controls.png')} style={styles.iconBack}/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.iconRight}>
                         <TouchableOpacity>
-                            <Image source={require('../../../assets/image/settings.png')} style={styles.iconBack}/>
+                            <Image source={require('../../../../assets/image/settings.png')} style={styles.iconBack}/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.iconRight}>

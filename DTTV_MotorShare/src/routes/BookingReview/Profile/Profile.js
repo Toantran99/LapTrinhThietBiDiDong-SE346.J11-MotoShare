@@ -5,7 +5,7 @@ import { createMaterialTopTabNavigator, createAppContainer } from "react-navigat
 import BookingScreen from './Components/BookingScreen'
 import DependentScreen from './Components/DependentScreen'
 import UserInfo from './Components/UserInfo'
-import HeaderStyle2 from '../../components/HeaderComponent/HeaderStyle2'
+import HeaderStyle2 from '../../../components/HeaderComponent/HeaderStyle2'
 
 export default class Profile extends Component{
     render(){
@@ -43,18 +43,13 @@ const AppEx = createAppContainer(AppNavigator);
 
 
 const styles = StyleSheet.create({
-    //Section
     userInfoSection:{
         width: 100+"%", height: 20+"%", flexDirection: 'row'
     },
     listTripSection:{
         flex: 1,
     },
-
-    //Header Style
     headerStyle:{
         width: 100+"%", height:10+'%', padding:0, flexDirection: 'row'
     },
-
-
 });

@@ -13,13 +13,13 @@ export default class ListItem extends React.Component {
                     <View style={styles.addressSection}>
                         <View style={styles.lineStyle}>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                <Image source={require('../../../assets/image/location-circle.png')} style={styles.iconStyle} />
+                                <Image source={require('../../../../assets/image/location-circle.png')} style={styles.iconStyle} />
                                 <Text numberOfLines={1} style={styles.textStyle}>{this.props.addressStart}</Text>
                             </View>
                         </View>
                         <View style={styles.lineStyle}>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                <Image source={require('../../../assets/image/location.png')} style={styles.iconStyle} />
+                                <Image source={require('../../../../assets/image/location.png')} style={styles.iconStyle} />
                                 <Text numberOfLines={1} style={styles.textStyle}>{this.props.destination}</Text>
                             </View>
                         </View>
@@ -27,13 +27,13 @@ export default class ListItem extends React.Component {
                     <View style={styles.datetimeSection}>
                         <View style={styles.lineStyle}>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                <Image source={require('../../../assets/image/clock.png')} style={styles.iconStyle} />
+                                <Image source={require('../../../../assets/image/clock.png')} style={styles.iconStyle} />
                                 <Text numberOfLines={1} style={styles.textStyle}>{this.props.time}</Text>
                             </View>
                         </View>
                         <View style={styles.lineStyle}>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                <Image source={require('../../../assets/image/calendar.png')} style={styles.iconStyle} />
+                                <Image source={require('../../../../assets/image/calendar.png')} style={styles.iconStyle} />
                                 <Text numberOfLines={1} style={styles.textStyle}>{this.props.date}</Text>
                             </View>
                         </View>
@@ -41,7 +41,7 @@ export default class ListItem extends React.Component {
                     </View>
                     <View style={styles.iconRemoveSection}>
                         <TouchableOpacity onPress={this.props.onRemovePress}>
-                            <Image source={require('../../../assets/image/close.png')} style={styles.iconStyle}/>
+                            <Image source={require('../../../../assets/image/close.png')} style={styles.iconStyle}/>
                         </TouchableOpacity>
                     </View>
                 </View>
