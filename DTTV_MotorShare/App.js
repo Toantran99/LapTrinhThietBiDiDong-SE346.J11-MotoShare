@@ -15,18 +15,12 @@ import {
 } from 'react-native';
 
 import Root from "./src/Main"
-import Home from "./src/routes/Home/components/Home" 
 export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
         
         <Root {...this.props}/>
-        {/* <Text>JADKDJAKJDKAJDKADJKDJ</Text>
-        <Image
-                style={{width:10, height:10}}
-                source={require('./src/assets/img.jpg')}
-                />  */}
       </View>
     );
   }

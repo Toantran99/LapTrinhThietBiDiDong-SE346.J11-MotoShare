@@ -26,8 +26,9 @@ const styles = {
         backgroundColor:"#FF5E3A",
     },
     btnText: {
-        fontSize: 16,
+        fontSize: 14,
         color:"#fff",
+        textAlign: "center",
     },
     amount:{
         fontWeight:"bold",

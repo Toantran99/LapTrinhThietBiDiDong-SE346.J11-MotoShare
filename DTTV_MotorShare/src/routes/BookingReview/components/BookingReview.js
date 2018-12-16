@@ -14,9 +14,14 @@ import {
 import { Container } from "native-base";
 import { Actions } from "react-native-router-flux";
 
-import HeaderComponent from "../../../components/HeaderComponent";
-import FooterComponent from "../../../components/FooterComponent";
 import AccountStatus from "./AccountStatus";
+// import Profile from "./Profile/Profile";
+import { createMaterialTopTabNavigator, createAppContainer } from "react-navigation";
+
+import BookingScreen from './Profile/BookingScreen'
+import DependentScreen from './Profile/DependentScreen'
+import UserInfo from './Profile/UserInfo'
+import HeaderStyle2 from '../../../components/HeaderComponent/HeaderStyle2'
 
 
 var screenWidth = Dimensions.get("window").width; //full width
@@ -53,27 +58,50 @@ export class BookingReview extends React.Component {
     });
   }
 
-  render() {
-    console.log(this.props.name);
-    return (
-      <Container>
-        <View style={{ flex: 1 }}>
-                <HeaderComponent logo={myLogo} />
-                <AccountStatus accountInfo={this.props.accountInfo}/>
-                <Text>{this.props.name.toString()}</Text>
+  render(){
+    return(
+        <View style={{flex:1}}>
+            <View style={styles.headerStyle} >
+                <HeaderStyle2/>
+            </View>
+            <View style={styles.userInfoSection}>
+                <UserInfo accountInfo={this.props.accountInfo}/>
+            </View>
+            <View style={styles.listTripSection}>
+                <AppEx />
+            </View>
         </View>
-      </Container>
-    );
-  }
+    )
+}
 }
 
+const AppNavigator = createMaterialTopTabNavigator({
+Booking: {screen: BookingScreen, navigationOptions:{tabBarLabel:'Đặt chuyến'} },
+Dependent: {screen: DependentScreen, navigationOptions:{tabBarLabel:'Đi nhờ'}}
+},{
+tabBarOptions: {
+    style: {
+        backgroundColor: '#ffffff',
+    },
+    labelStyle:{
+        color: '#000000'
+    },
+}
+});
+
+const AppEx = createAppContainer(AppNavigator);
+
+
 const styles = StyleSheet.create({
-  container: {
+userInfoSection:{
+    width: 100+"%", height: 20+"%", flexDirection: 'row'
+},
+listTripSection:{
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  }
+},
+headerStyle:{
+    width: 100+"%", height:10+'%', padding:0, flexDirection: 'row'
+},
 });
 
 export default BookingReview;

@@ -62,6 +62,11 @@ export function getCurrentLocation(){
 	return(dispatch, store)=>{
 		navigator.geolocation.getCurrentPosition(
 			(position)=>{
+				//Trường hợp không bật GPS
+				if(position.coords.latitude==0 && position.coords.longitude==0 
+					&& position.coords.heading==0 && position.coords.speed==0) return;
+
+				//Tọa độ GPS cập nhật mới, tránh nhận lại tọa độ cũ nhiều lần liên tiếp
 				if(!store().home.region.latitude || (position.coords.latitude!=store().home.region.latitude
 					|| position.coords.longitude!=store().home.region.longitude)) {
 					dispatch({

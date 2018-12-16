@@ -5,7 +5,7 @@ import { createMaterialTopTabNavigator, createAppContainer } from "react-navigat
 import BookingScreen from './Components/BookingScreen'
 import DependentScreen from './Components/DependentScreen'
 import UserInfo from './Components/UserInfo'
-import HeaderStyle2 from '../../../components/HeaderComponent/HeaderStyle2'
+import HeaderStyle2 from '../../../../components/HeaderComponent/HeaderStyle2'
 
 export default class Profile extends Component{
     render(){

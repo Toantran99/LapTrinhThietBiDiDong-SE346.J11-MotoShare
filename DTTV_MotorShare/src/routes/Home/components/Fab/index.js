@@ -7,8 +7,7 @@ import styles from "./FabStyles.js";
 export const Fab = ({onPressAction})=>{
 	return (
 		<Button style={styles.fabContainer} onPress={onPressAction}>
-			<Text style={styles.btnText}> Book </Text>
-
+			<Text style={styles.btnText}> Hẹn ngay! </Text>
 		</Button>
 
 	);
