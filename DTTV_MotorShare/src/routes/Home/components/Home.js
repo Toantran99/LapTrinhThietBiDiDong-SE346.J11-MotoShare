@@ -28,6 +28,8 @@ var ScreenHeight = Dimensions.get("window").height; //full height
 const myLogo = require("../../../assets/img.jpg");
 const carMarker = require("../../../assets/Linux-Avatar.png");
 
+var isGoProfile=false;
+
 export class Home extends React.Component {
   constructor(props){
     super(props)
@@ -53,6 +55,7 @@ export class Home extends React.Component {
     }, 1000);
   }
 
+  
   componentDidUpdate(prevProps, prevState) {
     console.log(this.props.booking.status);
 
@@ -64,6 +67,10 @@ export class Home extends React.Component {
     setTimeout(function() {
       rx.props.getNearByDrivers();
     }, 1000);
+
+    if(isGoProfile){
+      Actions.bookingReview({ type: "reset" });
+    }
   }
 
   componentWillUnMount() {
@@ -85,7 +92,7 @@ export class Home extends React.Component {
       <Container>
         {(status !== "pending" && (
           <View style={{ flex: 1 }}>
-            <HeaderComponent logo={myLogo} />
+            <HeaderComponent logo={myLogo} onPress={isGoProfile}/>
             {/* {!!this.props.region.latitude &&  */}
             <MapContainer
               region={this.props.region.latitude ? this.props.region : null}

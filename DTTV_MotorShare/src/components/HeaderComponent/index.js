@@ -4,11 +4,11 @@ import { Header, Left, Body, Right, Button} from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "./HeaderComponentStyles";
 
-export const HeaderComponent =  ({logo})=>{
+export const HeaderComponent =  ({logo, onPress})=>{
 	return (
 		<Header style={{backgroundColor:"#fff"}} iosBarStyle="dark-content" androidStatusBarColor="#fff">
 			<Left style={{flex:1}}>
-				<Button transparent>
+				<Button transparent onPress={()=>{onPress=true}}>
 					{logo &&
 						<Image resizeMode="contain" style={styles.logo} source={logo}/>
 						||

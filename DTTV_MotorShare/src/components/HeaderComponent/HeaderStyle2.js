@@ -2,11 +2,15 @@ import React, {Component} from 'react'
 import {View, Text, Image, StyleSheet, TouchableOpacity, StatusBar} from 'react-native'
 import { Actions } from "react-native-router-flux";
 
-const HeaderStyle2 =(action)=>{
+export default class HeaderStyle2 extends Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
     return(
         <View style={{flex:1, flexDirection: 'row', backgroundColor: '#fff'}}>
             <View style={styles.backSection}>
-                <TouchableOpacity onPress={()=>{action.onPress}}> 
+                <TouchableOpacity onPress={this.props.action}> 
                     <Image source={require('../../assets/image/back.png')} style={styles.iconBack}/>
                 </TouchableOpacity>
             </View>
@@ -20,6 +24,7 @@ const HeaderStyle2 =(action)=>{
             </View>
         </View>
     )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -45,4 +50,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HeaderStyle2;
+// export default HeaderStyle2;

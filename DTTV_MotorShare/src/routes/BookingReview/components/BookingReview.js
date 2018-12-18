@@ -78,7 +78,8 @@ export class BookingReview extends React.Component {
         return(
             <View style={{flex:1}}>
                 <View style={styles.headerStyle} >
-                    <HeaderStyle2 action={()=><TouchableOpacity onPress ={()=>{Actions.home({ type: "reset" })}}></TouchableOpacity>}/>
+                    <HeaderStyle2 action={()=>{Actions.home({ type: "reset" })}}/>
+                    {/* <TouchableOpacity onPress ={()=>{console.log("pressssssss");Actions.home({ type: "reset" })}}><Text>Click</Text></TouchableOpacity> */}
                 </View>
                 <View style={styles.userInfoSection}>
                     <UserInfo accountInfo={this.props.accountInfo}/>

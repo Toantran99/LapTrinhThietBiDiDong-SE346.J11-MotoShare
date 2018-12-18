@@ -1,5 +1,5 @@
 import React from "react";
-import {ScrollView} from "react-native";
+import {ScrollView, View, Text} from "react-native";
 import ListItem from './ListItem'
 
 //JSON DATA  id = primary key
@@ -20,7 +20,7 @@ import ListItem from './ListItem'
 //         date: '14-12-2018'
 //     }
 // ];
-
+var Spinner = require("react-native-spinkit");
 
 const BookingScreen =({getBookingHistory,bookingHistory})=> {
     // setTimeout(function() {
@@ -28,28 +28,28 @@ const BookingScreen =({getBookingHistory,bookingHistory})=> {
     //     }, 1000);
     // console.log(Object.values(bookingHistory).filter(item=>item.status=="confirmed"));
 
-    const data = Object.values(bookingHistory).filter(item=>item.status=="pending");
+    const data = bookingHistory&& Object.values(bookingHistory).filter(item=>item.status=="pending")||[];
+
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-            {
-                data.map((item)=>{
-                    {/* return<ListItem key={item.id}
-                                    addressStart={item.addressStart}
-                                    destination={item.destination}
-                                    time={item.time}
-                                    date={item.date}
-                                    onRemovePress={()=>alert('remove Item:'+ item.id)}
-                    /> */}
-                    return<ListItem key={item._id}
-                                    addressStart={item.pickUp.address}
-                                    destination={item.dropOff.address}
-                                    time={item.fare}
-                                    // date={item.date}
-                                    onRemovePress={()=>alert('remove Item:'+ item._id)}
-                    />
-                })
-            }
-        </ScrollView>
+        (
+            bookingHistory &&(
+            <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+                {
+                    data.map((item)=>{
+                        return<ListItem key={item._id}
+                                        addressStart={item.pickUp.address}
+                                        destination={item.dropOff.address}
+                                        time={item.fare}
+                                        // date={item.date}
+                                        onRemovePress={()=>alert('remove Item:'+ item._id)}
+                        />
+                    })
+                }
+            </ScrollView>
+            )
+        )||(
+            <Spinner style={{flex:1, jusifyContent:'center', alignItems: 'center'}} isVisible size={60} type="Circle" color="#000"/>
+        )  
     );
 }
 

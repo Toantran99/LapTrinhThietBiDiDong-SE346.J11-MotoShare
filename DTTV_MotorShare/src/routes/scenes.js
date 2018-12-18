@@ -8,9 +8,9 @@ import BookingReview from "./BookingReview/container/BookingReviewContainer"
 const scenes = Actions.create(
 	<Scene key="root" hideNavBar>
 		{/* <Scene key="login" component={LoginContainer} title="login" initial /> */}
-
-		<Scene key="bookingReview" component={BookingReview} title="bookingReview" initial/>
 		<Scene key="home" component={HomeContainer} title="home"/>
+		
+		<Scene key="bookingReview" component={BookingReview} title="bookingReview" initial/>
 		<Scene key="trackDriver" component={TrackDriverContainer} title="trackDriver"/>
 	</Scene>
 

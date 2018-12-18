@@ -21,23 +21,30 @@ import ListItem from './ListItem'
 //     }
 // ];
 // const data=
+var Spinner = require("react-native-spinkit");
 
  const DependentScreen =({getBookingHistory,bookingHistory})=> {
-    const data = Object.values(bookingHistory).filter(item=>item.status=="confirmed");
+    const data = bookingHistory&&Object.values(bookingHistory).filter(item=>item.status=="confirmed")||[];
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-            {
-                data.map((item)=>{
-                    return<ListItem key={item._id}
-                                    addressStart={item.pickUp.address}
-                                    destination={item.dropOff.address}
-                                    time={item.fare}
-                                    // date={item.date}
-                                    onRemovePress={()=>alert('remove Item:'+ item._id)}
-                    />
-                })
-            }
-        </ScrollView>
+        (
+            bookingHistory &&(
+            <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+                {
+                    data.map((item)=>{
+                        return<ListItem key={item._id}
+                                        addressStart={item.pickUp.address}
+                                        destination={item.dropOff.address}
+                                        time={item.fare}
+                                        // date={item.date}
+                                        onRemovePress={()=>alert('remove Item:'+ item._id)}
+                        />
+                    })
+                }
+            </ScrollView>
+            )
+        )||(
+            <Spinner style={{flex:1, jusifyContent:'center', alignItems: 'center'}} isVisible size={60} type="Circle" color="#000"/>
+        )  
     );
 }
 
