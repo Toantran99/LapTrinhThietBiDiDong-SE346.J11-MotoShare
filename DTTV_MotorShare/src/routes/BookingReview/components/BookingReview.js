@@ -31,7 +31,26 @@ const carMarker = require("../../../assets/Linux-Avatar.png");
 
 export class BookingReview extends React.Component {
   constructor(props){
-    super(props)
+    super(props);
+        this.state={
+            AppNavigator : createMaterialTopTabNavigator({
+                Booking: {screen: ()=><BookingScreen getBookingHistory={this.props.getBookingHistory} 
+                bookingHistory={this.props.bookingHistory}  
+                setBookingStatus={this.props.setBookingStatus} />, navigationOptions:{tabBarLabel:'Đặt chuyến'} },
+                Dependent: {screen: ()=><DependentScreen getBookingHistory={this.props.getBookingHistory} 
+                bookingHistory={this.props.bookingHistory}
+                setBookingStatus={this.props.setBookingStatus} />, navigationOptions:{tabBarLabel:'Đi nhờ'}}
+                },{
+                tabBarOptions: {
+                    style: {
+                        backgroundColor: '#ffffff',
+                    },
+                    labelStyle:{
+                        color: '#000000'
+                    },
+                }
+                })
+        }
   }
   componentDidMount() {
     var rx = this;
@@ -49,6 +68,15 @@ export class BookingReview extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     // var rx = this;
+    //Hàm xóa cục bộ để đỡ phải load lại
+    // console.log(this.props.bookingStatus);
+    // if(this.props.bookingStatus){
+    //     if(this.props.bookingStatus.deletingInfo.deteledCount==1){
+    //         const index = this.props.bookingHistory.indexOf(this.props.bookingStatus.id);
+    //         this.props.bookingHistory.splice(index,1);
+            
+    //     }
+    // }
   }
 
   componentWillUnMount() {
@@ -58,23 +86,7 @@ export class BookingReview extends React.Component {
   }
 
     render(){
-        const AppNavigator = createMaterialTopTabNavigator({
-            Booking: {screen: ()=><BookingScreen getBookingHistory={this.props.getBookingHistory} 
-            bookingHistory={this.props.bookingHistory} />, navigationOptions:{tabBarLabel:'Đặt chuyến'} },
-            Dependent: {screen: ()=><DependentScreen getBookingHistory={this.props.getBookingHistory} 
-            bookingHistory={this.props.bookingHistory} />, navigationOptions:{tabBarLabel:'Đi nhờ'}}
-            },{
-            tabBarOptions: {
-                style: {
-                    backgroundColor: '#ffffff',
-                },
-                labelStyle:{
-                    color: '#000000'
-                },
-            }
-            });
-            
-            const AppEx = createAppContainer(AppNavigator);
+        const AppEx = createAppContainer(this.state.AppNavigator);
         return(
             <View style={{flex:1}}>
                 <View style={styles.headerStyle} >

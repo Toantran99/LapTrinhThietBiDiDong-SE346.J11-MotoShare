@@ -11,6 +11,7 @@ const {
 	SET_NAME,
 	GET_ACCOUNT_INFO,
 	GET_BOOKING_HISTORY,
+	SET_BOOKING_STATUS,
     SET_SELECTED_BOX
 } = constants;
 
@@ -91,6 +92,39 @@ export function getBookingHistory(title){
 	};
 }
 
+//get Booking history
+export function setBookingStatus(status, type){
+
+	if(type!="update"&&type!="delete") return;
+	var id =/*"u0000001";*/ "5c1300effb6fc04dd6ec86e1";
+	if(type=="delete"){
+		return(dispatch, store)=>{
+			request.del("http://"+myLocalHost+":3000/api/bookings/"+status._id)
+			.finish((error, res)=>{
+				res&&
+					dispatch({
+						type:SET_BOOKING_STATUS,
+						payload: res.body
+					});
+
+				error&& console.log(error);
+			});	
+		};
+	}
+	return;
+	// return(dispatch, store)=>{
+	// 	request.get("http://"+myLocalHost+":3000/api/bookings")
+	// 	.finish((error, res)=>{
+	// 		res&&
+	// 			dispatch({
+	// 				type:SET_BOOKING_STATUS,
+	// 				payload: res.body
+	// 			});
+	// 		error&& console.log(error);
+	// 	});	
+	// };
+}
+
 //get selected box
 export function setSelectedBox(payload){
 	//if(store().home.inputData.pickUp||store().home.inputData.dropOff)
@@ -128,6 +162,15 @@ function handleGetBookingHistory(state, action){
 	})
 }
 
+function handleSetBookingStatus(state, action){
+	return update(state,{
+        bookingStatus:{
+			$set: action.payload
+        }
+	})
+}
+
+
 function handleSetSelectedBox(state, action){
 	return update(state, {
 		selectedBox:{
@@ -140,6 +183,7 @@ const ACTION_HANDLERS = {
 	SET_NAME:handleSetName,
 	GET_ACCOUNT_INFO: handleGetAccountInfo,
 	GET_BOOKING_HISTORY:handleGetBookingHistory,
+	SET_BOOKING_STATUS:handleSetBookingStatus,
 	SET_SELECTED_BOX: handleSetSelectedBox
 }
 const initialState = {

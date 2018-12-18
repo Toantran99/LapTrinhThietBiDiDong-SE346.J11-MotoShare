@@ -1,5 +1,5 @@
 import React from "react";
-import {ScrollView} from "react-native";
+import {ScrollView, View} from "react-native";
 import ListItem from './ListItem'
 
 //JSON DATA  id = primary key
@@ -23,29 +23,37 @@ import ListItem from './ListItem'
 // const data=
 var Spinner = require("react-native-spinkit");
 
- const DependentScreen =({getBookingHistory,bookingHistory})=> {
-    const data = bookingHistory&&Object.values(bookingHistory).filter(item=>item.status=="confirmed")||[];
-    return (
-        (
-            bookingHistory &&(
-            <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-                {
-                    data.map((item)=>{
-                        return<ListItem key={item._id}
-                                        addressStart={item.pickUp.address}
-                                        destination={item.dropOff.address}
-                                        time={item.fare}
-                                        // date={item.date}
-                                        onRemovePress={()=>alert('remove Item:'+ item._id)}
-                        />
-                    })
-                }
-            </ScrollView>
-            )
-        )||(
-            <Spinner style={{flex:1, jusifyContent:'center', alignItems: 'center'}} isVisible size={60} type="Circle" color="#000"/>
-        )  
-    );
-}
+export default class DependentScreen extends React.Component {
+    constructor(props){
+        super(props)
+    }
 
-export default DependentScreen;
+    render(){
+        const data = this.props.bookingHistory&& Object.values(this.props.bookingHistory).filter(item=>item.status=="confirmed")||[];
+
+        return (
+            (
+                this.props.bookingHistory &&(
+                <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+                    {
+                        data.map((item)=>{
+                            return<ListItem key={item._id}
+                                            addressStart={item.pickUp.address}
+                                            destination={item.dropOff.address}
+                                            time={item.fare}
+                                            // date={item.date}
+                                            onRemovePress={()=>{alert('remove Item:'+ item._id);
+                                                this.props.setBookingStatus(item,"delete");
+                                                this.props.getBookingHistory();}}                            />
+                        })
+                    }
+                </ScrollView>
+                )
+            )||(
+                <View style={{flex:1, flexDirection: 'column',justifyContent:'center', alignItems: 'center'}}>
+                    <Spinner isVisible size={60} type="Circle" color="#000"/>
+                </View>
+            )  
+        );
+    }
+}

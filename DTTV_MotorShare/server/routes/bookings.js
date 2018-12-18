@@ -14,6 +14,17 @@ router.get("/bookings", function(req, res, next){
 	})
 }); 
 
+router.get("/bookings/:id", function(req, res, next){
+	var io = req.app.io;
+    db.bookings.find({_id: mongojs.ObjectId(req.params.id)},function(err, bookingInfo){
+        if (err){
+            res.send(err);
+        }
+        res.send(bookingInfo);
+        io.emit("bookingInfo", bookingInfo);
+    });
+});
+
 //get booking query
 router.get("/bookingHistory", function(req, res, next){
 	// db.bookings.ensureIndex({"coordinate":"2dsphere"});
@@ -53,6 +64,19 @@ router.post("/bookings", function(req, res, next){
 			}
 		});
 	}
+});
+
+//Delete a single booking by ID
+router.delete("/bookings/:id", function(req, res, next){
+	var io = req.app.io;
+	var id = mongojs.ObjectId(req.params.id);
+    db.bookings.remove({_id: id},function(err, deletingInfo){
+        if (err){
+            res.send(err);
+        }
+		res.send({deletingInfo,id});
+        io.emit("deletingInfo", deletingInfo);
+    });
 });
 
 // Driver Update Booking done on driver side
