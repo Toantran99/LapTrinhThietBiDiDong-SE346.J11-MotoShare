@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Dimensions, Image, StatusBar, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Dimensions, Image, StatusBar, TouchableOpacity, ImageBackground} from 'react-native'
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import styles from './IntroStyle'
 
@@ -46,20 +46,17 @@ export default class Introdution extends Component{
 
     render(){
         return(
-            <View style={styles.container}>
-                <StatusBar backgroundColor={'#2759F7'} barStyle={'light-content'}/>
-                <View style={styles.textHeaderSection}>
-                    <Text style={styles.headerText}>Chào mừng bạn đến với Motoshare</Text>
-                </View>
+            <ImageBackground source={require('../../assets/image/intro-background.jpg')} style={styles.container}>
+                <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'light-content'}/>
                 <SwiperFlatList
                     index={0}
                     showPagination
-                    paginationActiveColor={'#3F84F7'}
+                    paginationActiveColor={'#ffffff'}
                 >
                     {
                         data.map((item, i)=>{
                             return(
-                                <View key={i} style={[styles.child, { backgroundColor: '#ffffff' }]}>
+                                <View key={i} style={[styles.child, { backgroundColor: 'transparent' }]}>
                                     <View style={styles.imageSection}>
                                         <Image source={item.imageUrl} style={styles.imageStyle} />
                                     </View>
@@ -72,7 +69,7 @@ export default class Introdution extends Component{
                         })
                     }
                 </SwiperFlatList>
-            </View>
+            </ImageBackground>
         );
     }
 }
