@@ -2,19 +2,19 @@ import { connect } from "react-redux";
 import Register from "../components/Register";
 import {
     setName,
-    getLoginInfo,
+    createAccount,
     setSelectedBox
 } from "../modules/register";
 
-const loginStateToProps = (state) => ({
-    name: state.login.name||{},
-    loginInfo: state.login.loginInfo||{},
-    selectedBox:state.login.selectedBox||{}
+const registerStateToProps = (state) => ({
+    name: state.register.name||{},
+    accountCreationInfo: state.register.accountCreationInfo||{},
+    selectedBox:state.register.selectedBox||{}
 });
 
-const loginActionCreators = {
+const registerActionCreators = {
     setName,
-    getLoginInfo,
+    createAccount,
     setSelectedBox
 };
-export default connect(loginStateToProps, loginActionCreators)(Login);
+export default connect(registerStateToProps, registerActionCreators)(Register);

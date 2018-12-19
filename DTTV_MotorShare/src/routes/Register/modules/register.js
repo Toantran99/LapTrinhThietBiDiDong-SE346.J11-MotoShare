@@ -9,7 +9,7 @@ import request from "../../../util/request";
 //--------------------
 const { 
 	SET_NAME,
-	GET_LOGIN_INFO,
+	CREATE_ACCOUNT,
 	SET_SELECTED_BOX
 } = constants;
 
@@ -42,22 +42,30 @@ export function setName(){
 }
 
 //get Account info
-export function getLoginInfo(userName,password){
-	var id =/*"u0000001";*/ "5c1300effb6fc04dd6ec86e1";
+export function createAccount(name,dob, phoneNumber, dCreate, profilePic, userName, password){
 	return(dispatch, store)=>{
-		request.get("http://"+myLocalHost+":3000/api/userlogin")
-		.query({
-			userName:userName,
-			password:password
-		})
+		const payload = {
+			name: name,
+            dob: dob.toString(),
+            phoneNumber: phoneNumber,
+            rating: "5",
+            dCreate: dCreate.toString(),
+            profilePic: profilePic,
+            account: {
+                userName: userName,
+                password: password
+            }
+        };
+		request.post("http://"+myLocalHost+":3000/api/users")
+		.send(payload)
 		.finish((error, res)=>{
-			res&&
-				dispatch({
-					type:GET_LOGIN_INFO,
-					payload: res.body
-				});
-			error&& console.log(error);
-		});	
+			res&&dispatch({
+				type:CREATE_ACCOUNT,
+				payload:res.body
+			});
+			error&&console.log(error);
+
+		});
 	};
 }
 
@@ -81,9 +89,9 @@ function handleSetName(state, action){
     })
 }
 
-function handleGetLoginInfo(state, action){
+function handleCreateAccount(state, action){
 	return update(state,{
-        loginInfo:{
+        accountCreationInfo:{
 			$set: action.payload
         }
 	})
@@ -100,7 +108,7 @@ function handleSetSelectedBox(state, action){
 
 const ACTION_HANDLERS = {
 	SET_NAME:handleSetName,
-	GET_LOGIN_INFO: handleGetLoginInfo,
+	CREATE_ACCOUNT: handleCreateAccount,
 	SET_SELECTED_BOX: handleSetSelectedBox
 }
 const initialState = {
@@ -108,7 +116,7 @@ const initialState = {
 	
 };
 
-export function LoginReducer (state = initialState, action){
+export function RegisterReducer (state = initialState, action){
     const handler = ACTION_HANDLERS[action.type];
 
     return handler ? handler(state, action) : state;

@@ -75,7 +75,7 @@ export default class Login extends Component{
                 <View style={styles.createAccSection}>
                     <View style={styles.childcreateAcc}>
                         <Text style={styles.textCreateAcc}>Bạn chưa có tài khoản?</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{Actions.register({type:"reset"})}}>
                             <Text style={[styles.textCreateAcc, {marginLeft: 10}]}>Tạo tài khoản</Text>
                         </TouchableOpacity>
                     </View>

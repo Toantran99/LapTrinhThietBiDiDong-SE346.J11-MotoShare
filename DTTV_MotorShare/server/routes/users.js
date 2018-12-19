@@ -47,26 +47,21 @@ router.get("/userlogin", function(req, res, next){
 
 
 router.post("/users", function(req, res, next){
-	var user = req.body.data;
-	var nearByDriver = req.body.nearByDriver;
+	var user = req.body;
 	var io = req.app.io;
-
-	if(!user.userName){
+	
+	if(!user.name){
 		res.status(400);
 		res.json({
 			error:"Bad data"
 		});	
 	} else {
-		db.users.save(users, function(err, savedUser){
+		db.users.save(user, function(err, savedUser){
 			if(err){
 				res.send(err);
 			}
 			res.json(savedUser);
-			if(nearByDriver.socketId){
-				io.emit(nearByDriver.socketId + "driverRequest", savedUser);
-			}else{
-				console.log("Driver not connected");
-			}
+			io.emit("SignUp", savedUser);
 		});
 	}
 });
