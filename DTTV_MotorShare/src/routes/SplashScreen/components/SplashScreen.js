@@ -18,8 +18,8 @@ export default class SplashScreen extends Component{
 
     render(){
         return(
-            <ImageBackground source={require('../../../assets/image/splash-bg.jpg')} style={{flex:1}}>
-                <StatusBar backgroundColor={'#525E92'} barStyle={'light-content'}/>
+            <ImageBackground source={require('../../../assets/image/splashScreen.png')} style={{flex:1}}>
+                <StatusBar hidden={true} barStyle={'light-content'}/>
                 <View style={styles.logoSection}>
                     <Image source={require('../../../assets/image/Logo.png')} style={styles.logo} />
                 </View>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         width: 100+"%",
         height: 134,
         alignItems: 'center',
-        marginTop: 10+"%"
+        marginTop: 20+"%"
     },
     logo:{
         width: 135,
