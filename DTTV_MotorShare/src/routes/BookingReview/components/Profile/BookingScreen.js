@@ -1,6 +1,7 @@
 import React from "react";
 import {ScrollView, View, Text} from "react-native";
-import ListItem from './ListItem'
+import ListItem from './ListItem';
+import moment from "moment";
 
 //JSON DATA  id = primary key
 //Danh sách điểm đặt
@@ -22,6 +23,10 @@ import ListItem from './ListItem'
 // ];
 var Spinner = require("react-native-spinkit");
 
+// const format10= (num)=>{
+//     return num<10?"0"+num:num;
+// }
+
 export default class BookingScreen extends React.Component {
     constructor(props){
         super(props)
@@ -32,18 +37,18 @@ export default class BookingScreen extends React.Component {
     // console.log(Object.values(bookingHistory).filter(item=>item.status=="confirmed"));
     render(){
         const data = this.props.bookingHistory&& Object.values(this.props.bookingHistory).filter(item=>item.status=="pending")||[];
-
         return (
             (
                 this.props.bookingHistory &&(
                 <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
                     {
                         data.map((item)=>{
+                            let day = item.time&&new Date(item.time);
                             return<ListItem key={item._id}
                                             addressStart={item.pickUp.address}
                                             destination={item.dropOff.address}
-                                            time={item.fare}
-                                            // date={item.date}
+                                            time={item.time&& moment(day).format('LT')}
+                                            date={item.time&& moment(day).format('L')}
                                             onRemovePress={()=>{alert('remove Item:'+ item._id);
                                                 this.props.setBookingStatus(item,"delete");
                                                 this.props.getBookingHistory();}}

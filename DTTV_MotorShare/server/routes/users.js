@@ -27,6 +27,24 @@ router.get("/users/:id", function(req, res, next){
     });
 });
 
+//Check user account
+router.get("/userlogin", function(req, res, next){
+	// db.users.ensureIndex({"coordinate":"2dsphere"});
+	db.users.find({
+			"account":{
+                "userName":req.query.userName,
+                "password":req.query.password		
+			}
+		}, function(err, account){
+			if(err){
+				res.send(err);
+
+			}else{
+				res.send(account);
+			}
+	});
+});
+
 
 router.post("/users", function(req, res, next){
 	var user = req.body.data;

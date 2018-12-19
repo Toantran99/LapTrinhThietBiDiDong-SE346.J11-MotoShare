@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
-import Login from "../Login";
+import Register from "../components/Register";
 import {
     setName,
     getLoginInfo,
     setSelectedBox
-} from "../modules/login";
+} from "../modules/register";
 
 const loginStateToProps = (state) => ({
     name: state.login.name||{},

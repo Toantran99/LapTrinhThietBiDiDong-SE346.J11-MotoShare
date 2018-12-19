@@ -1,6 +1,7 @@
 import React from "react";
 import {ScrollView, View} from "react-native";
-import ListItem from './ListItem'
+import ListItem from './ListItem';
+import moment from "moment";
 
 //JSON DATA  id = primary key
 //Danh sách điểm đi nhờ
@@ -23,6 +24,7 @@ import ListItem from './ListItem'
 // const data=
 var Spinner = require("react-native-spinkit");
 
+
 export default class DependentScreen extends React.Component {
     constructor(props){
         super(props)
@@ -37,11 +39,12 @@ export default class DependentScreen extends React.Component {
                 <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
                     {
                         data.map((item)=>{
+                            let day = item.time&&new Date(item.time);
                             return<ListItem key={item._id}
                                             addressStart={item.pickUp.address}
                                             destination={item.dropOff.address}
-                                            time={item.fare}
-                                            // date={item.date}
+                                            time={item.time&& moment(day).format('LT')}
+                                            date={item.time&& moment(day).format('L')}
                                             onRemovePress={()=>{alert('remove Item:'+ item._id);
                                                 this.props.setBookingStatus(item,"delete");
                                                 this.props.getBookingHistory();}}                            />

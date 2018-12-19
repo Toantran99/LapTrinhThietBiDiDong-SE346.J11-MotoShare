@@ -7,19 +7,11 @@ import styles from './LoginStyles'
 class ButtonCustom extends Component{
     constructor(props){
         super(props);
-        this.state={
-            btnOnPress:null
-        }
-    }
-    componentDidMount(){
-        this.setState({
-            btnOnPress:this.props.onPress,
-        })
     }
 
     render(){
         return(
-            <TouchableOpacity onPress={this.state.btnOnPress}>
+            <TouchableOpacity onPress={this.props.onPress}>
                 <View style={styles.customBTNStyle}>
                     <Text  style={{fontSize: 16, color: '#ffffff'}}>Đăng nhập</Text>
                 </View>
@@ -30,24 +22,33 @@ class ButtonCustom extends Component{
 var x;
 
 export default class Login extends Component{
+    constructor(props){
+        super(props)
+    }
+
+    state = {
+		userName: "",
+		password: ""
+	  };
+
     render(){
         return(
             <ImageBackground style={{flex:1}} source={require('../../assets/image/traveling.jpeg')}>
                 {/* <StatusBar  hidden /> */}
                 <View style={styles.textSection}>
-                    <View style={[{height: 26  }, styles.sectionText]}>
+                    <View style={[{height: 26 }, styles.sectionText]}>
                         <Text style={[{fontSize:19}, styles.textS]}>Hãy gia nhập</Text>
                     </View>
-                    <View style={[{height: 86, fontSize:65 }, styles.sectionText]}>
+                    <View style={[{height: 86}, styles.sectionText]}>
                         <Text style={[{fontSize:65}, styles.textS]}>MotoShare</Text>
                     </View>
                 </View>
                 <View style={styles.form}>
                     <View style={styles.inputSection}>
-                        <TextInput style={styles.inputStyle} placeholder={"Tên đăng nhập"} underlineColorAndroid="transparent" />
+                        <TextInput style={styles.inputStyle} placeholder={"Tên đăng nhập"} onChangeText={(uname)=>this.setState({ userName: uname })} underlineColorAndroid="transparent" />
                     </View>
                     <View style={[styles.inputSection, {marginTop: 2+"%"}]}>
-                        <TextInput secureTextEntry={true} style={styles.inputStyle} placeholder={"Mật khẩu"} underlineColorAndroid="transparent" />
+                        <TextInput secureTextEntry={true} style={styles.inputStyle} placeholder={"Mật khẩu"} onChangeText={(pwd)=>this.setState({ password: pwd })} underlineColorAndroid="transparent" />
                     </View>
                     <View style={styles.forgetPassS}>
                         <Text style={styles.forgetPass}>Quên mật khẩu</Text>
@@ -55,7 +56,15 @@ export default class Login extends Component{
 
                 </View>
                 <View style={styles.btnS}>
-                    <ButtonCustom onPress ={()=>{Actions.home({ type: "reset" });} }/>
+                    <ButtonCustom onPress ={()=>{
+                        var rx = this;
+
+                        setTimeout(function() {
+                            rx.props.getLoginInfo(rx.state.userName,rx.state.password)
+                            }, 1000);
+                        console.log(this.props.loginInfo);
+                        if(this.props.loginInfo&& this.props.loginInfo.length==1) Actions.home({type:"reset"})} }/>
+
                 </View>
                 <View style={styles.lineSection}>
                     <View

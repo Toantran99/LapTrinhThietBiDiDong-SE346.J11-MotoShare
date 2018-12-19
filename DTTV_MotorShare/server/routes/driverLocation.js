@@ -51,7 +51,6 @@ router.get("/driverLocation", function(req, res, next){
 				res.send(location);
 			}
 	});
-
 });
 
 //Get Single Driver and emit track by user to driver

@@ -209,8 +209,11 @@ export function getSelectedAddress(payload){
 	}
 }
 
+
+
 //BOOK CAR
-export function bookCar(){
+export function bookCar(time){
+
 	return (dispatch, store)=>{
 		const Drivers = store().home.nearByDrivers;
 		const selectedAddress= store().home.selectedAddress;
@@ -236,6 +239,7 @@ export function bookCar(){
 					longitude:store().home.selectedAddress.selectedDropOff.longitude
 				},
 				fare:store().home.fare,
+				time: time.toString(),
 				status:"pending"
 			},
 			nearByDriver:{

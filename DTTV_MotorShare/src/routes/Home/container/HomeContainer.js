@@ -12,10 +12,14 @@ import {
     cancelBookCar,
     getNearByDrivers
 } from "../modules/home";
+import{
+    getAccountInfo
+} from "../../BookingReview/modules/bookingReview"
 
 const mapStateToProps = (state) => ({
     name: state.home.name,
     region: state.home.region,
+    accountInfo:state.bookingReview.accountInfo||{},
     inputData:state.home.inputData || {},
     resultTypes:state.home.resultTypes || {},
     predictions:state.home.predictions ||  [],
@@ -37,6 +41,7 @@ const mapActionCreators = {
     setSelectedBox,
     bookCar,
     cancelBookCar,
-    getNearByDrivers
+    getNearByDrivers,
+    getAccountInfo
 };
 export default connect(mapStateToProps, mapActionCreators)(Home);

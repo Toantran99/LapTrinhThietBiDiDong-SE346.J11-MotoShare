@@ -56,6 +56,7 @@ export class BookingReview extends React.Component {
     var rx = this;
 
     BackHandler.addEventListener('hardwareBackPress', function(){console.log("BookingReview: press");
+        Actions.home({type:"reset"});
         return true;
     });
     this.props.setName();

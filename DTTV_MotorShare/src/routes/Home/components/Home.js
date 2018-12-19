@@ -28,7 +28,6 @@ var ScreenHeight = Dimensions.get("window").height; //full height
 const myLogo = require("../../../assets/img.jpg");
 const carMarker = require("../../../assets/Linux-Avatar.png");
 
-var isGoProfile=false;
 
 export class Home extends React.Component {
   constructor(props){
@@ -49,7 +48,8 @@ export class Home extends React.Component {
         }
         return true;
     });
-    this.props.setName();
+    // this.props.setName();
+    this.props.getAccountInfo();
     setTimeout(function() {
       rx.props.getNearByDrivers();
     }, 1000);
@@ -57,7 +57,7 @@ export class Home extends React.Component {
 
   
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.booking.status);
+    // console.log(this.props.booking.status);
 
     if (this.props.booking.status === "confirmed") {
       Actions.trackDriver({ type: "reset" });
@@ -68,9 +68,6 @@ export class Home extends React.Component {
       rx.props.getNearByDrivers();
     }, 1000);
 
-    if(isGoProfile){
-      Actions.bookingReview({ type: "reset" });
-    }
   }
 
   componentWillUnMount() {
@@ -86,13 +83,12 @@ export class Home extends React.Component {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0422
     };
-
     const { status } = this.props.booking;
     return (
       <Container>
-        {(status !== "pending" && (
+        {/* {(status !== "pending" && ( */}
           <View style={{ flex: 1 }}>
-            <HeaderComponent logo={myLogo} onPress={isGoProfile}/>
+            <HeaderComponent accountInfo={this.props.accountInfo} onPress={()=>Actions.bookingReview({type:"reset"})}/>
             {/* {!!this.props.region.latitude &&  */}
             <MapContainer
               region={this.props.region.latitude ? this.props.region : null}
@@ -109,17 +105,19 @@ export class Home extends React.Component {
               carMarker={carMarker}
               nearByDrivers={this.props.nearByDrivers}
             />
-            <Fab onPressAction={() => this.props.bookCar()} />
+            <Fab isAddressSelected={this.props.selectedAddress.selectedPickUp
+                              &&this.props.selectedAddress.selectedDropOff?true:false}
+              onPressAction={(time) => {this.props.bookCar(time)}} />
             {this.props.fare && 
             <Fare fare={this.props.fare} />}
             {/* <FooterComponent /> */}
           </View>
-        )) || (
+        {/* )) || (
           <FindDriver
             selectedAddress={this.props.selectedAddress}
             onPressCancelAction={() => this.props.cancelBookCar()}
           />
-        )}
+        )} */}
       </Container>
     );
   }
