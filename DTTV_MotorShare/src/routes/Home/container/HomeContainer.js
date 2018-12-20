@@ -23,6 +23,7 @@ const mapStateToProps = (state) => ({
     name: state.home.name,
     region: state.home.region,
     accountInfo:state.bookingReview.accountInfo||{},
+    updatedLocation:state.home.updatedLocation||{},
     loginInfo:state.login.loginInfo||{},
     inputData:state.home.inputData || {},
     resultTypes:state.home.resultTypes || {},

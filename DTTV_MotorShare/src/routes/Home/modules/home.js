@@ -13,6 +13,7 @@ import calculateFare from "../../../util/fareCalculator.js";
 const { 
 	SET_NAME, 
 	GET_CURRENT_LOCATION, 
+	UPDATE_LOCATION,
 	GET_INPUT, 
 	TOGGLE_SEARCH_RESULT,
 	GET_ADDRESS_PREDICTIONS,
@@ -74,6 +75,20 @@ export function getCurrentLocation(){
 						payload:position
 					});
 					isPositionChanged = true;
+					console.log(store().bookingReview.accountInfo._id);
+					request.put("http://"+myLocalHost+":3000/api/user/"+store().bookingReview.accountInfo._id)
+					.query({
+						latitude: position.coords.latitude,
+                    	longitude: position.coords.longitude
+					})
+					.finish((error, res)=>{
+						res&&
+							dispatch({
+								type:UPDATE_LOCATION,
+								payload: res.body
+							});
+						error&& console.log(error);
+					});	
 				}
 				
 			},
@@ -360,6 +375,13 @@ function handleGetInputData(state, action){
 	});
 }
 
+function handleUpdateLocation(state, action){
+	return update(state, {
+		updatedLocation:{
+			$set:action.payload
+		}
+	})
+}
 
 function handleToggleSearchResult(state, action){
 	if(action.payload === "pickUp"){
@@ -502,7 +524,8 @@ function handleConfirmBooking(state, action){
 
 const ACTION_HANDLERS = {
     SET_NAME:handleSetName,
-    GET_CURRENT_LOCATION:handleGetCurrentLocation,
+	GET_CURRENT_LOCATION:handleGetCurrentLocation,
+	UPDATE_LOCATION: handleUpdateLocation,
 	GET_INPUT:handleGetInputData,
 	TOGGLE_SEARCH_RESULT:handleToggleSearchResult,
 	GET_ADDRESS_PREDICTIONS:handleGetAddressPredictions,

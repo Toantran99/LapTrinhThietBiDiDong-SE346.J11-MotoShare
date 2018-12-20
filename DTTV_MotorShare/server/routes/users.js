@@ -45,6 +45,56 @@ router.get("/userlogin", function(req, res, next){
 	});
 });
 
+//Update user Info by query
+router.put("/user/:id", function(req, res, next){
+	// db.users.ensureIndex({"coordinate":"2dsphere"});
+	var io = req.app.io;
+    db.users.findOne({_id: mongojs.ObjectId(req.params.id)},function(err, userInfo){
+        if (err){
+            res.send(err);
+        }else{
+            if(!userInfo){
+                res.json({
+                    error:"account null"
+                });	
+                return;
+            } 
+            db.users.update({_id: mongojs.ObjectId(req.params.id)},{ $set: { 
+                "name": req.query.name||userInfo.name,
+                "dob": req.query.dob||userInfo.dob,
+                "phoneNumber": req.query.phoneNumber||userInfo.phoneNumber,
+                "email": req.query.email||userInfo.email,
+                "rating": req.query.rating||userInfo.rating,
+                "dCreate": req.query.dCreate||userInfo.dCreate,
+                "profilePic": req.query.profilePic||userInfo.profilePic,
+                "account":{
+                    "userName":req.query.userName||userInfo.account.userName,
+                    "password": req.query.password||userInfo.account.password
+                },
+                "location": {
+                    "latitude": req.query.latitude||userInfo.location.latitude,
+                    "longitude": req.query.longitude||userInfo.location.longitude,
+                }, 
+                "verhicle":eq.query.verhicle||userInfo.verhicle
+            }}, function(err, updatedUser){
+            if (err){
+                res.send(err);
+            }
+            if (updatedUser){
+                //Get changed user
+                db.users.findOne({_id: mongojs.ObjectId(req.params.id)},function(error, changedUser){
+                    if (error){
+                        res.send(error);
+                    }
+                    res.send(changedUser);
+                });
+            }
+        })
+        // io.emit("userInfo", userInfo);
+    }
+    });
+});
+
 //Get user email
 router.get("/userEmail", function(req, res, next){
     var io = req.app.io;
