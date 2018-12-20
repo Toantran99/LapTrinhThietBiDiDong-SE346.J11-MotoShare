@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     textSection:{
         width: 100+"%",
         height: 105,
-        marginTop: 16+"%"
+        marginTop: 23+"%"
     },
     form:{
         width: 100+"%",
@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
     inputStyle:{
         width: 310,
         height: 100+"%",
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255, 255, 255, 0.36)',
         fontSize: 13,
-        color: '#ACA1A1',
+        color: 'rgba(255, 255, 255, 0.85)',
         paddingVertical: 10,
         borderRadius: 5,
         alignItems: 'center',
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
         height: 46,
         width: 100+"%",
         alignItems: 'center',
-
     },
     forgetPassS:{
         width: 100+"%",
@@ -75,10 +74,10 @@ const styles = StyleSheet.create({
     },
     textCreateAcc:{
         fontSize: 13,
-        color: '#ffffff'
+        color: '#ffffff',
     },
     customBTNStyle:{
-        width: 310, height: 46, backgroundColor: '#2C83DB', justifyContent: 'center', alignItems: 'center', borderRadius: 5
+        width: 310, height: 46, backgroundColor: '#FDA400', justifyContent: 'center', alignItems: 'center', borderRadius: 5
     }
 
 

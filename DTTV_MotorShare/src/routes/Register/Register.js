@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native'
+import {View, Text, StyleSheet,ImageBackground, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Image} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from "moment";
@@ -10,7 +10,7 @@ class ButtonCustom extends Component{
         return(
             <TouchableOpacity>
                 <View style={[styles.customButtonStyle, this.props.styleBtn]}>
-                    <Text  style={{fontSize: 16, color: '#ffffff'}}>Tạo</Text>
+                    <Text  style={styles.btnText}>Tạo tài khoản</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -22,9 +22,9 @@ class CustomeInputText extends Component{
     render(){
         return(
             <View style={[{width: 327, height: 34}, this.props.styleInput]}>
-                <View style={{width: 100+"%", height: 16, flexDirection: 'row'}}>
-                    <Icon name={this.props.IconName} size={16} color="#2699FB" />
-                    <TextInput secureTextEntry={this.props.secure}   placeholder={this.props.placeholder} placeholderTextColor={"#2699FB"} style={{width: 250, height: 16, fontSize: 14, marginLeft: 20, paddingVertical: 0, paddingHorizontal: 0, color:'#2699FB'}}/>
+                <View style={styles.textInputCS}>
+                    <Icon name={this.props.IconName} size={16} color="#ffffff" />
+                    <TextInput secureTextEntry={this.props.secure}   placeholder={this.props.placeholder} placeholderTextColor={"#ffffff"} style={styles.textInputC}/>
                 </View>
                 <View
                     style={styles.line}
@@ -43,9 +43,9 @@ class CustomeDatePicker extends Component{
         return(
             <TouchableOpacity onPress={this.props.onPress}>
                 <View style={[{width: 327, height: 36}, this.props.styleInput]}>
-                    <View style={{width: 100+"%", height: 18, flexDirection: 'row'}}>
-                        <Icon name={this.props.IconName} size={16} color={'#2699FB'} />
-                        <Text style={{fontSize: 14, marginLeft: 20, color: '#2699FB'}}>{this.props.NS}</Text>
+                    <View style={styles.dateTSection}>
+                        <Icon name={this.props.IconName} size={16} color={'#ffffff'} />
+                        <Text style={styles.dateText}>{this.props.NS}</Text>
                     </View>
                     <View
                         style={styles.line}
@@ -69,7 +69,8 @@ export default class Register extends Component{
 
     render(){
         return(
-            <View style={{flex:1}}>
+            <ImageBackground source={require('../../assets/image/login_register_bg.png')} style={{flex:1}}>
+            <ScrollView style={{flex:1}}>
                 <DateTimePicker
                     isVisible={this.state.visible}
                     onConfirm={this.handlePicker}
@@ -105,7 +106,8 @@ export default class Register extends Component{
 
                     </View>
                 </KeyboardAvoidingView>
-            </View>
+            </ScrollView>
+            </ImageBackground>
         )
     }
 
