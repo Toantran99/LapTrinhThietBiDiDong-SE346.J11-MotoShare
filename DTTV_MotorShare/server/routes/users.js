@@ -47,7 +47,7 @@ router.get("/userlogin", function(req, res, next){
 
 
 router.post("/users", function(req, res, next){
-	var user = req.body;
+	var user = req.body.data;
 	var io = req.app.io;
 	
 	if(!user.name){

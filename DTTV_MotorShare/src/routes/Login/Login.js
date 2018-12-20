@@ -45,10 +45,25 @@ export default class Login extends Component{
                 </View>
                 <View style={styles.form}>
                     <View style={styles.inputSection}>
-                        <TextInput style={styles.inputStyle} placeholder={"Tên đăng nhập"} onChangeText={(uname)=>this.setState({ userName: uname })} underlineColorAndroid="transparent" />
+                        <TextInput style={styles.inputStyle} placeholder={"Tên đăng nhập"} onChangeText={(uname)=>{
+                                this.setState({ userName: uname })
+                                var rx = this;
+
+                                setTimeout(function() {
+                                    rx.props.getLoginInfo(rx.state.userName,rx.state.password)
+                                    }, 1000);
+                            }
+                        } underlineColorAndroid="transparent" />
                     </View>
                     <View style={[styles.inputSection, {marginTop: 2+"%"}]}>
-                        <TextInput secureTextEntry={true} style={styles.inputStyle} placeholder={"Mật khẩu"} onChangeText={(pwd)=>this.setState({ password: pwd })} underlineColorAndroid="transparent" />
+                        <TextInput secureTextEntry={true} style={styles.inputStyle} placeholder={"Mật khẩu"} onChangeText={(pwd)=>{this.setState({ password: pwd })
+                            var rx = this;
+
+                            setTimeout(function() {
+                                rx.props.getLoginInfo(rx.state.userName,rx.state.password)
+                                }, 1000);
+                            }
+                        } underlineColorAndroid="transparent" />
                     </View>
                     <View style={styles.forgetPassS}>
                         <Text style={styles.forgetPass}>Quên mật khẩu</Text>
@@ -63,7 +78,7 @@ export default class Login extends Component{
                             rx.props.getLoginInfo(rx.state.userName,rx.state.password)
                             }, 1000);
                         console.log(this.props.loginInfo);
-                        if(this.props.loginInfo&& this.props.loginInfo.length==1) Actions.home({type:"reset"})} }/>
+                        if(this.props.loginInfo&& this.props.loginInfo.length==1) Actions.home({type:"replace"})} }/>
 
                 </View>
                 <View style={styles.lineSection}>

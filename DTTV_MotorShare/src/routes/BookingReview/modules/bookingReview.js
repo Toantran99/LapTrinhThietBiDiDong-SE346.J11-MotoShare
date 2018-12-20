@@ -44,10 +44,14 @@ export function setName(){
 }
 
 //get Account info
-export function getAccountInfo(){
-	var id =/*"u0000001";*/ "5c1300effb6fc04dd6ec86e1";
+export function getAccountInfo(id){
 	return(dispatch, store)=>{
-		request.get("http://"+myLocalHost+":3000/api/users/"+id)
+		// console.log(store().login.loginInfo);
+		// console.log(id);
+		var ID = id?id:store().login.loginInfo[0]._id;
+		// console.log("id"+ID);
+
+		request.get("http://"+myLocalHost+":3000/api/users/"+ID)
 		.finish((error, res)=>{
 			res&&
 				dispatch({

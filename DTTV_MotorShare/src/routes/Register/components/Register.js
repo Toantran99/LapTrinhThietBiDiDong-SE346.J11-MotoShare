@@ -98,11 +98,10 @@ export default class Register extends Component{
         rating: "5",
         dCreate: new Date(),
         profilePic: null,
-        account: {
-            userName: "",
-            password: "",
-            password2: ""
-        }
+
+        userName: "",
+        password: "",
+        password2: ""
     }
 
     render(){
@@ -136,20 +135,19 @@ export default class Register extends Component{
                             <CustomeInputText placeholder={"Số điện thoại"} IconName={"phone"} onChangeText={(ph)=>this.setState({ phoneNumber: ph })}/>
                         </View>
                         <View style={styles.InputTextSection}>
-                            <CustomeInputText placeholder={"tên tài khoản"} IconName={"user-plus"} onChangeText={(uname)=>this.setState({ account:{userName: uname} })}/>
+                            <CustomeInputText placeholder={"tên tài khoản"} IconName={"user-plus"} onChangeText={(uname)=>this.setState({ userName: uname} )}/>
                         </View>
                         <View style={styles.InputTextSection}>
-                            <CustomeInputText placeholder={"Mật khẩu"} secure={true} IconName={"lock"} onChangeText={(pwd)=>this.setState({ account:{password: pwd} })}/>
+                            <CustomeInputText placeholder={"Mật khẩu"} secure={true} IconName={"lock"} onChangeText={(pwd)=>this.setState({ password: pwd} )}/>
                         </View>
                         <View style={styles.InputTextSection}>
-                            <CustomeInputText placeholder={"Xác nhận mật khẩu"} secure={true} IconName={"lock"} onChangeText={(pwd)=>this.setState({ account:{password2: pwd} })}/>
+                            <CustomeInputText placeholder={"Xác nhận mật khẩu"} secure={true} IconName={"lock"} onChangeText={(pwd)=>this.setState({ password2: pwd} )}/>
                         </View>
                         <View style={styles.sectionButton}>
                             <ButtonCustom onPress={()=>{if(this.state.name==""|| this.state.dob=="Ngày Sinh"|| this.state.phoneNumber==""||
-                                            this.state.account.userName==""|| this.state.account.password ==""
-                                            ||this.state.account.password!=this.state.account.password) return;
+                                            this.state.userName==""|| this.state.password ==""||this.state.password!=this.state.password2) return;
                                             this.props.createAccount(this.state.name, this.state.dob, this.state.phoneNumber, this.state.dCreate,
-                                                this.state.profilePic, this.state.account.userName, this.state.account.password)}}/>
+                                                this.state.profilePic, this.state.userName, this.state.password)}}/>
                             <TouchableOpacity onPress={()=>{Actions.login({type:"reset"})}}>
                                 <Text>Quay lại</Text>
                             </TouchableOpacity>

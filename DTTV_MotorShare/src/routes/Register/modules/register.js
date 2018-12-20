@@ -44,18 +44,24 @@ export function setName(){
 //get Account info
 export function createAccount(name,dob, phoneNumber, dCreate, profilePic, userName, password){
 	return(dispatch, store)=>{
+		const account = {
+			
+		}
 		const payload = {
-			name: name,
-            dob: dob.toString(),
-            phoneNumber: phoneNumber,
-            rating: "5",
-            dCreate: dCreate.toString(),
-            profilePic: profilePic,
-            account: {
-                userName: userName,
-                password: password
-            }
-        };
+			data:{
+				name: name,
+				dob: dob.toString(),
+				phoneNumber: phoneNumber,
+				rating: "5",
+				dCreate: dCreate.toString(),
+				profilePic: profilePic,
+				account: {
+					userName: userName,
+            		password: password
+				}
+			}
+		};
+		console.log(account)
 		request.post("http://"+myLocalHost+":3000/api/users")
 		.send(payload)
 		.finish((error, res)=>{

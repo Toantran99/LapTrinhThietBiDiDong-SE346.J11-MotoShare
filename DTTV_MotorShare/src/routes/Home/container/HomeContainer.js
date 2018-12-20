@@ -1,5 +1,8 @@
 import { connect } from "react-redux";
 import Home from "../components/Home";
+import{
+    getLoginInfo
+} from "../../Login/modules/login"
 import {
     setName,
     getCurrentLocation,
@@ -20,6 +23,7 @@ const mapStateToProps = (state) => ({
     name: state.home.name,
     region: state.home.region,
     accountInfo:state.bookingReview.accountInfo||{},
+    loginInfo:state.login.loginInfo||{},
     inputData:state.home.inputData || {},
     resultTypes:state.home.resultTypes || {},
     predictions:state.home.predictions ||  [],
@@ -33,6 +37,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionCreators = {
     setName,
+    getLoginInfo,
     getCurrentLocation,
     getInputData,
     toggleSearchResultModal,

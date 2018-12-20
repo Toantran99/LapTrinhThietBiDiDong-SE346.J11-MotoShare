@@ -43,7 +43,6 @@ export function setName(){
 
 //get Account info
 export function getLoginInfo(userName,password){
-	var id =/*"u0000001";*/ "5c1300effb6fc04dd6ec86e1";
 	return(dispatch, store)=>{
 		request.get("http://"+myLocalHost+":3000/api/userlogin")
 		.query({

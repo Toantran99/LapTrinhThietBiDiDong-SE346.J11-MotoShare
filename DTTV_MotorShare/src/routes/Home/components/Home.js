@@ -49,7 +49,8 @@ export class Home extends React.Component {
         return true;
     });
     // this.props.setName();
-    this.props.getAccountInfo();
+    // console.log(this.props.loginInfo._id);
+    this.props.getAccountInfo(null);
     setTimeout(function() {
       rx.props.getNearByDrivers();
     }, 1000);
@@ -84,6 +85,8 @@ export class Home extends React.Component {
       longitudeDelta: 0.0422
     };
     const { status } = this.props.booking;
+    console.log(this.props.loginInfo._id);
+
     return (
       <Container>
         {/* {(status !== "pending" && ( */}
