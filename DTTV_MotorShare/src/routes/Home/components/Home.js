@@ -85,7 +85,6 @@ export class Home extends React.Component {
       longitudeDelta: 0.0422
     };
     const { status } = this.props.booking;
-    console.log(this.props.loginInfo._id);
 
     return (
       <Container>

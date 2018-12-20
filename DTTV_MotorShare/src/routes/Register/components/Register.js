@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity, KeyboardAvoidingView, Image, BackHandler} from 'react-native'
+import {View, Text, StyleSheet, Dimensions, Alert, TextInput, TouchableOpacity, KeyboardAvoidingView, Image, BackHandler} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Actions } from "react-native-router-flux";
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -48,7 +48,7 @@ class CustomeInputText extends Component{
             <View style={[{width: 327, height: 34}, this.props.styleInput]}>
                 <View style={{width: 100+"%", height: 16, flexDirection: 'row'}}>
                     <Icon name={this.props.IconName} size={16} color="#2699FB" />
-                    <TextInput secureTextEntry={this.props.secure}   placeholder={this.props.placeholder} 
+                    <TextInput secureTextEntry={this.props.secure} placeholder={this.props.placeholder} 
                     placeholderTextColor={"#2699FB"} onChangeText={this.props.onChangeText}
                     style={{width: 250, height: 16, fontSize: 14, marginLeft: 20, paddingVertical: 0, paddingHorizontal: 0, color:'#2699FB'}}/>
                 </View>
@@ -95,6 +95,7 @@ export default class Register extends Component{
         name: "",
         dob: "Ngày Sinh",
         phoneNumber: "",
+        email: "",
         rating: "5",
         dCreate: new Date(),
         profilePic: null,
@@ -135,6 +136,9 @@ export default class Register extends Component{
                             <CustomeInputText placeholder={"Số điện thoại"} IconName={"phone"} onChangeText={(ph)=>this.setState({ phoneNumber: ph })}/>
                         </View>
                         <View style={styles.InputTextSection}>
+                            <CustomeInputText placeholder={"Email"} IconName={"at"} onChangeText={(e)=>this.setState({ email: e })}/>
+                        </View>
+                        <View style={styles.InputTextSection}>
                             <CustomeInputText placeholder={"tên tài khoản"} IconName={"user-plus"} onChangeText={(uname)=>this.setState({ userName: uname} )}/>
                         </View>
                         <View style={styles.InputTextSection}>
@@ -144,10 +148,17 @@ export default class Register extends Component{
                             <CustomeInputText placeholder={"Xác nhận mật khẩu"} secure={true} IconName={"lock"} onChangeText={(pwd)=>this.setState({ password2: pwd} )}/>
                         </View>
                         <View style={styles.sectionButton}>
-                            <ButtonCustom onPress={()=>{if(this.state.name==""|| this.state.dob=="Ngày Sinh"|| this.state.phoneNumber==""||
-                                            this.state.userName==""|| this.state.password ==""||this.state.password!=this.state.password2) return;
-                                            this.props.createAccount(this.state.name, this.state.dob, this.state.phoneNumber, this.state.dCreate,
-                                                this.state.profilePic, this.state.userName, this.state.password)}}/>
+                            <ButtonCustom onPress={()=>{if(this.state.name==""|| this.state.dob=="Ngày Sinh"|| this.state.phoneNumber==""|| this.state.email.indexOf("@")<1||
+                                            this.state.userName==""|| this.state.password ==""||this.state.password!=this.state.password2){
+                                                Alert.alert('Không thành công!', "Vui lòng kiểm tra lại thông tin");
+                                                return;
+                                            }
+                                            
+                                            this.props.createAccount(this.state.name, this.state.dob, this.state.phoneNumber, this.state.email, this.state.dCreate,
+                                                this.state.profilePic, this.state.userName, this.state.password)
+                                            Alert.alert('Thành công', "Xin chào, "+this.props.name+" Chúc bạn sử dụng ứng dụng vui vẻ!");
+                                            Actions.login({type:"reset"});
+                                        }}/>
                             <TouchableOpacity onPress={()=>{Actions.login({type:"reset"})}}>
                                 <Text>Quay lại</Text>
                             </TouchableOpacity>

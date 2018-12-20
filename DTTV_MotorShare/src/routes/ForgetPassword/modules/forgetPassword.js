@@ -8,9 +8,9 @@ import request from "../../../util/request";
 //Constants
 //--------------------
 const { 
-	SET_NAME,
-	GET_LOGIN_INFO,
-	SET_SELECTED_BOX
+    SET_NAME,
+    GET_EMAIL,
+    CHANGE_PASSWORD
 } = constants;
 
 const { width, height } = Dimensions.get("window");
@@ -41,19 +41,18 @@ export function setName(){
     }
 }
 
-//get Account info
-export function getLoginInfo(userName,password){
-	if(!userName||!password) return;
+//get Email info
+export function getEmail(email){
+	if(!email||email.indexOf("@")<1) return;
 	return(dispatch, store)=>{
-		request.get("http://"+myLocalHost+":3000/api/userlogin")
+		request.get("http://"+myLocalHost+":3000/api/userEmail")
 		.query({
-			userName:userName,
-			password:password
+			email:email
 		})
 		.finish((error, res)=>{
 			res&&
 				dispatch({
-					type:GET_LOGIN_INFO,
+					type:GET_EMAIL,
 					payload: res.body
 				});
 			error&& console.log(error);
@@ -61,13 +60,24 @@ export function getLoginInfo(userName,password){
 	};
 }
 
-//get selected box
-export function setSelectedBox(payload){
-	//if(store().home.inputData.pickUp||store().home.inputData.dropOff)
-	return{
-		type:SET_SELECTED_BOX,
-		payload
-	}
+//Update password
+export function setPassword(email, password){
+	if(!email||!password) return;
+	return(dispatch, store)=>{
+		request.put("http://"+myLocalHost+":3000/api/userEmail")
+		.query({
+			email:email,
+			password:password
+		})
+		.finish((error, res)=>{
+			res&&
+				dispatch({
+					type:CHANGE_PASSWORD,
+					payload: res.body
+				});
+			error&& console.log(error);
+		});	
+	};
 }
 
 //--------------------
@@ -81,34 +91,35 @@ function handleSetName(state, action){
     })
 }
 
-function handleGetLoginInfo(state, action){
-	return update(state,{
-        loginInfo:{
-			$set: action.payload
+function handleGetEmail(state, action){
+    return update(state,{
+        hasEmailAccount:{
+            $set:action.payload
         }
-	})
+    })
 }
 
-
-function handleSetSelectedBox(state, action){
-	return update(state, {
-		selectedBox:{
-			$set:action.payload
-		}
-	})
+function handleSetPassword(state, action){
+    return update(state,{
+        changedAccount:{
+            $set:action.payload
+        }
+    })
 }
+
 
 const ACTION_HANDLERS = {
-	SET_NAME:handleSetName,
-	GET_LOGIN_INFO: handleGetLoginInfo,
-	SET_SELECTED_BOX: handleSetSelectedBox
+    SET_NAME:handleSetName,
+    GET_EMAIL:handleGetEmail,
+    CHANGE_PASSWORD:handleSetPassword
 }
 const initialState = {
-	name:{}
+    name:{},
+    hasEmailAccount:{}
 	
 };
 
-export function LoginReducer (state = initialState, action){
+export function ForgetPasswordReducer (state = initialState, action){
     const handler = ACTION_HANDLERS[action.type];
 
     return handler ? handler(state, action) : state;

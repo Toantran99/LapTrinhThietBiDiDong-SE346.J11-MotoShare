@@ -45,6 +45,65 @@ router.get("/userlogin", function(req, res, next){
 	});
 });
 
+//Get user email
+router.get("/userEmail", function(req, res, next){
+    var io = req.app.io;
+	db.users.findOne({
+            "email":req.query.email
+		}, function(err, account){
+			if(err){
+                res.send(err);
+            }else{
+				res.send(account);
+            }
+    });
+});
+
+//Change user password
+router.put("/userEmail", function(req, res, next){
+    // db.users.ensureIndex({"coordinate":"2dsphere"});
+    var io = req.app.io;
+	db.users.findOne({
+            "email":req.query.email
+		}, function(err, account){
+			if(err){
+                res.send(err);
+            }else{
+                if(!account){
+                    res.json({
+                        error:"email null"
+                    });	
+                    return;
+                } 
+                
+				db.users.update({email: req.query.email},{ $set: { 
+                    account:{
+                        userName:account.account.userName,
+                        password: req.query.password
+                    }
+                }}, function(err, updatedUser){
+                if (err){
+                    res.send(err);
+                }
+                if (updatedUser){
+                    //Get Confirmed user
+                    db.users.findOne({email: req.query.email},function(error, confirmedUser){
+                        if (error){
+                            res.send(error);
+                        }
+                        res.send(confirmedUser);
+                        io.emit("action", {
+                            type:"USER_CHANGED_PASSWORD",
+                            payload:confirmedUser
+                        });
+                    });
+                }
+            }
+        )}
+    });
+});
+
+
 
 router.post("/users", function(req, res, next){
 	var user = req.body.data;
