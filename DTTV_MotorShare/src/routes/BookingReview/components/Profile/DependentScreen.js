@@ -44,10 +44,17 @@ export default class DependentScreen extends React.Component {
                                             addressStart={item.pickUp.address}
                                             destination={item.dropOff.address}
                                             time={item.time&& moment(day).format('LT')}
-                                            date={item.time&& moment(day).format('L')}
-                                            onRemovePress={()=>{alert('remove Item:'+ item._id);
-                                                this.props.setBookingStatus(item,"delete");
-                                                this.props.getBookingHistory();}}                            />
+                                            date={item.time&& moment(day).format('DD/MM/YYYY')}
+                                            onRemovePress={()=>{
+                                                var rx = this;
+                                                Alert.alert("Bạn có thực sự xóa chuyến đi này?","",
+                                                [
+                                                    {text: 'Cancel', onPress: () => {return;}, style: 'cancel'},
+                                                    {text: 'OK', onPress: () =>{rx.props.setBookingStatus(item,"delete");
+                                                                                rx.props.getBookingHistory();
+                                                                                Alert.alert('Đã xóa thành công!');} },
+                                                ])
+                                            }}/>
                         })
                     }
                 </ScrollView>

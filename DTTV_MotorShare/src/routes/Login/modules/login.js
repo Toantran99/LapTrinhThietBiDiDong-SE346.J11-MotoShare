@@ -43,8 +43,9 @@ export function setName(){
 
 //get Account info
 export function getLoginInfo(userName,password){
-	if(!userName||!password) return;
 	return(dispatch, store)=>{
+		if(!userName||!password) return;
+
 		request.get("http://"+myLocalHost+":3000/api/userlogin")
 		.query({
 			userName:userName,

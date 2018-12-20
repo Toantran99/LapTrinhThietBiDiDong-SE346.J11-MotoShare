@@ -49,7 +49,8 @@ export class BookingReview extends React.Component {
                         color: '#000000'
                     },
                 }
-                })
+                }),
+                historyGetted: false
         }
   }
   componentDidMount() {
@@ -60,15 +61,19 @@ export class BookingReview extends React.Component {
         return true;
     });
     this.props.setName();
-    rx.props.getAccountInfo();
-    setTimeout(function() {
-    //   rx.props.getAccountInfo();
-        rx.props.getBookingHistory();
-    }, 1000);
+
+    this.props.getAccountInfo();
+    console.log(this.props.accountInfo);
+    this.props.accountInfo&&
+        this.props.getBookingHistory(this.props.accountInfo.account.userName);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // var rx = this;
+    var rx = this;
+    if(this.props.accountInfo&&!this.state.historyGetted&& !this.props.bookingHistory){
+        this.props.getBookingHistory(this.props.accountInfo.account.userName);
+        this.setState({historyGetted:true});
+    }
     //Hàm xóa cục bộ để đỡ phải load lại
     // console.log(this.props.bookingStatus);
     // if(this.props.bookingStatus){

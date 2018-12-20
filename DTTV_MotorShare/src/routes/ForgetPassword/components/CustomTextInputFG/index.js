@@ -14,11 +14,11 @@ export default class CustomeInputText extends Component{
                 <View style={styles.txSection}>
                     <Icon name={this.props.IconName} size={16} color="#2699FB" />
                     <TextInput secureTextEntry={this.props.secure}
-                               placeholder={this.props.placeholder}
-                               placeholderTextColor={"#2699FB"}
-                               style={styles.textinputStyle}
-                               onChangeText={this.props.onChangeText}
-                               />
+                                placeholder={this.props.placeholder}
+                                placeholderTextColor={"#2699FB"}
+                                style={styles.textinputStyle}
+                                onChangeText={this.props.onChangeText}
+                                />
                 </View>
                 <View
                     style={styles.line}

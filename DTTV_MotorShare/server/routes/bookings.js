@@ -8,10 +8,13 @@ router.get("/bookings", function(req, res, next){
 	db.bookings.find(function(err, bookings){
 		if(err){
 			res.send(err);
-
+	
 		}
-		res.json(bookings);
+		res.json({user:req.query.userName,
+			bookings});
 	})
+	
+	
 }); 
 
 router.get("/bookings/:id", function(req, res, next){
@@ -29,7 +32,8 @@ router.get("/bookings/:id", function(req, res, next){
 router.get("/bookingHistory", function(req, res, next){
 	// db.bookings.ensureIndex({"coordinate":"2dsphere"});
 	db.bookings.find({
-			status:req.query.status
+			userName: req.query.userName
+			
 		}, function(err, history){
 			if(err){
 				res.send(err);

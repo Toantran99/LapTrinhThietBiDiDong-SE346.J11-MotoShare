@@ -44,11 +44,11 @@ export function setName(){
 }
 
 //get Account info
-export function getAccountInfo(id){
+export function getAccountInfo(){
 	return(dispatch, store)=>{
 		// console.log(store().login.loginInfo);
 		// console.log(id);
-		var ID = id?id:store().login.loginInfo[0]._id;
+		var ID = store().login.loginInfo&&store().login.loginInfo[0]._id||"5c1a7daa5d98602d3432bfda";
 		// console.log("id"+ID);
 
 		request.get("http://"+myLocalHost+":3000/api/users/"+ID)
@@ -64,14 +64,14 @@ export function getAccountInfo(id){
 }
 
 //get Booking history
-export function getBookingHistory(title){
-
-	var id =/*"u0000001";*/ "5c1300effb6fc04dd6ec86e1";
-	if(title){
+export function getBookingHistory(account){
+	console.log(account);
+	if(account){
 		return(dispatch, store)=>{
 			request.get("http://"+myLocalHost+":3000/api/bookingHistory")
 			.query({
-				status:title
+				// status:title,
+				userName:account
 			})
 			.finish((error, res)=>{
 				res&&
@@ -83,7 +83,9 @@ export function getBookingHistory(title){
 			});	
 		};
 	}
+
 	return(dispatch, store)=>{
+
 		request.get("http://"+myLocalHost+":3000/api/bookings")
 		.finish((error, res)=>{
 			res&&
@@ -191,8 +193,7 @@ const ACTION_HANDLERS = {
 	SET_SELECTED_BOX: handleSetSelectedBox
 }
 const initialState = {
-	name:{},
-	accountInfo:{}
+	name:{}
 	
 };
 

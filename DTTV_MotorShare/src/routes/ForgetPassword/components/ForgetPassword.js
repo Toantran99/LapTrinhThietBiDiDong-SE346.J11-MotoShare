@@ -9,7 +9,6 @@ import { Actions } from "react-native-router-flux";
 export default class ForgetPassword extends Component{
     constructor(props){
         super(props)
-
     }
 
     state={
@@ -18,19 +17,9 @@ export default class ForgetPassword extends Component{
         password2:""
     }
     componentDidMount(){
-        this.props.getEmail("a@g");
     }
-
-    handleInput(key, val){
-        console.log(key);
-		this.props.getEmail({
-			key,
-			value:val
-		});
-	}
     
     render(){
-
         return(
             <View style={{flex:1}}>
                 <View style={styles.header}>
@@ -41,9 +30,9 @@ export default class ForgetPassword extends Component{
                 <View style={styles.mainS}>
                     <View style={[styles.InputTextSection,{marginTop: 15+"%"}]}>
                         <CustomeInputText IconName={"mail-forward"} placeholder={"Nhập email của bạn"} 
-                            onChangeText={(e)=>{this.setState({ email: e });
-                                this.handleInput(this.state.email);
-                        }}/>
+                            onChangeText={(e)=>{this.setState({ email: e })
+                                this.props.getEmail(e);
+                            }}/>
                     </View>
                     <View style={styles.InputTextSection}>
                         <CustomeInputText IconName={"lock"} secure={true}  placeholder={"Nhập mật khẩu mới"} 
@@ -57,12 +46,14 @@ export default class ForgetPassword extends Component{
                 <View style={styles.bottomSection}>
                     <ButtonCustomFG title={"Xác nhận"} onPress={()=>{
                         if(this.state.email.indexOf("@")<1||
-                            this.state.password ==""||this.state.password!=this.state.password2){
+                            this.state.password ==""||this.state.password!=this.state.password2
+                            ||!this.props.hasEmailAccount){
                                 Alert.alert('Không thành công!', "Vui lòng kiểm tra lại thông tin");
                                 return;
                             }
                         // console.log(this.props.hasEmailAccount);
                         this.props.setPassword(this.state.email, this.state.password);
+                        Alert.alert('Thành công', 'Mật khẩu đã được thay đổi thành "hí hí hí"');
 
                     }}/>
                     <TouchableOpacity onPress={()=>{Actions.login({type:"reset"})}}>

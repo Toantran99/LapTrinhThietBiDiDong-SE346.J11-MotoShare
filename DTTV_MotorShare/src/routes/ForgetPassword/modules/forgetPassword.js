@@ -43,8 +43,8 @@ export function setName(){
 
 //get Email info
 export function getEmail(email){
-	if(!email||email.indexOf("@")<1) return;
 	return(dispatch, store)=>{
+	if(!email||email.indexOf("@")<1) return;
 		request.get("http://"+myLocalHost+":3000/api/userEmail")
 		.query({
 			email:email

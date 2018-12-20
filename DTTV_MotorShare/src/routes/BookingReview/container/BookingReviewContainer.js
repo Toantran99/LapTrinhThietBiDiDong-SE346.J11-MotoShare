@@ -10,7 +10,7 @@ import {
 
 const bookingReviewStateToProps = (state) => ({
     name: state.bookingReview.name||{},
-    accountInfo:state.bookingReview.accountInfo||{},
+    accountInfo:state.bookingReview.accountInfo,
     bookingHistory: state.bookingReview.bookingHistory||null,
     bookingStatus: state.bookingReview.bookingStatus||null
 });

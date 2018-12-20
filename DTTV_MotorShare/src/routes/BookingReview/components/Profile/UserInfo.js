@@ -1,23 +1,25 @@
 import React, {Component} from 'react'
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import moment from "moment";
 
 const UserInfo = ({accountInfo}) =>{
     //Vòng lặp render Số sao
     let star = [];
-    let numStar = accountInfo.rating||0; //số sao
+    let numStar = accountInfo&&accountInfo.rating||0; //số sao
     for(let i=0; i<numStar; i++){
         star.push(
             <Image key={i} source={require('../../../../assets/image/star.png')} style={{width: 10, height: 10, marginLeft: 4+"%", marginTop: 1.5+"%"}}/>
         )
     }
 
-    let accountAvatar = {uri: accountInfo.profilePic}||require('../../../../assets/image/user-default.png');
+    let accountAvatar = {uri: accountInfo&&accountInfo.profilePic}||require('../../../../assets/image/user-default.png');
     //Kết thúc Vòng lặp render Số sao      
     return(
         <View style={{width: 100+"%", height: 100+"%", flexDirection: 'row', backgroundColor: '#fff'}}>
             <View style={styles.avatarSection}>
                 <Image source={accountAvatar} style={styles.avatarStyle} />
             </View>
+            {accountInfo&&
             <View style={styles.infoTextSection}>
                 {accountInfo.name &&
                     <Text style={styles.InfoTextStyle}>{/*Tên người dùng:*/} {accountInfo.name}</Text>
@@ -35,9 +37,10 @@ const UserInfo = ({accountInfo}) =>{
                 </View>
                 }
                 {accountInfo.dCreate &&
-                    <Text style={styles.InfoTextStyle}>Ngày tham gia: {accountInfo.dCreate}</Text>
+                    <Text style={styles.InfoTextStyle}>Ngày tham gia: {moment(new Date(accountInfo.dCreate)).format('DD/MM/YYYY')}</Text>
                 }
             </View>
+            }
             <View style={styles.iconRightSection}>
                 <View style={styles.iconRight}>
                     <TouchableOpacity>

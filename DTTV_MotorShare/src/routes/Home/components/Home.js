@@ -44,13 +44,14 @@ export class Home extends React.Component {
           // BackHandler.removeEventListener('hardwareBackPress', function(){console.log("Home:delete press");
           //   return true;
           // });
+
           Actions.login({ type: "reset" });
         }
         return true;
     });
     // this.props.setName();
     // console.log(this.props.loginInfo._id);
-    this.props.getAccountInfo(null);
+    this.props.getAccountInfo();
     setTimeout(function() {
       rx.props.getNearByDrivers();
     }, 1000);
