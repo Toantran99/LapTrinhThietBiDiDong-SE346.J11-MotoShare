@@ -23,7 +23,7 @@ const {
 	GET_DISTANCE_DIRECTION,
 	GET_FARE,
 	BOOK_CAR,
-	CANCEL_BOOK_CAR,
+	CHANGE_BOOKING_STATUS,
 	GET_NEARBY_DRIVERS,
 	GET_NEARBY_BOOKINGS
 } = constants;
@@ -76,8 +76,9 @@ export function getCurrentLocation(){
 						payload:position
 					});
 					isPositionChanged = true;
-					console.log(store().login.loginInfo[0]._id);
-					request.put("http://"+myLocalHost+":3000/api/user/"+store().login.loginInfo[0]._id)
+					// console.log(store().login.loginInfo._id);
+					let myId=store().login.loginInfo?store().login.loginInfo._id:"5c1300effb6fc04dd6ec86e1";
+					request.put("http://"+myLocalHost+":3000/api/user/"+myId)
 					.query({
 						latitude: position.coords.latitude,
                     	longitude: position.coords.longitude
@@ -283,31 +284,28 @@ export function bookCar(time){
 	};
 }
 
-//Cancel book car
-export function cancelBookCar(){
+//Change booking status
+export function changeBookingStatus(booking, status, changerId){
 	
 	return (dispatch, store)=>{
-		// const nearByDrivers = store().home.nearByDrivers;
-		// var choose = Math.floor(Math.random() * nearByDrivers.length);
-		// console.log(choose);
-		// const nearByDriver = nearByDrivers[choose];
-		var payload = store().home.booking;
-		payload.status="cancelled";
+		// var payload = store().home.booking;
+		// var payload = booking;
 
 		var dataToSend = {
-			"id": payload._id,
-			"status": payload.status,
+			oldInfo: booking,
+			"status": status,
+			"changer": changerId
 		};
 
-		request.put("http://"+myLocalHost+":3000/api/bookings/"+payload._id)
+		request.put("http://"+myLocalHost+":3000/api/changeBooking/"+booking._id)
 		.send(dataToSend)
 		.finish((error, res)=>{
 			dispatch({
-				type:CANCEL_BOOK_CAR,
+				type:CHANGE_BOOKING_STATUS,
 				payload:res.body
 			});
 			console.log(error);
-		 });
+		});
 	}
 }
 
@@ -343,6 +341,7 @@ export function getNearByBookings(){
 		// if(!store().home.region||!store().home.region.latitude) return;
 		request.get("http://"+myLocalHost+":3000/api/bookingLocation")
 		.query({
+			userName:store().login.loginInfo?store().login.loginInfo.account.userName:"bdtren",
 			latitude:store().home.region.latitude,
 			longitude:store().home.region.longitude	
 		})
@@ -523,7 +522,7 @@ function handleBookCar(state, action){
 	})
 }
 //handle cancel book car
-function handleCancelBookCar(state, action){
+function handleChangeBookingStatus(state, action){
 	return update(state, {
 		booking:{
 			$set:action.payload
@@ -572,7 +571,7 @@ const ACTION_HANDLERS = {
 	GET_DISTANCE_DIRECTION:handleGetDistanceDirection,
 	GET_FARE:handleGetFare,
 	BOOK_CAR:handleBookCar,
-	CANCEL_BOOK_CAR:handleCancelBookCar,
+	CHANGE_BOOKING_STATUS:handleChangeBookingStatus,
 	GET_NEARBY_DRIVERS:handleGetNearbyDrivers,
 	GET_NEARBY_BOOKINGS:handleGetNearbyBookings,
 	BOOKING_CONFIRMED:handleConfirmBooking

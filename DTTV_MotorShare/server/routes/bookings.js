@@ -50,17 +50,18 @@ router.get("/bookingHistory", function(req, res, next){
 
 //Get nearby waiting booking
 router.get("/bookingLocation", function(req, res, next){
-	db.bookings.ensureIndex({"coordinate":"2d"});
+	db.bookings.ensureIndex({"pickUp.coordinates":"2d"});
 	db.bookings.find({
-			"pickUp":{
-				"coordinates":{"$near": [parseFloat(req.query.longitude), parseFloat(req.query.latitude)],
-				"$maxDistance":10000
-					},
+			"userName":{"$ne": req.query.userName},
+			"status":"pending",
+			"pickUp.coordinates":{
+				$geoWithin :{ 
+					$center : [ [parseFloat(req.query.longitude), parseFloat(req.query.latitude)] , 1 ]
+                }
 			}
 		}, function(err, location){
 			if(err){
 				res.send(err);
-
 			}else{
 				res.send(location);
 			}
@@ -148,6 +149,30 @@ router.put("/bookings/:id", function(req, res, next){
                     payload:confirmedBooking
                 });
             });
+        }
+    });
+    }
+});
+
+//Confirm booking
+router.put("/changeBooking/:id", function(req, res, next){
+    // var io = req.app.io;
+    var oldInfo = req.body.oldInfo;
+    if (!oldInfo){
+        res.status(400);
+        res.json({
+            "error":"Bad Data"
+        });
+    } else {
+        db.bookings.update({_id: mongojs.ObjectId(req.params.id)},{ $set: { 
+        	driverId: req.body.changer,
+        	status: req.body.status
+        }}, function(err, updatedBooking){
+        if (err){
+            res.send(err);
+        }
+        if (updatedBooking){
+			res.send(updatedBooking);
         }
     });
     }

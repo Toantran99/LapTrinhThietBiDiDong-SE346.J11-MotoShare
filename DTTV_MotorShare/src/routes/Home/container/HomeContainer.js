@@ -12,7 +12,7 @@ import {
     getSelectedAddress,
     setSelectedBox,
     bookCar,
-    cancelBookCar,
+    changeBookingStatus,
     getNearByDrivers,
     getNearByBookings
 } from "../modules/home";
@@ -49,7 +49,7 @@ const mapActionCreators = {
     getSelectedAddress,
     setSelectedBox,
     bookCar,
-    cancelBookCar,
+    changeBookingStatus,
     getNearByDrivers,
     getNearByBookings,
     getAccountInfo

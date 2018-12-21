@@ -41,8 +41,8 @@ export default class DependentScreen extends React.Component {
                         data.map((item)=>{
                             let day = item.time&&new Date(item.time);
                             return<ListItem key={item._id}
-                                            addressStart={item.pickUp.address}
-                                            destination={item.dropOff.address}
+                                            addressStart={item.pickUp.name}
+                                            destination={item.dropOff.name}
                                             time={item.time&& moment(day).format('LT')}
                                             date={item.time&& moment(day).format('DD/MM/YYYY')}
                                             onRemovePress={()=>{

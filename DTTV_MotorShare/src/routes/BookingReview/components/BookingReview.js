@@ -36,10 +36,10 @@ export class BookingReview extends React.Component {
             AppNavigator : createMaterialTopTabNavigator({
                 Booking: {screen: ()=><BookingScreen getBookingHistory={this.props.getBookingHistory} 
                 bookingHistory={this.props.bookingHistory}  
-                setBookingStatus={this.props.setBookingStatus} />, navigationOptions:{tabBarLabel:'Đặt chuyến'} },
+                setBookingStatus={this.props.setBookingStatus} />, navigationOptions:{tabBarLabel:'Đang chờ'} },
                 Dependent: {screen: ()=><DependentScreen getBookingHistory={this.props.getBookingHistory} 
                 bookingHistory={this.props.bookingHistory}
-                setBookingStatus={this.props.setBookingStatus} />, navigationOptions:{tabBarLabel:'Đi nhờ'}}
+                setBookingStatus={this.props.setBookingStatus} />, navigationOptions:{tabBarLabel:'Được xác nhận'}}
                 },{
                 tabBarOptions: {
                     style: {

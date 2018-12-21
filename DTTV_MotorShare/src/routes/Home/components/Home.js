@@ -110,6 +110,8 @@ export class Home extends React.Component {
               carMarker={carMarker}
               // nearByDrivers={this.props.nearByDrivers}
               nearByBookings={this.props.nearByBookings}
+              loginInfo={this.props.loginInfo}
+              changeBookingStatus={this.props.changeBookingStatus}
             />
             <Fab isAddressSelected={this.props.selectedAddress.selectedPickUp
                               &&this.props.selectedAddress.selectedDropOff?true:false}
@@ -121,7 +123,7 @@ export class Home extends React.Component {
         {/* )) || (
           <FindDriver
             selectedAddress={this.props.selectedAddress}
-            onPressCancelAction={() => this.props.cancelBookCar()}
+            onPressCancelAction={() => this.props.changeBookingStatus(this.props.booking, "cancelled", this.props.loginInfo._id)}
           />
         )} */}
       </Container>

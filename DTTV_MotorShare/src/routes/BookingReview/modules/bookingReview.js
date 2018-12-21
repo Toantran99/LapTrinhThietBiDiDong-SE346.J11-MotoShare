@@ -48,7 +48,7 @@ export function getAccountInfo(){
 	return(dispatch, store)=>{
 		// console.log(store().login.loginInfo);
 		// console.log(id);
-		var ID = store().login.loginInfo&&store().login.loginInfo[0]._id||"5c1a7daa5d98602d3432bfda";
+		var ID = store().login.loginInfo&&store().login.loginInfo._id||"5c1a7daa5d98602d3432bfda";
 		// console.log("id"+ID);
 
 		request.get("http://"+myLocalHost+":3000/api/users/"+ID)

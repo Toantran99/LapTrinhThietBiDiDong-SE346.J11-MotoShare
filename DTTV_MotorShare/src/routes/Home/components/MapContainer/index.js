@@ -1,7 +1,8 @@
 import React from "react";
-import {Dimensions, NativeModules} from "react-native";
+import {Dimensions, NativeModules, TouchableOpacity, Text, Alert} from "react-native";
 import { View } from "native-base";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import moment from "moment";
 
 import styles from "./MapContainerStyles.js";
 import SearchBox from "../SearchBox";
@@ -21,7 +22,9 @@ export const MapContainer = ({
 		distanceDirection,
 		carMarker,
 		// nearByDrivers,
-		nearByBookings
+		nearByBookings,
+		loginInfo,
+		changeBookingStatus
 	})=>{
 
 	const { selectedPickUp, selectedDropOff } = selectedAddress || {};
@@ -108,13 +111,45 @@ export const MapContainer = ({
 				)
 			} */}
 			{
-				nearByBookings && nearByBookings.map &&nearByBookings.map((marker, index)=>
-					<MapView.Marker
+				nearByBookings && nearByBookings.map &&nearByBookings.map((marker, index)=>{
+					let day = marker.time&&new Date(marker.time);
+					return <MapView.Marker
 						key={index}
 						coordinate={{latitude:marker.pickUp.coordinates[1], longitude:marker.pickUp.coordinates[0] }}
-						image={carMarker}
+						image={marker.profilePic?{uri:marker.profilePic}:carMarker}
 						title={marker._id}
-					/>	
+						onCalloutPress={() => {
+							if(!loginInfo.verhicle){
+								alert("Có xe đâu mà đòi chở người ta -_-");
+								return;
+							}
+							Alert.alert("Bạn sẽ đồng ý cho người này quá giang?","",
+                                                [
+                                                    {text: 'Cancel', onPress: () => {return;}, style: 'cancel'},
+                                                    {text: 'OK', onPress: () =>{changeBookingStatus(marker, "Confirmed", loginInfo._id)
+                                                                                } },
+                                                ])
+							}}
+					>
+					    <MapView.Callout>
+							<Text>
+								userName: {marker.userName}
+							</Text>
+							<Text>
+							từ: "{marker.pickUp.name}" đến:"{marker.dropOff.name}"
+							</Text>
+							<Text>
+								thời gian: {moment(day).format('DD/MM/YYYY')} lúc: {moment(day).format('LT')}
+							</Text>
+								<TouchableOpacity onPress={()=>alert("tpes")}>
+									<Text>{"<Nhấn để đồng ý>"}</Text>
+								</TouchableOpacity>
+							
+							
+						</MapView.Callout>
+						
+					</MapView.Marker>	
+				}
 				)
 			}
 			</MapView>

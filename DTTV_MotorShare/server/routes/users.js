@@ -34,7 +34,7 @@ router.get("/users/:id", function(req, res, next){
 //Check user account
 router.get("/userlogin", function(req, res, next){
 	// db.users.ensureIndex({"coordinate":"2dsphere"});
-	db.users.find({
+	db.users.findOne({
 			"account":{
                 "userName":req.query.userName,
                 "password":req.query.password		
