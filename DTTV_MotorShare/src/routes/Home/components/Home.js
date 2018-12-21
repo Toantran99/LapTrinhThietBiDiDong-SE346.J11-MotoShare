@@ -54,6 +54,7 @@ export class Home extends React.Component {
     this.props.getAccountInfo();
     setTimeout(function() {
       rx.props.getNearByDrivers();
+      rx.props.getNearByBookings();
     }, 1000);
   }
 
@@ -68,6 +69,7 @@ export class Home extends React.Component {
     var rx = this;
     setTimeout(function() {
       rx.props.getNearByDrivers();
+      rx.props.getNearByBookings();
     }, 1000);
 
   }
@@ -106,7 +108,8 @@ export class Home extends React.Component {
               selectedAddress={this.props.selectedAddress}
               distanceDirection={this.props.distanceDirection}
               carMarker={carMarker}
-              nearByDrivers={this.props.nearByDrivers}
+              // nearByDrivers={this.props.nearByDrivers}
+              nearByBookings={this.props.nearByBookings}
             />
             <Fab isAddressSelected={this.props.selectedAddress.selectedPickUp
                               &&this.props.selectedAddress.selectedDropOff?true:false}

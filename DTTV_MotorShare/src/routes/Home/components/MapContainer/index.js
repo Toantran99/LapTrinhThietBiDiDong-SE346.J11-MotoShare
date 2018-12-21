@@ -20,7 +20,8 @@ export const MapContainer = ({
 		selectedAddress,
 		distanceDirection,
 		carMarker,
-		nearByDrivers
+		// nearByDrivers,
+		nearByBookings
 	})=>{
 
 	const { selectedPickUp, selectedDropOff } = selectedAddress || {};
@@ -96,11 +97,21 @@ export const MapContainer = ({
 					/>	
 				}
 
-		  	{
+		  	{/* {
 				nearByDrivers && nearByDrivers.map &&nearByDrivers.map((marker, index)=>
 					<MapView.Marker
 						key={index}
 						coordinate={{latitude:marker.coordinate.coordinates[1], longitude:marker.coordinate.coordinates[0] }}
+						image={carMarker}
+						title={marker._id}
+					/>	
+				)
+			} */}
+			{
+				nearByBookings && nearByBookings.map &&nearByBookings.map((marker, index)=>
+					<MapView.Marker
+						key={index}
+						coordinate={{latitude:marker.pickUp.coordinates[1], longitude:marker.pickUp.coordinates[0] }}
 						image={carMarker}
 						title={marker._id}
 					/>	

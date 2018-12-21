@@ -4,6 +4,9 @@ var mongojs = require("mongojs");
 
 var db = mongojs("mongodb://bdtren:123Ren@ds163181.mlab.com:63181/se346_tutor", ["bookings"]);
 
+//----------------------------------
+//GET
+//----------------------------------
 router.get("/bookings", function(req, res, next){
 	db.bookings.find(function(err, bookings){
 		if(err){
@@ -45,6 +48,29 @@ router.get("/bookingHistory", function(req, res, next){
 
 });
 
+//Get nearby waiting booking
+router.get("/bookingLocation", function(req, res, next){
+	db.bookings.ensureIndex({"coordinate":"2d"});
+	db.bookings.find({
+			"pickUp":{
+				"coordinates":{"$near": [parseFloat(req.query.longitude), parseFloat(req.query.latitude)],
+				"$maxDistance":10000
+					},
+			}
+		}, function(err, location){
+			if(err){
+				res.send(err);
+
+			}else{
+				res.send(location);
+			}
+	});
+});
+
+//----------------------------------
+//CREATE
+//----------------------------------
+
 router.post("/bookings", function(req, res, next){
 	var booking = req.body.data;
 	var nearByDriver = req.body.nearByDriver;
@@ -56,6 +82,8 @@ router.post("/bookings", function(req, res, next){
 			error:"Bad data"
 		});	
 	} else {
+		booking.pickUp.coordinates = [parseFloat(booking.pickUp.coordinates[0]),parseFloat(booking.pickUp.coordinates[1])];
+		booking.dropOff.coordinates = [parseFloat(booking.dropOff.coordinates[0]),parseFloat(booking.dropOff.coordinates[1])];
 		db.bookings.save(booking, function(err, savedBooking){
 			if(err){
 				res.send(err);
@@ -70,6 +98,10 @@ router.post("/bookings", function(req, res, next){
 	}
 });
 
+//----------------------------------
+//DELETE
+//----------------------------------
+
 //Delete a single booking by ID
 router.delete("/bookings/:id", function(req, res, next){
 	var io = req.app.io;
@@ -82,6 +114,10 @@ router.delete("/bookings/:id", function(req, res, next){
         io.emit("deletingInfo", deletingInfo);
     });
 });
+
+//----------------------------------
+//UPDATE
+//----------------------------------
 
 // Driver Update Booking done on driver side
 router.put("/bookings/:id", function(req, res, next){

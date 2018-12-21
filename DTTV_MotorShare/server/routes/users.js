@@ -4,6 +4,10 @@ var mongojs = require("mongojs");
 
 var db = mongojs("mongodb://bdtren:123Ren@ds163181.mlab.com:63181/se346_tutor", ["users"]);
 
+//----------------------------------
+//GET
+//----------------------------------
+
 //get all user
 router.get("/users", function(req, res, next){
 	db.users.find(function(err, users){
@@ -45,6 +49,47 @@ router.get("/userlogin", function(req, res, next){
 	});
 });
 
+//Get user email
+router.get("/userEmail", function(req, res, next){
+    var io = req.app.io;
+	db.users.findOne({
+            "email":req.query.email
+		}, function(err, account){
+			if(err){
+                res.send(err);
+            }else{
+				res.send(account);
+            }
+    });
+});
+
+//get nearby user
+router.get("/userLocation", function(req, res, next){
+	db.users.ensureIndex({"coordinate":"2dsphere"});
+	db.users.find({
+			"coordinate":{
+				"$near":{
+					"$geometry":{
+						"type":"Point",
+						"coordinates": [parseFloat(req.query.longitude), parseFloat(req.query.latitude)]
+					},
+					"$maxDistance":10000
+				}
+			}
+		}, function(err, location){
+			if(err){
+				res.send(err);
+
+			}else{
+				res.send(location);
+			}
+	});
+});
+
+//----------------------------------
+//UPDATE
+//----------------------------------
+
 //Update user Info by query
 router.put("/user/:id", function(req, res, next){
 	// db.users.ensureIndex({"coordinate":"2dsphere"});
@@ -74,8 +119,15 @@ router.put("/user/:id", function(req, res, next){
                 "location": {
                     "latitude": req.query.latitude||userInfo.location.latitude,
                     "longitude": req.query.longitude||userInfo.location.longitude,
+                },
+                "coordinate": {
+                    "type": "Point",
+                    "coordinates": [
+                        parseFloat(req.query.latitude||userInfo.location.longitude),
+                        parseFloat(req.query.longitude||userInfo.location.latitude)
+                    ]
                 }, 
-                "verhicle":eq.query.verhicle||userInfo.verhicle
+                "verhicle":req.query.verhicle||userInfo.verhicle
             }}, function(err, updatedUser){
             if (err){
                 res.send(err);
@@ -95,19 +147,6 @@ router.put("/user/:id", function(req, res, next){
     });
 });
 
-//Get user email
-router.get("/userEmail", function(req, res, next){
-    var io = req.app.io;
-	db.users.findOne({
-            "email":req.query.email
-		}, function(err, account){
-			if(err){
-                res.send(err);
-            }else{
-				res.send(account);
-            }
-    });
-});
 
 //Change user password
 router.put("/userEmail", function(req, res, next){
@@ -153,28 +192,6 @@ router.put("/userEmail", function(req, res, next){
     });
 });
 
-
-
-router.post("/users", function(req, res, next){
-	var user = req.body.data;
-	var io = req.app.io;
-	
-	if(!user.name){
-		res.status(400);
-		res.json({
-			error:"Bad data"
-		});	
-	} else {
-		db.users.save(user, function(err, savedUser){
-			if(err){
-				res.send(err);
-			}
-			res.json(savedUser);
-			io.emit("SignUp", savedUser);
-		});
-	}
-});
-
 // Driver Update user done on driver side
 router.put("/users/:id", function(req, res, next){
     var io = req.app.io;
@@ -207,6 +224,31 @@ router.put("/users/:id", function(req, res, next){
         }
     });
     }
+});
+
+
+//----------------------------------
+//CREATE
+//----------------------------------
+
+router.post("/users", function(req, res, next){
+	var user = req.body.data;
+	var io = req.app.io;
+	
+	if(!user.name){
+		res.status(400);
+		res.json({
+			error:"Bad data"
+		});	
+	} else {
+		db.users.save(user, function(err, savedUser){
+			if(err){
+				res.send(err);
+			}
+			res.json(savedUser);
+			io.emit("SignUp", savedUser);
+		});
+	}
 });
 
 

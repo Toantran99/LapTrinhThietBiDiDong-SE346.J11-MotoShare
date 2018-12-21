@@ -24,7 +24,8 @@ const {
 	GET_FARE,
 	BOOK_CAR,
 	CANCEL_BOOK_CAR,
-	GET_NEARBY_DRIVERS
+	GET_NEARBY_DRIVERS,
+	GET_NEARBY_BOOKINGS
 } = constants;
 
 const { width, height } = Dimensions.get("window");
@@ -75,8 +76,8 @@ export function getCurrentLocation(){
 						payload:position
 					});
 					isPositionChanged = true;
-					console.log(store().bookingReview.accountInfo._id);
-					request.put("http://"+myLocalHost+":3000/api/user/"+store().bookingReview.accountInfo._id)
+					console.log(store().login.loginInfo[0]._id);
+					request.put("http://"+myLocalHost+":3000/api/user/"+store().login.loginInfo[0]._id)
 					.query({
 						latitude: position.coords.latitude,
                     	longitude: position.coords.longitude
@@ -145,13 +146,14 @@ export function setSelectedBox(payload){
 }
 
 //get selected address
+// transforms something like this geocFltrhVvDsEtA}ApSsVrDaEvAcBSYOS_@... to an array of coordinates
 var decode = (t,e)=>{
 	if(!t) return;
 	for(var n,o,u=0,l=0,r=0,d= [],h=0,i=0,a=null,c=Math.pow(10,e||5);u<t.length;)
 		{a=null,h=0,i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);n=1&i?~(i>>1):i>>1,h=i=0;do a=t.charCodeAt(u++)-63,i|=(31&a)<<h,h+=5;while(a>=32);o=1&i?~(i>>1):i>>1,l+=n,r+=o,d.push([l/c,r/c])}
 		return d=d.map(function(t)
 		{return{latitude:t[0],longitude:t[1]}})};
-// transforms something like this geocFltrhVvDsEtA}ApSsVrDaEvAcBSYOS_@... to an array of coordinates
+//main function get selected address
 export function getSelectedAddress(payload){
 	const dummyNumbers ={
 		baseFare:0.4,
@@ -240,18 +242,20 @@ export function bookCar(time){
 		const nearByDriver = Drivers[choose];
 		const payload = {
 			data:{
-				userName:"bdtren",
+				userName:store().bookingReview.accountInfo.account.userName,
 				pickUp:{
 					address:store().home.selectedAddress.selectedPickUp.address,
 					name:store().home.selectedAddress.selectedPickUp.name,
-					latitude:store().home.selectedAddress.selectedPickUp.latitude,
-					longitude:store().home.selectedAddress.selectedPickUp.longitude
+					coordinates:[parseFloat(store().home.selectedAddress.selectedPickUp.longitude),
+								parseFloat(store().home.selectedAddress.selectedPickUp.latitude)
+					]
 				},
 				dropOff:{
 					address:store().home.selectedAddress.selectedDropOff.address,
 					name:store().home.selectedAddress.selectedDropOff.name,
-					latitude:store().home.selectedAddress.selectedDropOff.latitude,
-					longitude:store().home.selectedAddress.selectedDropOff.longitude
+					coordinates:[parseFloat(store().home.selectedAddress.selectedDropOff.longitude),
+								parseFloat(store().home.selectedAddress.selectedDropOff.latitude)
+					]
 				},
 				fare:store().home.fare,
 				time: time.toString(),
@@ -264,7 +268,7 @@ export function bookCar(time){
 				longitude:nearByDriver.coordinate.coordinates[0]
 			}
 		};
-		console.log("sending");
+		console.log(payload);
 		request.post("http://"+myLocalHost+":3000/api/bookings")
 		.send(payload)
 		.finish((error, res)=>{
@@ -323,6 +327,30 @@ export function getNearByDrivers(){
 			res&&
 				dispatch({
 					type:GET_NEARBY_DRIVERS,
+					payload:res.body
+				});
+			isPositionChanged = false;
+			error&& console.log(error);
+
+		});
+	};
+}
+
+//get nearby bookings
+export function getNearByBookings(){
+	return(dispatch, store)=>{
+		if(!isPositionChanged) return;
+		// if(!store().home.region||!store().home.region.latitude) return;
+		request.get("http://"+myLocalHost+":3000/api/bookingLocation")
+		.query({
+			latitude:store().home.region.latitude,
+			longitude:store().home.region.longitude	
+		})
+		.finish((error, res)=>{
+			// if(res && JSON.stringify(res.body)!=JSON.stringify(store().home.nearByDrivers))
+			res&&
+				dispatch({
+					type:GET_NEARBY_BOOKINGS,
 					payload:res.body
 				});
 			isPositionChanged = false;
@@ -513,6 +541,15 @@ function handleGetNearbyDrivers(state, action){
 	});
 }
 
+//handle get nearby booking
+function handleGetNearbyBookings(state, action){
+	return update(state, {
+		nearByBookings:{
+			$set:action.payload
+		}
+	});
+}
+
 //handle confirm from driver
 function handleConfirmBooking(state, action){
 	return update(state,{
@@ -537,6 +574,7 @@ const ACTION_HANDLERS = {
 	BOOK_CAR:handleBookCar,
 	CANCEL_BOOK_CAR:handleCancelBookCar,
 	GET_NEARBY_DRIVERS:handleGetNearbyDrivers,
+	GET_NEARBY_BOOKINGS:handleGetNearbyBookings,
 	BOOKING_CONFIRMED:handleConfirmBooking
 }
 const initialState = {

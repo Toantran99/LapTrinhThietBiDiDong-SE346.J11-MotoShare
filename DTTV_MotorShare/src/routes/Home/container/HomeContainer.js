@@ -13,7 +13,8 @@ import {
     setSelectedBox,
     bookCar,
     cancelBookCar,
-    getNearByDrivers
+    getNearByDrivers,
+    getNearByBookings
 } from "../modules/home";
 import{
     getAccountInfo
@@ -33,7 +34,9 @@ const mapStateToProps = (state) => ({
     distanceDirection:state.home.distanceDirection,
     fare:state.home.fare,
     booking:state.home.booking || {},
-    nearByDrivers:state.home.nearByDrivers || []
+    nearByDrivers:state.home.nearByDrivers || [],
+    nearByBookings:state.home.nearByBookings || []
+    
 });
 
 const mapActionCreators = {
@@ -48,6 +51,7 @@ const mapActionCreators = {
     bookCar,
     cancelBookCar,
     getNearByDrivers,
+    getNearByBookings,
     getAccountInfo
 };
 export default connect(mapStateToProps, mapActionCreators)(Home);
