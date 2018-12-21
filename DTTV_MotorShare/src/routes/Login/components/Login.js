@@ -33,8 +33,8 @@ export default class Login extends Component{
 
     render(){
         return(
-            <ImageBackground style={{flex:1}} source={require('../../../assets/image/traveling.jpeg')}>
-                {/* <StatusBar  hidden /> */}
+            <ImageBackground style={{flex:1}} source={require('../../../assets/image/login_register_bg.png')}>
+                <StatusBar backgroundColor={'#4A41C1'} />
                 <View style={styles.textSection}>
                     <View style={[{height: 26 }, styles.sectionText]}>
                         <Text style={[{fontSize:19}, styles.textS]}>Hãy gia nhập</Text>
@@ -45,7 +45,7 @@ export default class Login extends Component{
                 </View>
                 <View style={styles.form}>
                     <View style={styles.inputSection}>
-                        <TextInput style={styles.inputStyle} placeholder={"Tên đăng nhập"} onChangeText={(uname)=>{
+                        <TextInput style={styles.inputStyle} placeholder={"Tên đăng nhập"} placeholderTextColor={'rgba(255, 255, 255, 0.85)'} onChangeText={(uname)=>{
                                 this.setState({ userName: uname })
                                 var rx = this;
 
@@ -56,7 +56,7 @@ export default class Login extends Component{
                         } underlineColorAndroid="transparent" />
                     </View>
                     <View style={[styles.inputSection, {marginTop: 2+"%"}]}>
-                        <TextInput secureTextEntry={true} style={styles.inputStyle} placeholder={"Mật khẩu"} onChangeText={(pwd)=>{this.setState({ password: pwd })
+                        <TextInput secureTextEntry={true} style={styles.inputStyle} placeholderTextColor={'rgba(255, 255, 255, 0.85)'} placeholder={"Mật khẩu"} onChangeText={(pwd)=>{this.setState({ password: pwd })
                             var rx = this;
 
                             setTimeout(function() {
@@ -93,7 +93,7 @@ export default class Login extends Component{
                     <View style={styles.childcreateAcc}>
                         <Text style={styles.textCreateAcc}>Bạn chưa có tài khoản?</Text>
                         <TouchableOpacity onPress={()=>{Actions.register({type:"reset"})}}>
-                            <Text style={[styles.textCreateAcc, {marginLeft: 10}]}>Tạo tài khoản</Text>
+                            <Text style={[styles.textCreateAcc, {marginLeft: 10, fontWeight:'bold'}]}>Tạo tài khoản</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
