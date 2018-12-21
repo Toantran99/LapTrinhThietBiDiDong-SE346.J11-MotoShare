@@ -55,9 +55,12 @@ export default class BookingScreen extends React.Component {
                                                 [
                                                     {text: 'Cancel', onPress: () => {return;}, style: 'cancel'},
                                                     {text: 'OK', onPress: () =>{rx.props.setBookingStatus(item,"delete");
-                                                                                rx.props.getBookingHistory();
+                                                                                var pos = data.indexOf(item._id);
+                                                                                if(pos>-1)
+                                                                                    data.splice(pos,1);
                                                                                 Alert.alert('Đã xóa thành công!');} },
                                                 ])
+                                                this.props.getBookingHistory();
                                             }}/>
                         })
                     }

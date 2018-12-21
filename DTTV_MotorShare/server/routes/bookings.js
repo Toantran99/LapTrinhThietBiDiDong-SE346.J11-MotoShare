@@ -2,7 +2,8 @@ var express = require("express");
 var router = express.Router();
 var mongojs = require("mongojs");
 
-var db = mongojs("mongodb://bdtren:123Ren@ds163181.mlab.com:63181/se346_tutor", ["bookings"]);
+// var db = mongojs("mongodb://bdtren:123Ren@ds163181.mlab.com:63181/se346_tutor", ["bookings"]);
+var db = mongojs("mongodb://bdtren:123Ren@ds163181.mlab.com:63181/se346_tutor");
 
 //----------------------------------
 //GET
@@ -51,7 +52,8 @@ router.get("/bookingHistory", function(req, res, next){
 //Get nearby waiting booking
 router.get("/bookingLocation", function(req, res, next){
 	db.bookings.ensureIndex({"pickUp.coordinates":"2d"});
-	db.bookings.find({
+	db.bookings.aggregate([
+		{$match:{
 			"userName":{"$ne": req.query.userName},
 			"status":"pending",
 			"pickUp.coordinates":{
@@ -59,7 +61,23 @@ router.get("/bookingLocation", function(req, res, next){
 					$center : [ [parseFloat(req.query.longitude), parseFloat(req.query.latitude)] , 0.1 ]
                 }
 			}
-		}, function(err, location){
+		}},
+		{$lookup: {
+			from: "users",
+			let:{userName:"$userName"},
+			pipeline:[
+				{$match:
+					{$expr:
+						{ $eq: [ "$account.userName",  "$$userName" ] }
+					}
+				},
+				{$project: {account:0, email:0}}
+			],
+			as: "account"
+		}}
+
+			
+	], function(err, location){
 			if(err){
 				res.send(err);
 			}else{
@@ -189,3 +207,34 @@ module.exports = router;
 // router.get("/bookings", function(req, res, next){
 // 	res.send("BOOKINGS")
 // }); 
+
+
+
+// {$lookup: {
+// 	from: "users",
+// 	let:{userName:"userName"},
+// 	pipeline:[
+// 		{$match:
+// 			{$expr:
+// 				{ $eq: [ "$userName",  "$$userName" ] }
+// 			}
+// 		},
+// 		{$project: {account:0, email:0}}
+// 	],
+// 	as: "account"
+// }}
+
+// {$match:{
+// 	"userName":{"$ne": req.query.userName},
+// 	"status":"pending",
+// 	"pickUp.coordinates":{
+// 		$geoWithin :{ 
+// 			$center : [ [parseFloat(req.query.longitude), parseFloat(req.query.latitude)] , 0.1 ]
+// 		}
+// 	}
+// }},
+// {$lookup: {from: "users",localField: "userName",foreignField: "account.userName",as: "Account"}},
+// {$project : {
+// 	userName:1,
+// 	Account:{ "$arrayElemAt": [ "$Account", 0 ], account:0 } 
+// }}

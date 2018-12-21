@@ -27,6 +27,7 @@ var ScreenHeight = Dimensions.get("window").height; //full height
 
 const myLogo = require("../../../assets/img.jpg");
 const carMarker = require("../../../assets/Linux-Avatar.png");
+const destMarker = require("../../../assets/image/Down_Arrow.png");
 
 
 export class Home extends React.Component {
@@ -108,6 +109,7 @@ export class Home extends React.Component {
               selectedAddress={this.props.selectedAddress}
               distanceDirection={this.props.distanceDirection}
               carMarker={carMarker}
+              destMarker={destMarker}
               // nearByDrivers={this.props.nearByDrivers}
               nearByBookings={this.props.nearByBookings}
               loginInfo={this.props.loginInfo}
@@ -115,7 +117,7 @@ export class Home extends React.Component {
             />
             <Fab isAddressSelected={this.props.selectedAddress.selectedPickUp
                               &&this.props.selectedAddress.selectedDropOff?true:false}
-              onPressAction={(time) => {this.props.bookCar(time)}} />
+              onPressAction={(time) => {this.props.bookCar(time); alert("đặt chuyến thành công!")}} />
             {this.props.fare && 
             <Fare fare={this.props.fare} />}
             {/* <FooterComponent /> */}
