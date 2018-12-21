@@ -3,6 +3,7 @@ import {View, Text, StyleSheet,StatusBar,ScrollView, ImageBackground, Dimensions
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Actions } from "react-native-router-flux";
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import moment from "moment";
 import styles from './RegisterStyle';
 
@@ -99,13 +100,18 @@ export default class Register extends Component{
         rating: "5",
         dCreate: new Date(),
         profilePic: null,
+        vehicle: false,
 
         userName: "",
         password: "",
         password2: ""
     }
-
+    
     render(){
+        const radio_props = [
+            {label: 'Không', value: false },
+            {label: 'có', value: true }
+          ];
         return(
             <ImageBackground source={require('../../../assets/image/login_register_bg.png')} style={{flex:1}}>
                 <ScrollView style={{flex:1}}>
@@ -149,6 +155,21 @@ export default class Register extends Component{
                         <View style={styles.InputTextSection}>
                             <CustomeInputText placeholder={"Xác nhận mật khẩu"} secure={true} IconName={"lock"} onChangeText={(pwd)=>this.setState({ password2: pwd} )}/>
                         </View>
+                        <View style={styles.InputTextSection}>
+                            <Text>
+                                Bạn có xe không:
+                            </Text>
+                            <RadioForm
+                            radio_props={radio_props}
+                            initial={0}
+                            formHorizontal={true}
+                            labelHorizontal={true}
+                            buttonColor={'#2196f3'}
+                            animation={true}
+                            onPress={(value) => {this.setState({vehicle:value}); console.log(this.state.vehicle)}}
+                            />
+                        </View>
+
                         <View style={styles.sectionButton}>
                             <ButtonCustom onPress={()=>{if(this.state.name==""|| this.state.dob=="Ngày Sinh"|| this.state.phoneNumber==""|| this.state.email.indexOf("@")<1||
                                             this.state.userName==""|| this.state.password ==""||this.state.password!=this.state.password2){
@@ -157,8 +178,8 @@ export default class Register extends Component{
                                             }
                                             
                                             this.props.createAccount(this.state.name, this.state.dob, this.state.phoneNumber, this.state.email, this.state.dCreate,
-                                                this.state.profilePic, this.state.userName, this.state.password)
-                                            Alert.alert('Thành công', "Xin chào, "+this.props.name+" Chúc bạn sử dụng ứng dụng vui vẻ!");
+                                                this.state.profilePic,this.state.vehicle, this.state.userName, this.state.password)
+                                            Alert.alert('Thành công', "Xin chào, "+this.state.name.toString()+"! Chúc bạn sử dụng ứng dụng vui vẻ!");
                                             Actions.login({type:"reset"});
                                         }}/>
                             <TouchableOpacity onPress={()=>{Actions.login({type:"reset"})}}>

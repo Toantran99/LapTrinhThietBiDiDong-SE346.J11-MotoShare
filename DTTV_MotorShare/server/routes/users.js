@@ -127,7 +127,7 @@ router.put("/user/:id", function(req, res, next){
                         parseFloat(req.query.longitude||userInfo.location.latitude)
                     ]
                 }, 
-                "verhicle":req.query.verhicle||userInfo.verhicle
+                "vehicle":req.query.vehicle||userInfo.vehicle
             }}, function(err, updatedUser){
             if (err){
                 res.send(err);
@@ -241,6 +241,7 @@ router.post("/users", function(req, res, next){
 			error:"Bad data"
 		});	
 	} else {
+        user.vehicle=user.vehicle=="false"||!user.vehicle?false:true;
 		db.users.save(user, function(err, savedUser){
 			if(err){
 				res.send(err);

@@ -42,7 +42,7 @@ export function setName(){
 }
 
 //get Account info
-export function createAccount(name,dob, phoneNumber, email, dCreate, profilePic, userName, password){
+export function createAccount(name,dob, phoneNumber, email, dCreate, profilePic, vehicle, userName, password){
 	return(dispatch, store)=>{
 		const account = {
 			
@@ -56,6 +56,7 @@ export function createAccount(name,dob, phoneNumber, email, dCreate, profilePic,
 				rating: "5",
 				dCreate: dCreate.toString(),
 				profilePic: profilePic,
+				vehicle: vehicle,
 				account: {
 					userName: userName,
             		password: password

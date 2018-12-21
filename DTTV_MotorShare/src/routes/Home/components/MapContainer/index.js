@@ -119,7 +119,7 @@ export const MapContainer = ({
 						image={marker.profilePic?{uri:marker.profilePic}:carMarker}
 						title={marker._id}
 						onCalloutPress={() => {
-							if(!loginInfo.verhicle){
+							if(!loginInfo.vehicle){
 								alert("Có xe đâu mà đòi chở người ta -_-");
 								return;
 							}

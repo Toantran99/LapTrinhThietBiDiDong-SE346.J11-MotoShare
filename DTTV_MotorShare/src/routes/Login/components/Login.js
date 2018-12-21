@@ -80,7 +80,7 @@ export default class Login extends Component{
                             rx.props.getLoginInfo(rx.state.userName,rx.state.password)
                             }, 1000);
                         console.log(this.props.loginInfo);
-                        if(this.props.loginInfo&& this.props.loginInfo.length==1) Actions.home({type:"replace"})} }/>
+                        if(this.props.loginInfo&& this.props.loginInfo._id) Actions.home({type:"replace"})} }/>
 
                 </View>
                 <View style={styles.lineSection}>

@@ -56,7 +56,7 @@ router.get("/bookingLocation", function(req, res, next){
 			"status":"pending",
 			"pickUp.coordinates":{
 				$geoWithin :{ 
-					$center : [ [parseFloat(req.query.longitude), parseFloat(req.query.latitude)] , 1 ]
+					$center : [ [parseFloat(req.query.longitude), parseFloat(req.query.latitude)] , 0.1 ]
                 }
 			}
 		}, function(err, location){
