@@ -5,6 +5,7 @@ import RNGooglePlaces from "react-native-google-places";
 
 import request from "../../../util/request";
 import calculateFare from "../../../util/fareCalculator.js";
+import {myLocalHost} from "../../../util/serverConnection";
 
 
 //--------------------
@@ -34,14 +35,14 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA
 
-//--------------------
-//Get Localhost IP
-//--------------------
-const scriptURL = NativeModules.SourceCode.scriptURL;
-const myAddress = scriptURL.split('://')[1].split('/')[0];
-// const myLocalHost = "192.168.0.106";
-const myLocalHost = myAddress.split(':')[0];
-const myPort = myAddress.split(':')[1];
+// //--------------------
+// //Get Localhost IP
+// //--------------------
+// const scriptURL = NativeModules.SourceCode.scriptURL;
+// const myAddress = scriptURL.split('://')[1].split('/')[0];
+// // const myLocalHost = "192.168.0.106";
+// const myLocalHost = myAddress.split(':')[0];
+// const myPort = myAddress.split(':')[1];
 
 //--------------------
 //Variables

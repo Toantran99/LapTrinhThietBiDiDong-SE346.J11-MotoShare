@@ -8,9 +8,13 @@ export default class Root extends Component {
   constructor (props) {
     super(props)
     this.onBackPress = this.onBackPress.bind(this)
+    this.state={
+      backpressed: false
+    }
   }
 
   componentDidMount () {
+    
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress)
   }
 
@@ -19,10 +23,11 @@ export default class Root extends Component {
   }
 
   onBackPress () {
-    // const { dispatch, nav } = this.props
-    // dispatch(NavigationActions.back())
-    // return nav !== this.props.nav
     console.log("Main: backpressed!");
+    if (!this.state.backpressed)
+      this.setState({backpressed:true});
+    else
+      BackHandler.exitApp();
     return true;
   }
 

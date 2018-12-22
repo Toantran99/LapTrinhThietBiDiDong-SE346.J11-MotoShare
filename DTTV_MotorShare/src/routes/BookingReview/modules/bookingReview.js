@@ -1,7 +1,8 @@
 import update from "react-addons-update";
 import constants from "./actionConstants";
-import {Dimensions, NativeModules} from "react-native";
+import {Dimensions} from "react-native";
 import request from "../../../util/request";
+import {myLocalHost} from "../../../util/serverConnection";
 
 
 //--------------------
@@ -17,15 +18,6 @@ const {
 
 const { width, height } = Dimensions.get("window");
 
-
-//--------------------
-//Get Localhost IP
-//--------------------
-const scriptURL = NativeModules.SourceCode.scriptURL;
-const myAddress = scriptURL.split('://')[1].split('/')[0];
-// const myLocalHost = "192.168.0.106";
-const myLocalHost = myAddress.split(':')[0];
-const myPort = myAddress.split(':')[1];
 
 //--------------------
 //Variables

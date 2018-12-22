@@ -1,11 +1,12 @@
 import update from "react-addons-update";
 import constants from "./actionConstants";
-import { Dimensions, NativeModules } from "react-native"
+import { Dimensions } from "react-native"
 import RNGooglePlaces from "react-native-google-places";
+import {myLocalHost} from "../../../util/serverConnection";
+
 
 import request from "../../../util/request";
 
-import calculateFare from "../../../util/fareCalculator.js";
 
 //--------------------
 //Constants
@@ -22,16 +23,8 @@ const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 
 const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA
+const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
 
-//--------------------
-//Get Localhost IP
-//--------------------
-const scriptURL = NativeModules.SourceCode.scriptURL;
-const myAddress = scriptURL.split('://')[1].split('/')[0];
-// const myLocalHost = "192.168.0.106";
-const myLocalHost = myAddress.split(':')[0];
-const myPort = myAddress.split(':')[1];
 
 
 //--------------------

@@ -10,8 +10,8 @@ import BookingReview from "./BookingReview/container/BookingReviewContainer"
 
 const scenes = Actions.create(
 	<Scene key="root" hideNavBar>
-		<Scene key="introduction" component={IntroductionContainer} title="introduction" />
-		<Scene key="login" component={LoginContainer} title="login" initial/>
+		<Scene key="introduction" component={IntroductionContainer} title="introduction" initial/>
+		<Scene key="login" component={LoginContainer} title="login" />
 		<Scene key="forgetPassword" component={ForgetPasswordContainer} title="forgetPassword" />
 		<Scene key="register" component={RegisterContainer} title="register" />
 		<Scene key="home" component={HomeContainer} title="home" />
