@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, Text, TextInput} from 'react-native'
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import {styles} from './Styles'
 
 export default class CustomTextInputEP extends Component{
@@ -15,10 +15,12 @@ export default class CustomTextInputEP extends Component{
                 <View style={styles.txSection}>
                     <Icon name={this.props.IconName} size={16} color="#2699FB" />
                     <TextInput secureTextEntry={this.props.secure}
-                               placeholder={this.props.placeholder}
-                               placeholderTextColor={"#2699FB"}
-                               value={this.props.Value}
-                               style={styles.textinputStyle}/>
+                                placeholder={this.props.placeholder}
+                                placeholderTextColor={"#2699FB"}
+                                value={this.props.Value}
+                                style={styles.textinputStyle}
+                                onChangeText={this.props.onChangeText}
+                                />
                 </View>
                 <View
                     style={styles.line}

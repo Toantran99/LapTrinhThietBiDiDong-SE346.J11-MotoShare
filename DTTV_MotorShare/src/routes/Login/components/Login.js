@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet,TextInput, TouchableOpacity, ImageBackground, StatusBar} from 'react-native'
+import {View, Text, StyleSheet,TextInput, TouchableOpacity, ImageBackground, StatusBar, BackHandler} from 'react-native'
 import { Actions } from "react-native-router-flux"
 import styles from './LoginStyles'
 
@@ -7,8 +7,29 @@ import styles from './LoginStyles'
 class ButtonCustom extends Component{
     constructor(props){
         super(props);
-    }
-
+        this.onBackPress = this.onBackPress.bind(this)
+        this.state={
+          backpressed: false
+        }
+      }
+    
+      componentDidMount () {
+        
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress)
+      }
+    
+      componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress)
+      }
+    
+      onBackPress () {
+        console.log("Main: backpressed!");
+        if (!this.state.backpressed)
+          this.setState({backpressed:true});
+        else
+          BackHandler.exitApp();
+        return true;
+      }
     render(){
         return(
             <TouchableOpacity onPress={this.props.onPress}>

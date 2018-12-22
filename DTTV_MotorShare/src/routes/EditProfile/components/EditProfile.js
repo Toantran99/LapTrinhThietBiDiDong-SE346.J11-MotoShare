@@ -1,21 +1,22 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, KeyboardAvoidingView, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, Image, KeyboardAvoidingView, ScrollView, Alert} from 'react-native'
 import HeaderStyle3 from '../../../components/HeaderComponent/HeaderStyle3'
 import ButtonCustomEP from './CustomButtonEP/CustomeButtonEP'
 import CustomTextInputEP from './CutomTextInputEP/CustomTextInputEP'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from "moment";
-import CustomDatePickerEP from './CustomDatePickerEP/CustomDatePickerEP'
+import CustomDatePickerEP from './CustomDatePickerEP/CustomDatePickerEP';
+import { Actions } from "react-native-router-flux";
 
 
 export default class EditProfile extends Component{
     constructor(props) {
         super(props);
         this.state={
-            dateofBirth: '12-12-1999',
-            name: 'Nguyen Van A',
-            phone: '1234567891',
-            email: 'vana211@gmail.com',
+            dob: this.props.accountInfo.dob,
+            name: this.props.accountInfo.name,
+            phoneNumber: this.props.accountInfo.phoneNumber,
+            email: this.props.accountInfo.email,
             visible: false, //Hide or Show Date Picker
         }
     }
@@ -32,8 +33,9 @@ export default class EditProfile extends Component{
                 />
                 <View style={styles.header}>
                     <HeaderStyle3 imageUrl={require('../../../assets/image/back.png')}
-                                  title={"Sửa thông tin"}
-                                  action={()=>{alert("Go Back")}} />
+                                    title={"Sửa thông tin"}
+                                    action={()=>{Actions.bookingReview({type:"replace"})}} 
+                                    />
                 </View>
                 <ScrollView style={styles.main}>
                     <View style={styles.avatarSection}>
@@ -41,21 +43,35 @@ export default class EditProfile extends Component{
                     </View>
 
                     <View style={[styles.TextInputSection,{marginTop:8+"%"}]}>
-                        <CustomTextInputEP Value={this.state.name} IconName={'user'} placeholder={"Tên"} />
+                        <CustomTextInputEP Value={this.state.name} IconName={'user'} onChangeText={(n)=>this.setState({ name: n })} placeholder={"Tên"}/>
                     </View>
                     <View style={styles.TextInputSection}>
-                        <CustomDatePickerEP IconName={'calendar'} NS={this.state.dateofBirth} onPress={()=>this.showPicker()}/>
+                        <CustomDatePickerEP IconName={'calendar'} NS={this.state.dob} onPress={()=>this.showPicker()}/>
                     </View>
                     <View style={styles.TextInputSection}>
-                        <CustomTextInputEP Value={this.state.phone} IconName={'phone'} placeholder={"Số điện thoại"} />
+                        <CustomTextInputEP Value={this.state.phoneNumber} IconName={'phone'} onChangeText={(pn)=>this.setState({ phoneNumber: pn })} placeholder={"Số điện thoại"} />
                     </View>
                     <View style={styles.TextInputSection}>
-                        <CustomTextInputEP Value={this.state.email} IconName={'mail-forward'}  placeholder={"Email"} />
+                        <CustomTextInputEP Value={this.state.email} IconName={'at'} onChangeText={(e)=>this.setState({ email: e })} placeholder={"Email"} />
                     </View>
 
                 </ScrollView>
                 <View style={styles.bottomBtnSection}>
-                    <ButtonCustomEP onPress={()=>{alert("Edit Profile")}}
+                    <ButtonCustomEP onPress={()=>{if(this.state.name==""|| this.state.dob=="Ngày Sinh"|| this.state.phoneNumber==""|| this.state.email.indexOf("@")<1){
+                                                Alert.alert('Không thành công!', "Vui lòng kiểm tra lại thông tin");
+                                                return;
+                                            }
+                                            
+                                            let rx = this;
+                                            Alert.alert("Bạn có thực sự muốn sửa các thông tin này?","",
+                                                [
+                                                    {text: 'Cancel', onPress: () => {return;}, style: 'cancel'},
+                                                    {text: 'OK', onPress: () => { rx.props.updateProfile(rx.state.name, rx.state.dob, rx.state.phoneNumber, rx.state.email);
+                                                                                    Alert.alert('Thành công', "thông tin của bạn "+rx.state.name.toString()+" đã được thay đổi thành công!");
+                                                                                    rx.props.getAccountInfo();
+                                                                                    Actions.bookingReview({type:"replace"});} },
+                                                ])
+                                        }}
                                     title={"Sửa"}/>
                 </View>
             </View>
@@ -67,7 +83,7 @@ export default class EditProfile extends Component{
     handlePicker = (datetime)=>{
         this.setState({
             visible: false,
-            dateofBirth: moment(datetime).format('DD-MM-YYYY')
+            dob: moment(datetime).format('DD-MM-YYYY')
         })
 
     };

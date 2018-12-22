@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import moment from "moment";
+import { Actions } from "react-native-router-flux";
+
 
 const UserInfo = ({accountInfo}) =>{
     //Vòng lặp render Số sao
@@ -43,12 +45,12 @@ const UserInfo = ({accountInfo}) =>{
             }
             <View style={styles.iconRightSection}>
                 <View style={styles.iconRight}>
-                    <TouchableOpacity>
+                    <TouchableOpacity >
                         <Image source={require('../../../../assets/image/controls.png')} style={styles.iconBack}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.iconRight}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> Actions.editProfile({type:"reset"})}>
                         <Image source={require('../../../../assets/image/settings.png')} style={styles.iconBack}/>
                     </TouchableOpacity>
                 </View>

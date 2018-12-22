@@ -8,9 +8,9 @@ export default class Root extends Component {
   constructor (props) {
     super(props)
     this.onBackPress = this.onBackPress.bind(this)
-    this.state={
-      backpressed: false
-    }
+    // this.state={
+    //   backpressed: false
+    // }
   }
 
   componentDidMount () {
@@ -24,10 +24,10 @@ export default class Root extends Component {
 
   onBackPress () {
     console.log("Main: backpressed!");
-    if (!this.state.backpressed)
-      this.setState({backpressed:true});
-    else
-      BackHandler.exitApp();
+    // if (!this.state.backpressed)
+    //   this.setState({backpressed:true});
+    // else
+    //   BackHandler.exitApp();
     return true;
   }
 

@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, Image, ImageBackground, StatusBar} from 'react-native'
 var Spinner = require("react-native-spinkit");
+import { Actions } from "react-native-router-flux";
+
 
 export default class SplashScreen extends Component{
 
@@ -8,7 +10,7 @@ export default class SplashScreen extends Component{
     componentDidMount(){
         // 5 seconds bebore move to different screen
         this.timeoutHandle = setTimeout(()=>{
-            alert("TimeOut")
+            Actions.introduction({type:"reset"});
         }, 5000);
     }
 
