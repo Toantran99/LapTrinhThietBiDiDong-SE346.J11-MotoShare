@@ -159,19 +159,34 @@ export default class MapContainer extends Component{
 							/>
 						</View>
 						
-					    <MapView.Callout style={{width: 100}}>
-							<Text>
-								userName: {marker.userName}
-							</Text>
-							<Text>
-							từ: "{marker.pickUp.name}" đến:"{marker.dropOff.name}"
-							</Text>
-							<Text>
-								thời gian: {moment(day).format('DD/MM/YYYY')} lúc: {moment(day).format('LT')}
-							</Text>
-								<TouchableOpacity onPress={()=>alert("tpes")}>
-									<Text>{"<Nhấn để đồng ý>"}</Text>
-								</TouchableOpacity>
+					    <MapView.Callout style={{width: 250}}>
+							<View style={styles.lineStyle}>
+								<Text style={styles.boldText}>Tên người dùng:</Text>
+								<Text style={styles.textStyle}>{marker.userName}</Text>
+							</View>
+                            <View style={styles.lineStyle}>
+                                <Text style={styles.boldText}>Từ:</Text>
+                                <Text style={styles.textStyle}>{marker.pickUp.name}</Text>
+                            </View>
+                            <View style={styles.lineStyle}>
+                                <Text style={styles.boldText}>Đến:</Text>
+                                <Text style={styles.textStyle}>{marker.dropOff.name}</Text>
+                            </View>
+                            <View style={styles.lineStyle}>
+                                <Text style={styles.boldText}>Ngày:</Text>
+                                <Text style={styles.textStyle}>{moment(day).format('DD/MM/YYYY')}</Text>
+                            </View>
+                            <View style={styles.lineStyle}>
+                                <Text style={styles.boldText}>Giờ:</Text>
+                                <Text style={styles.textStyle}>{moment(day).format('LT')}</Text>
+                            </View>
+
+							<View style={{width: 100+"%", alignItems: 'center'}}>
+                                <TouchableOpacity onPress={()=>alert("tpes")}>
+                                    <Text style={{color:'#1994ff', fontWeight: 'bold'}}>{"<Nhấn để đồng ý>"}</Text>
+                                </TouchableOpacity>
+							</View>
+
 							
 							
 						</MapView.Callout>
@@ -185,10 +200,14 @@ export default class MapContainer extends Component{
 				this.state.dstMarker!={}&&this.state.dstMarker.coordinates&&
 				<MapView.Marker
 							coordinate={{latitude:this.state.dstMarker.coordinates[1], longitude:this.state.dstMarker.coordinates[0] }}
-							image={this.props.destMarker}
 							title={"Điểm đến"}
 							description={this.state.dstMarker.name}
-						/>	
+						>
+                    <Image
+                        source={require('../../../../assets/image/marker.png')}
+                        style={{width:40, height:40}}
+                    />
+				</MapView.Marker>
 					
 			}
 			</MapView>

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     },
     sloganApp:{
         fontSize: 20,
-        color: '#C7C9CC'
+        color: '#ffffff'
     },
     verSection:{
         justifyContent: 'space-between',
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     },
     verText:{
         fontSize: 12,
-        color: '#C9CBCE',
+        color: '#ffffff',
     },
     loadingSection:{
         width: 100+"%",

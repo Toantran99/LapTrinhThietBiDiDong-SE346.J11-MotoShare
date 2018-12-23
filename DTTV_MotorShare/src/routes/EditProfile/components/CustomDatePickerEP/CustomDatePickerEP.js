@@ -17,7 +17,7 @@ export  default  class CustomDatePickerEP extends Component{
             <TouchableOpacity onPress={this.props.onPress}>
                 <View style={[styles.txMain, this.props.styleInput]}>
                     <View style={styles.txSection}>
-                        <Icon name={this.props.IconName} size={16} color={'#2699FB'} />
+                        <Icon name={this.props.IconName} size={16} color={'#ffffff'} />
                         <Text style={styles.textStyle}>{this.props.NS}</Text>
                     </View>
                     <View

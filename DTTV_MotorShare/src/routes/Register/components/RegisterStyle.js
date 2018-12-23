@@ -27,9 +27,6 @@ const styles = StyleSheet.create({
     avatarStyle:{
         width: 100, height: 100, borderRadius: 50
     },
-    btnBack:{
-        width: 310, height: 46,backgroundColor: '#24C12F', justifyContent: 'center', alignItems: 'center', borderRadius: 5, margin: 10
-    }
 
 });
 

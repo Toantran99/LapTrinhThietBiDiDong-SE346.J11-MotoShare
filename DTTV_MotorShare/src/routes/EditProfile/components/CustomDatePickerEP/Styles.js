@@ -6,7 +6,7 @@ export const styles = {
             width: 100+"%",
             borderBottomWidth: 1,
             marginTop: 16,
-            borderBottomColor: '#78bffd',
+            borderBottomColor: '#ffffff',
     },
     txMain: {
         width: 327, height: 36
@@ -15,7 +15,7 @@ export const styles = {
         width: 100+"%", height: 18, flexDirection: 'row'
     },
     textStyle:{
-        fontSize: 14, marginLeft: 20, color: '#2699FB'
+        fontSize: 14, marginLeft: 20, color: '#ffffff'
     }
 
 };

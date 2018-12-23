@@ -18,7 +18,7 @@ const scenes = Actions.create(
 		<Scene key="forgetPassword" component={ForgetPasswordContainer} title="forgetPassword" />
 		<Scene key="register" component={RegisterContainer} title="register" />
 
-		<Scene key="home" component={HomeContainer} title="home" />
+		<Scene key="home" component={HomeContainer} title="home"  />
 		<Scene key="bookingReview" component={BookingReview} title="bookingReview" />
 		<Scene key="editProfile" component={EditProfile} title="editProfile" />
 		<Scene key="trackDriver" component={TrackDriverContainer} title="trackDriver"/>

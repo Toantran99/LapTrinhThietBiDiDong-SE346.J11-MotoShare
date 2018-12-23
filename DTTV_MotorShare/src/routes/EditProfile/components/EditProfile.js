@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, KeyboardAvoidingView, ScrollView, Alert} from 'react-native'
+import {View, Text, StyleSheet, Image, KeyboardAvoidingView, ImageBackground, ScrollView, Alert, StatusBar} from 'react-native'
 import HeaderStyle3 from '../../../components/HeaderComponent/HeaderStyle3'
 import ButtonCustomEP from './CustomButtonEP/CustomeButtonEP'
 import CustomTextInputEP from './CutomTextInputEP/CustomTextInputEP'
@@ -24,7 +24,8 @@ export default class EditProfile extends Component{
 
     render(){
         return(
-            <View style={{flex:1}}>
+            <ImageBackground source={require('../../../assets/image/editProfile.png')} style={{flex:1}}>
+                <StatusBar backgroundColor={'#0984C1'} barStyle={'light-content'}/>
                 <DateTimePicker
                     isVisible={this.state.visible}
                     onConfirm={this.handlePicker}
@@ -74,7 +75,7 @@ export default class EditProfile extends Component{
                                         }}
                                     title={"Sửa"}/>
                 </View>
-            </View>
+            </ImageBackground>
         )
     }
 

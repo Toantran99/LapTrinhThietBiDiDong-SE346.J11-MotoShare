@@ -156,7 +156,7 @@ export default class Register extends Component{
                             <CustomeInputText placeholder={"Xác nhận mật khẩu"} secure={true} IconName={"lock"} onChangeText={(pwd)=>this.setState({ password2: pwd} )}/>
                         </View>
                         <View style={styles.InputTextSection}>
-                            <Text>
+                            <Text style={{color: '#fff', marginBottom: 5}}>
                                 Bạn có xe không:
                             </Text>
                             <RadioForm
@@ -164,7 +164,8 @@ export default class Register extends Component{
                             initial={0}
                             formHorizontal={true}
                             labelHorizontal={true}
-                            buttonColor={'#2196f3'}
+                            buttonColor={'#ffffff'}
+                            labelColor={"#fff"}
                             animation={true}
                             onPress={(value) => {this.setState({vehicle:value}); console.log(this.state.vehicle)}}
                             />
@@ -183,11 +184,11 @@ export default class Register extends Component{
                                             Actions.login({type:"reset"});
                                         }}/>
                             <TouchableOpacity onPress={()=>{Actions.login({type:"reset"})}}>
-                                <View style={styles.btnBack}>
-                                    <Text style={{color: '#ffffff'}}>Quay lại</Text>
-                                </View>
+                                    <Text style={{color: '#ffffff', marginTop: 10}}>Quay lại</Text>
                             </TouchableOpacity>
-                            <View style={{height: 50}}></View>
+                            <View style={{height: 50}}>
+
+                            </View>
                         </View>
 
                     </View>
