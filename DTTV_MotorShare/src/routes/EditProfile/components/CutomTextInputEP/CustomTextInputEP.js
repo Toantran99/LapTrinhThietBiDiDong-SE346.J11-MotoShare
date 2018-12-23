@@ -13,10 +13,10 @@ export default class CustomTextInputEP extends Component{
         return(
             <View style={[styles.txMain, this.props.styleInput]}>
                 <View style={styles.txSection}>
-                    <Icon name={this.props.IconName} size={16} color="#fff" />
+                    <Icon name={this.props.IconName} size={16} color="#2699FB" />
                     <TextInput secureTextEntry={this.props.secure}
                                 placeholder={this.props.placeholder}
-                                placeholderTextColor={"#ffffff"}
+                                placeholderTextColor={"#2699FB"}
                                 value={this.props.Value}
                                 style={styles.textinputStyle}
                                 onChangeText={this.props.onChangeText}

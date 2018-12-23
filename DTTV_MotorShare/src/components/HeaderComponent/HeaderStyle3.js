@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
     textHeader:{
         fontWeight: 'bold',
         fontSize: 14,
-        color: '#ffffff'
+        color: '#2699FB'
     },
 });

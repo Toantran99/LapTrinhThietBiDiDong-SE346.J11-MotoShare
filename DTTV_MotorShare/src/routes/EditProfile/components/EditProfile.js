@@ -24,8 +24,8 @@ export default class EditProfile extends Component{
 
     render(){
         return(
-            <ImageBackground source={require('../../../assets/image/editProfile.png')} style={{flex:1}}>
-                <StatusBar backgroundColor={'#0984C1'} barStyle={'light-content'}/>
+            <View style={{flex:1, backgroundColor:'#fff'}}>
+                <StatusBar backgroundColor={'#139dfd'} barStyle={'light-content'}/>
                 <DateTimePicker
                     isVisible={this.state.visible}
                     onConfirm={this.handlePicker}
@@ -33,7 +33,7 @@ export default class EditProfile extends Component{
                     mode={'date'}
                 />
                 <View style={styles.header}>
-                    <HeaderStyle3 imageUrl={require('../../../assets/image/back.png')}
+                    <HeaderStyle3 imageUrl={require('../../../assets/image/back-blue.png')}
                                     title={"Sửa thông tin"}
                                     action={()=>{Actions.bookingReview({type:"replace"})}} 
                                     />
@@ -75,7 +75,7 @@ export default class EditProfile extends Component{
                                         }}
                                     title={"Sửa"}/>
                 </View>
-            </ImageBackground>
+            </View>
         )
     }
 

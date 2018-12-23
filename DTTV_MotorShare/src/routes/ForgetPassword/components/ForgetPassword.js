@@ -21,11 +21,11 @@ export default class ForgetPassword extends Component{
     
     render(){
         return(
-            <ImageBackground source={require('../../../assets/image/forgetPass.jpg')} style={{flex:1}}>
-                <StatusBar backgroundColor={'#445993'} barStyle={'light-content'} />
+            <View  style={{flex:1, backgroundColor:'#fff'}}>
+                <StatusBar backgroundColor={'#139dfd'} barStyle={'light-content'}/>
                 <View style={styles.header}>
                     <HeaderStyle3
-                        imageUrl={require('../../../assets/image/back.png')}
+                        imageUrl={require('../../../assets/image/back-blue.png')}
                         title={"Quên mật khẩu"} action={()=>{Actions.login({type:"reset"})}}/>
                 </View>
                 <View style={styles.mainS}>
@@ -58,10 +58,10 @@ export default class ForgetPassword extends Component{
 
                     }}/>
                     <TouchableOpacity onPress={()=>{Actions.login({type:"reset"})}}>
-                        <Text style={{color:'#fff', marginTop: 10}}>Quay lại</Text>
+                        <Text style={{color:'#2699FB', marginTop: 10}}>Quay lại</Text>
                     </TouchableOpacity>
                 </View>
-            </ImageBackground>
+            </View>
         )
     }
 }

@@ -8,36 +8,40 @@ import { Actions } from "react-native-router-flux";
 const data =[
     {
         id: 1,
-        title: 'Cơ hội làm quen và bắt đầu các mối quan hệ mới',
-        imageUrl: require('../../../assets/image/findfriend.png')
+        title: 'Di chuyển chẳng bao giờ lại thuận lợi đến như vậy',
+        imageUrl: require('../../../assets/image/intro01.png')
     },
     {
         id: 2,
-        title: 'Chia sẻ chuyến đi để tiết kiệm thời gian và chi phí cho cả hai bên',
-        imageUrl: require('../../../assets/image/share.png')
+        title: 'Chia sẻ chuyến đi tiết kiệm chi phí thời gian cho cả đôi bên',
+        imageUrl: require('../../../assets/image/intro02.png')
     },
     {
         id: 3,
-        title: 'Kết nối mọi người lại gần nhau hơn bằng những chuyến đi',
-        imageUrl: require('../../../assets/image/connect.png')
+        title: 'Cơ hội làm quen bắt đầu các mối quan hệ mới',
+        imageUrl: require('../../../assets/image/intro03.png')
     },
     {
         id: 4,
-        title: 'Bắt đầu khám phá những điều thú vị ngay bây giờ',
-        imageUrl: require('../../../assets/image/complete.png')
+        title: 'Không còn cảnh tượng chen chúc trễ giờ vì xe buýt',
+        imageUrl: require('../../../assets/image/intro04.png')
     },
-
+    {
+        id: 5,
+        title: 'Hey! Tạo tài khoản và cùng tham gia với chúng tôi nào',
+        imageUrl: require('../../../assets/image/intro05.png')
+    },
 ];
 
 
 
 export default class Introduction extends Component{
     renderButton = function (i) {
-        if(i===4) return(
+        if(i===5) return(
             <View style={styles.bottomBtnSection}>
                 <TouchableOpacity onPress={()=>Actions.login({type:"reset"})}>
                 <View style={styles.btnStyle}>
-                    <Text style={styles.btnText}>Sẵn sàng</Text>
+                    <Text style={styles.btnText}>Tham gia ngay nào</Text>
                 </View>
                 </TouchableOpacity>
             </View>
@@ -47,30 +51,27 @@ export default class Introduction extends Component{
 
     render(){
         return(
-            <ImageBackground source={require('../../../assets/image/intro-background.jpg')} style={styles.container}>
+            <View style={styles.container}>
                 <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'light-content'}/>
                 <SwiperFlatList
                     index={0}
                     showPagination
-                    paginationActiveColor={'#ffffff'}
+                    paginationActiveColor={'#2C9AF8'}
                 >
                     {
                         data.map((item, i)=>{
                             return(
-                                <View key={i} style={[styles.child, { backgroundColor: 'transparent' }]}>
-                                    <View style={styles.imageSection}>
-                                        <Image source={item.imageUrl} style={styles.imageStyle} />
-                                    </View>
+                                <ImageBackground key={i} source={item.imageUrl} style={[styles.child]}>
                                     <View style={styles.titleSection}>
                                         <Text style={styles.title}>{item.title}</Text>
                                     </View>
                                     {this.renderButton(item.id)}
-                                </View>
+                                </ImageBackground>
                             );
                         })
                     }
                 </SwiperFlatList>
-            </ImageBackground>
+            </View>
         );
     }
 }

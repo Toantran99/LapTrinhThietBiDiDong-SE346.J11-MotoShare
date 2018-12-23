@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native'
 const styles = StyleSheet.create({
     line:{
         width: 100+"%",
-        borderBottomColor: '#ffffff',
+        borderBottomColor: '#2699FB',
         borderBottomWidth: 1,
         marginTop: 16
     },
@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
         marginTop: 10+"%", width: 100+"%", height: 10+"%", alignItems: 'center'
     },
     customButtonStyle:{
-        width: 310, height: 46, backgroundColor: '#FDA400', justifyContent: 'center', alignItems: 'center', borderRadius: 5
+        width: 310, height: 46, backgroundColor: '#2C83DB', justifyContent: 'center', alignItems: 'center', borderRadius: 5
     },
     avatarStyle:{
-        width: 100, height: 100, borderRadius: 50
+        width: 100, height: 100, borderRadius: 50, marginTop: 5+"%"
     },
 
 });

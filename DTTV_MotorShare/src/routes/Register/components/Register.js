@@ -48,10 +48,10 @@ class CustomeInputText extends Component{
         return(
             <View style={[{width: 327, height: 34}, this.props.styleInput]}>
                 <View style={{width: 100+"%", height: 16, flexDirection: 'row'}}>
-                    <Icon name={this.props.IconName} size={16} color="#ffffff" />
-                    <TextInput secureTextEntry={this.props.secure} placeholder={this.props.placeholder} 
-                    placeholderTextColor={"#ffffff"} onChangeText={this.props.onChangeText}
-                    style={{width: 250, height: 16, fontSize: 14, marginLeft: 20, paddingVertical: 0, paddingHorizontal: 0, color:'#ffffff'}}/>
+                    <Icon name={this.props.IconName} size={16} color="#2699FB" />
+                    <TextInput secureTextEntry={this.props.secure} placeholder={this.props.placeholder}
+                    placeholderTextColor={"#2699FB"} onChangeText={this.props.onChangeText}
+                    style={{width: 250, height: 16, fontSize: 14, marginLeft: 20, paddingVertical: 0, paddingHorizontal: 0, color:'#2699FB'}}/>
                 </View>
                 <View
                     style={styles.line}
@@ -71,8 +71,8 @@ class CustomeDatePicker extends Component{
             <TouchableOpacity onPress={this.props.onPress}>
                 <View style={[{width: 327, height: 36}, this.props.styleInput]}>
                     <View style={{width: 100+"%", height: 18, flexDirection: 'row'}}>
-                        <Icon name={this.props.IconName} size={16} color={'#ffffff'} />
-                        <Text style={{fontSize: 14, marginLeft: 20, color: '#ffffff'}}>{this.props.NS}</Text>
+                        <Icon name={this.props.IconName} size={16} color={'#2699FB'} />
+                        <Text style={{fontSize: 14, marginLeft: 20, color: '#2699FB'}}>{this.props.NS}</Text>
                     </View>
                     <View
                         style={styles.line}
@@ -113,9 +113,9 @@ export default class Register extends Component{
             {label: 'có', value: true }
           ];
         return(
-            <ImageBackground source={require('../../../assets/image/login_register_bg.png')} style={{flex:1}}>
+            <View  style={{flex:1, backgroundColor: '#ffffff'}}>
                 <ScrollView style={{flex:1}}>
-                <StatusBar backgroundColor={'#4A41C1'} />
+                    <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'dark-content'}/>
                 <DateTimePicker
                     isVisible={this.state.visible}
                     onConfirm={this.handlePicker}
@@ -156,7 +156,7 @@ export default class Register extends Component{
                             <CustomeInputText placeholder={"Xác nhận mật khẩu"} secure={true} IconName={"lock"} onChangeText={(pwd)=>this.setState({ password2: pwd} )}/>
                         </View>
                         <View style={styles.InputTextSection}>
-                            <Text style={{color: '#fff', marginBottom: 5}}>
+                            <Text style={{color: '#000000', marginBottom: 5}}>
                                 Bạn có xe không:
                             </Text>
                             <RadioForm
@@ -164,8 +164,8 @@ export default class Register extends Component{
                             initial={0}
                             formHorizontal={true}
                             labelHorizontal={true}
-                            buttonColor={'#ffffff'}
-                            labelColor={"#fff"}
+                            buttonColor={'#2699FB'}
+                            labelColor={"#000000"}
                             animation={true}
                             onPress={(value) => {this.setState({vehicle:value}); console.log(this.state.vehicle)}}
                             />
@@ -184,7 +184,7 @@ export default class Register extends Component{
                                             Actions.login({type:"reset"});
                                         }}/>
                             <TouchableOpacity onPress={()=>{Actions.login({type:"reset"})}}>
-                                    <Text style={{color: '#ffffff', marginTop: 10}}>Quay lại</Text>
+                                    <Text style={{color: '#2699FB', marginTop: 10}}>Quay lại</Text>
                             </TouchableOpacity>
                             <View style={{height: 50}}>
 
@@ -194,7 +194,7 @@ export default class Register extends Component{
                     </View>
                 </KeyboardAvoidingView>
                 </ScrollView>
-            </ImageBackground>
+            </View>
         )
     }
 
