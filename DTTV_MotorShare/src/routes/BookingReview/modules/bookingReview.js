@@ -43,7 +43,7 @@ export function getAccountInfo(){
 		var ID = store().login.loginInfo&&store().login.loginInfo._id||"5c1a7daa5d98602d3432bfda";
 		// console.log("id"+ID);
 
-		request.get("http://"+myLocalHost+":3000/api/users/"+ID)
+		request.get("http://"+myLocalHost+"/api/users/"+ID)
 		.finish((error, res)=>{
 			res&&
 				dispatch({
@@ -60,7 +60,7 @@ export function getBookingHistory(account){
 	console.log(account);
 	if(account){
 		return(dispatch, store)=>{
-			request.get("http://"+myLocalHost+":3000/api/bookingHistory")
+			request.get("http://"+myLocalHost+"/api/bookingHistory")
 			.query({
 				// status:title,
 				userName:account
@@ -78,7 +78,7 @@ export function getBookingHistory(account){
 
 	return(dispatch, store)=>{
 
-		request.get("http://"+myLocalHost+":3000/api/bookings")
+		request.get("http://"+myLocalHost+"/api/bookings")
 		.finish((error, res)=>{
 			res&&
 				dispatch({
@@ -97,7 +97,7 @@ export function setBookingStatus(status, type){
 	var id =/*"u0000001";*/ "5c1300effb6fc04dd6ec86e1";
 	if(type=="delete"){
 		return(dispatch, store)=>{
-			request.del("http://"+myLocalHost+":3000/api/bookings/"+status._id)
+			request.del("http://"+myLocalHost+"/api/bookings/"+status._id)
 			.finish((error, res)=>{
 				res&&
 					dispatch({
@@ -111,7 +111,7 @@ export function setBookingStatus(status, type){
 	}
 	return;
 	// return(dispatch, store)=>{
-	// 	request.get("http://"+myLocalHost+":3000/api/bookings")
+	// 	request.get("http://"+myLocalHost+"/api/bookings")
 	// 	.finish((error, res)=>{
 	// 		res&&
 	// 			dispatch({

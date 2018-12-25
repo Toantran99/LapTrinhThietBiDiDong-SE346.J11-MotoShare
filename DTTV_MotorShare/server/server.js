@@ -12,7 +12,7 @@ var drivers = require("./routes/drivers");
 
 var app = express();
 
-var port = 3000;
+var port = process.env.PORT || 3000;
 
 var socket_io = require("socket.io");
 

@@ -51,7 +51,7 @@ export function getDriverInfo(){
 	return (dispatch, store)=>{
 		//let id = store().home.booking.driverId;
 		let id = "5bdb5fe1fb6fc074abb4bf91";
-		request.get("http://"+myLocalHost+":3000/api/driver/" + id)
+		request.get("http://"+myLocalHost+"/api/driver/" + id)
 		.finish((error, res)=>{
 			dispatch({
 				type:GET_DRIVER_INFORMATION,
@@ -67,7 +67,7 @@ export function getDriverLocation(){
 	return (dispatch, store)=>{
 		//let id = store().home.booking.driverId;
 		let id = "5bdb5fe1fb6fc074abb4bf91";
-		request.get("http://"+myLocalHost+":3000/api/driverLocation/" + id)
+		request.get("http://"+myLocalHost+"/api/driverLocation/" + id)
 		.finish((error, res)=>{
 			dispatch({
 				type:GET_DRIVER_LOCATION,

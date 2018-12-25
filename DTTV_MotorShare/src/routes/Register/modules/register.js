@@ -56,7 +56,7 @@ export function createAccount(name,dob, phoneNumber, email, dCreate, profilePic,
 			}
 		};
 		console.log(account)
-		request.post("http://"+myLocalHost+":3000/api/users")
+		request.post("http://"+myLocalHost+"/api/users")
 		.send(payload)
 		.finish((error, res)=>{
 			res&&dispatch({

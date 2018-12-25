@@ -128,7 +128,7 @@ export default class MapContainer extends Component{
 				this.props.nearByBookings && this.props.nearByBookings.map &&
 				this.props.nearByBookings.map((marker, index)=>{
 					let day = marker.time&&new Date(marker.time);
-					console.log(marker.account[0].profilePic);
+					{/* console.log(marker.account[0].profilePic); */}
 					let pic = marker.account[0].profilePic?{uri:marker.account[0].profilePic}:this.props.carMarker;
 					return <MapView.Marker
 						key={index}

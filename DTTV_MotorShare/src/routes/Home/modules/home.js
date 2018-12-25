@@ -79,7 +79,7 @@ export function getCurrentLocation(){
 					isPositionChanged = true;
 					// console.log(store().login.loginInfo._id);
 					let myId=store().login.loginInfo?store().login.loginInfo._id:"5c1300effb6fc04dd6ec86e1";
-					request.put("http://"+myLocalHost+":3000/api/user/"+myId)
+					request.put("http://"+myLocalHost+"/api/user/"+myId)
 					.query({
 						latitude: position.coords.latitude,
                     	longitude: position.coords.longitude
@@ -271,7 +271,7 @@ export function bookCar(time){
 			}
 		};
 		console.log(payload);
-		request.post("http://"+myLocalHost+":3000/api/bookings")
+		request.post("http://"+myLocalHost+"/api/bookings")
 		.send(payload)
 		.finish((error, res)=>{
 			dispatch({
@@ -298,7 +298,7 @@ export function changeBookingStatus(booking, status, changerId){
 			"changer": changerId
 		};
 
-		request.put("http://"+myLocalHost+":3000/api/changeBooking/"+booking._id)
+		request.put("http://"+myLocalHost+"/api/changeBooking/"+booking._id)
 		.send(dataToSend)
 		.finish((error, res)=>{
 			dispatch({
@@ -316,7 +316,7 @@ export function getNearByDrivers(){
 	return(dispatch, store)=>{
 		if(!isPositionChanged) return;
 		// if(!store().home.region||!store().home.region.latitude) return;
-		request.get("http://"+myLocalHost+":3000/api/driverLocation")
+		request.get("http://"+myLocalHost+"/api/driverLocation")
 		.query({
 			latitude:store().home.region.latitude,
 			longitude:store().home.region.longitude	
@@ -340,7 +340,7 @@ export function getNearByBookings(){
 	return(dispatch, store)=>{
 		if(!isPositionChanged) return;
 		// if(!store().home.region||!store().home.region.latitude) return;
-		request.get("http://"+myLocalHost+":3000/api/bookingLocation")
+		request.get("http://"+myLocalHost+"/api/bookingLocation")
 		.query({
 			userName:store().login.loginInfo?store().login.loginInfo.account.userName:"bdtren",
 			latitude:store().home.region.latitude,
