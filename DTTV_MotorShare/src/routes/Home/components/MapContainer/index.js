@@ -147,7 +147,7 @@ export default class MapContainer extends Component{
 							Alert.alert("Bạn sẽ đồng ý cho người này quá giang?","",
                                         [
                                             {text: 'Cancel', onPress: () => {return;}, style: 'cancel'},
-                                            {text: 'OK', onPress: () =>{this.props.changeBookingStatus(marker, "Confirmed", this.props.loginInfo._id)
+                                            {text: 'OK', onPress: () =>{this.props.changeBookingStatus(marker, "confirmed", this.props.loginInfo._id)
                                                                         } },
                                         ])
 							}}
