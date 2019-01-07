@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Alert, TextInput, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Alert,ImageBackground, TextInput, TouchableOpacity, StatusBar} from 'react-native'
 import HeaderStyle3 from '../../../components/HeaderComponent/HeaderStyle3'
 import Icon from "react-native-vector-icons/FontAwesome";
 import ButtonCustomFG from './CustomButtonFG';
@@ -21,10 +21,11 @@ export default class ForgetPassword extends Component{
     
     render(){
         return(
-            <View style={{flex:1}}>
+            <View  style={{flex:1, backgroundColor:'#fff'}}>
+                <StatusBar backgroundColor={'#139dfd'} barStyle={'light-content'}/>
                 <View style={styles.header}>
                     <HeaderStyle3
-                        imageUrl={require('../../../assets/image/back.png')}
+                        imageUrl={require('../../../assets/image/back-blue.png')}
                         title={"Quên mật khẩu"} action={()=>{Actions.login({type:"reset"})}}/>
                 </View>
                 <View style={styles.mainS}>
@@ -57,7 +58,7 @@ export default class ForgetPassword extends Component{
 
                     }}/>
                     <TouchableOpacity onPress={()=>{Actions.login({type:"reset"})}}>
-                        <Text>Quay lại</Text>
+                        <Text style={{color:'#2699FB', marginTop: 10}}>Quay lại</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     },
     bottomSection:{
         width: 100+"%",
-        height: 12+"%",
+        height: 20+"%",
         alignItems: 'center'
     },
     InputTextSection:{

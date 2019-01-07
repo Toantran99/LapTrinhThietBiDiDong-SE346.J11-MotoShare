@@ -16,7 +16,11 @@
 
 ## Xây dựng với
 
-* [React Native](https://facebook.github.io/react-native/) - Ứng dụng được phát triển bằng React Native.
+* [React Native](https://facebook.github.io/react-native/) - React Native là framework xây dựng ứng dụng di động native sử dụng Javascript do Facebook phát hành.
+* [Flux](https://facebook.github.io/flux/) - Flux là một kiến trúc mà Facebook sử dụng trong khi làm việc với React.
+* [ReduxJS](https://github.com/reduxjs) - ReduxJS là một thư viện Javascript giúp tạo thành một lớp quản lý trạng thái của ứng dụng.
+* [React Native Map](https://facebook.github.io/react-native/) - React Native Map là một component hỗ trợ cho cả Android và IOS trong việc thao tác với bản đồ. 
+* [Mlab (MongoDB)](https://mlab.com/) - mLab là một dịch vụ cơ sở dữ liệu đám mây, lưu trữ cơ sở dữ liệu MongoDB.
 
 ## Nhóm thực hiện
 
@@ -26,4 +30,4 @@
 * **Võ Sĩ Vai** - 15520999
 
 ## Lời cảm ơn
-* Cảm ơn chân thành tới giảng viên **[Nguyễn Tuấn Anh](https://github.com/anhhna/)** đã hỗ trợ trong quá trình thực hiện đồ án môn học của nhóm.
+* Cảm ơn chân thành tới giảng viên **[Huỳnh Tuấn Anh](https://github.com/anhhna/)** đã hỗ trợ trong quá trình thực hiện đồ án môn học của nhóm.

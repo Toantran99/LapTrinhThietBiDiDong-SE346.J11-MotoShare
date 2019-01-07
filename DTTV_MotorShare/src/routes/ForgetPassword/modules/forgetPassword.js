@@ -37,7 +37,7 @@ export function setName(){
 export function getEmail(email){
 	return(dispatch, store)=>{
 		if(!email||email.indexOf("@")<1) return;
-		request.get("http://"+myLocalHost+":3000/api/userEmail")
+		request.get("http://"+myLocalHost+"/api/userEmail")
 		.query({
 			email:email
 		})
@@ -56,7 +56,7 @@ export function getEmail(email){
 export function setPassword(email, password){
 	return(dispatch, store)=>{
 		if(!email||!password) return;
-		request.put("http://"+myLocalHost+":3000/api/userEmail")
+		request.put("http://"+myLocalHost+"/api/userEmail")
 		.query({
 			email:email,
 			password:password

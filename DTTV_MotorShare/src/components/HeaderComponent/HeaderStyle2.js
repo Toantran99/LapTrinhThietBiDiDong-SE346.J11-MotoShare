@@ -11,7 +11,7 @@ export default class HeaderStyle2 extends Component{
         <View style={{flex:1, flexDirection: 'row', backgroundColor: '#fff'}}>
             <View style={styles.backSection}>
                 <TouchableOpacity onPress={this.props.action}> 
-                    <Image source={require('../../assets/image/back.png')} style={styles.iconBack}/>
+                    <Image source={require('../../assets/image/back-blue.png')} style={styles.iconBack}/>
                 </TouchableOpacity>
             </View>
             <View style={styles.titleBar}>

@@ -35,7 +35,7 @@ export function setName(){
 export function updateProfile(name, dob, phoneNumber, email){
     return(dispatch,store)=>{
         let myId=store().login.loginInfo?store().login.loginInfo._id:"5c1300effb6fc04dd6ec86e1";
-        request.put("http://"+myLocalHost+":3000/api/user/"+myId)
+        request.put("http://"+myLocalHost+"/api/user/"+myId)
         	.query({
         		name: name,
                 dob: dob,

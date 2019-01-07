@@ -5,7 +5,7 @@ export const styles = {
         width: 100+"%",
         borderBottomWidth: 1,
         marginTop: 16,
-        borderBottomColor: '#78bffd',
+        borderBottomColor: '#2699FB',
     },
     textinputStyle:{
         width: 250, height: 16, fontSize: 14, marginLeft: 20, paddingVertical: 0, paddingHorizontal: 0, color:'#2699FB'

@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
     inputStyle:{
         width: 310,
         height: 100+"%",
-        backgroundColor: 'rgba(255, 255, 255, 0.36)',
+        backgroundColor: '#ffffff',
         fontSize: 13,
-        color: 'rgba(255, 255, 255, 0.85)',
+        color: '#ACA1A1',
         paddingVertical: 10,
         borderRadius: 5,
         alignItems: 'center',
@@ -75,10 +75,10 @@ const styles = StyleSheet.create({
     },
     textCreateAcc:{
         fontSize: 13,
-        color: '#ffffff'
+        color: '#fff'
     },
     customBTNStyle:{
-        width: 310, height: 46, backgroundColor: '#FDA400', justifyContent: 'center', alignItems: 'center', borderRadius: 5
+        width: 310, height: 46, backgroundColor: '#2C83DB', justifyContent: 'center', alignItems: 'center', borderRadius: 5
     }
 
 

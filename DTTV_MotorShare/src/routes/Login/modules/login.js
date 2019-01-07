@@ -38,7 +38,7 @@ export function getLoginInfo(userName,password){
 	return(dispatch, store)=>{
 		if(!userName||!password) return;
 
-		request.get("http://"+myLocalHost+":3000/api/userlogin")
+		request.get("http://"+myLocalHost+"/api/userlogin")
 		.query({
 			userName:userName,
 			password:password

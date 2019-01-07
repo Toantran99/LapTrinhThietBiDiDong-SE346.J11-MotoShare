@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, Image, KeyboardAvoidingView, ScrollView, Alert} from 'react-native'
+import {View, Text, StyleSheet, Image, KeyboardAvoidingView, ImageBackground, ScrollView, Alert, StatusBar} from 'react-native'
 import HeaderStyle3 from '../../../components/HeaderComponent/HeaderStyle3'
 import ButtonCustomEP from './CustomButtonEP/CustomeButtonEP'
 import CustomTextInputEP from './CutomTextInputEP/CustomTextInputEP'
@@ -24,7 +24,8 @@ export default class EditProfile extends Component{
 
     render(){
         return(
-            <View style={{flex:1}}>
+            <View style={{flex:1, backgroundColor:'#fff'}}>
+                <StatusBar backgroundColor={'#139dfd'} barStyle={'light-content'}/>
                 <DateTimePicker
                     isVisible={this.state.visible}
                     onConfirm={this.handlePicker}
@@ -32,7 +33,7 @@ export default class EditProfile extends Component{
                     mode={'date'}
                 />
                 <View style={styles.header}>
-                    <HeaderStyle3 imageUrl={require('../../../assets/image/back.png')}
+                    <HeaderStyle3 imageUrl={require('../../../assets/image/back-blue.png')}
                                     title={"Sửa thông tin"}
                                     action={()=>{Actions.bookingReview({type:"replace"})}} 
                                     />

@@ -1,14 +1,14 @@
 import React from "react";
 import {
-  Platform,
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  Button,
-  BackHandler
+    Platform,
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    Dimensions,
+    TouchableOpacity,
+    Button,
+    BackHandler, StatusBar
 } from "react-native";
 
 import { Container } from "native-base";
@@ -95,6 +95,7 @@ export class BookingReview extends React.Component {
         const AppEx = createAppContainer(this.state.AppNavigator);
         return(
             <View style={{flex:1}}>
+                <StatusBar backgroundColor={'#139dfd'} barStyle={'light-content'}/>
                 <View style={styles.headerStyle} >
                     <HeaderStyle2 action={()=>{Actions.home({ type: "reset" })}}/>
                     {/* <TouchableOpacity onPress ={()=>{console.log("pressssssss");Actions.home({ type: "reset" })}}><Text>Click</Text></TouchableOpacity> */}

@@ -20,7 +20,7 @@ export default class SplashScreen extends Component{
 
     render(){
         return(
-            <ImageBackground source={require('../../../assets/image/splashScreen.png')} style={{flex:1}}>
+            <ImageBackground source={require('../../../assets/image/bg-splash.png')} style={{flex:1}}>
                 <StatusBar hidden={true} barStyle={'light-content'}/>
                 <View style={styles.logoSection}>
                     <Image source={require('../../../assets/image/Logo.png')} style={styles.logo} />
@@ -34,10 +34,6 @@ export default class SplashScreen extends Component{
 
                 <View style={styles.verSection}>
                     <Text style={styles.verText}>version 0.1.1</Text>
-                </View>
-
-                <View style={styles.loadingSection}>
-                    <Spinner isVisible size={45} type="FadingCircleAlt" color="#fff"/>
                 </View>
 
             </ImageBackground>
@@ -59,6 +55,7 @@ const styles = StyleSheet.create({
     },
     nameAppSection:{
       width: 100+"%",
+        marginTop: 60+"%",
       alignItems: 'center',
     },
     nameApp:{
@@ -67,7 +64,7 @@ const styles = StyleSheet.create({
     },
     sloganApp:{
         fontSize: 20,
-        color: '#C7C9CC'
+        color: '#ffffff'
     },
     verSection:{
         justifyContent: 'space-between',
@@ -75,7 +72,7 @@ const styles = StyleSheet.create({
     },
     verText:{
         fontSize: 12,
-        color: '#C9CBCE',
+        color: '#ffffff',
     },
     loadingSection:{
         width: 100+"%",

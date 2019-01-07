@@ -8,7 +8,7 @@ export default class HeaderStyle3 extends Component{
     }
     render(){
         return(
-            <View style={{flex:1, flexDirection: 'row', backgroundColor: '#fff'}}>
+            <View style={{flex:1, flexDirection: 'row', backgroundColor: 'transparent'}}>
                 <View style={styles.backSection}>
                     <TouchableOpacity onPress={this.props.action}>
                         <Image source={this.props.imageUrl} style={styles.iconBack}/>

@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
         width: 100+"%",
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 130+"%"
     },
     bottomBtnSection:{
         justifyContent: 'center',
@@ -21,23 +22,17 @@ const styles = StyleSheet.create({
         marginTop: 10+"%"
     },
     title:{
-        color: '#ffffff',
-        fontSize: 18,
+        color: '#2C9AF8',
+        fontSize: 16,
         fontWeight: "100",
         width: 75+"%",
-        textAlign: 'center'
-    },
-    imageSection:{
-        width: 100+"%", height: 35+"%", marginTop: 25+"%", justifyContent: 'center', alignItems: 'center'
-    },
-    imageStyle:{
-        width: 140, height: 140, borderRadius: 70, marginTop: 10+"%"
+        textAlign: 'center',
     },
 
 
     //Btn Style
     btnStyle:{
-        width: 100, height: 40, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: '#ffffff'
+        width: 250, height: 40, backgroundColor: '#2C83DB', justifyContent: 'center', alignItems: 'center',
     },
     btnText:{
         fontSize: 18, color: '#ffffff'

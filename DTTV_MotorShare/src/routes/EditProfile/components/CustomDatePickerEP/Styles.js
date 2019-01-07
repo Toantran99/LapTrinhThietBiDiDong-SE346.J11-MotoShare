@@ -6,7 +6,7 @@ export const styles = {
             width: 100+"%",
             borderBottomWidth: 1,
             marginTop: 16,
-            borderBottomColor: '#78bffd',
+            borderBottomColor: '#2699FB',
     },
     txMain: {
         width: 327, height: 36
